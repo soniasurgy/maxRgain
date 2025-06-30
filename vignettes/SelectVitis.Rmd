@@ -1,0 +1,233 @@
+---
+title: "Introduction to SelectVitis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{SelectVitis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(SelectVitis)
+```
+## Introduction
+
+Polyclonal selection is a breeding strategy developed in the context of ancient grapevine varieties, aimed at selecting a group of distinct genotypes that collectively satisfy predefined criteria for desirable quantitative traits. This approach relies on the genetic effect predictors derived from mixed model fitting. Rather than focusing on individual genotypes, polyclonal selection considers the group as the unit of selection, with the goal of maximising the overall predicted genetic gain across multiple traits of interest. The identification of such a superior group constitutes an optimisation problem, in which the objective is to select a subset of genotypes that jointly maximise the expected genetic value, subject to constraints which satisfy agronomic and enological insterests.
+
+Until now, all the existing methods such as selection indices, maximize the individual genetic gain and if the intention was to select a group the only way was to select the top individuals. This paper presents a new method based on Integer Programming for the maximization of the gain of a group of individuals.The help of each function provides an example that reproduce the situations referred in the paper. 
+
+The aim of this package is to implement the Integer Programming-based method developed by Surgy, S., Cadima, J. & Gonçalves, E. (2025) for optimising genetic gain under multiple trait selection criteria. The approach is demonstrated using data from grapevine field trials, but it is broadly applicable to breeding programmes in other species—particularly in scenarios where the objective is to select a group of genotypes that, as a whole, meet the desired selection goals, rather than selecting individuals independently.
+
+The data for the examples is provided with the package allowing to run all these examples as well as try other possible scenarios. This data is composed by values of the Empirical Best Linear Unbiased Predictors of genotypic effects obtained by fitting a mixed model with the phenotypic data obtained from a selection field trial with 150 clones of grapevine variety Gouveio. The analysed traits were Yield (yd), Potential Alcohol (pa), Total Acidity (ta), pH and Berry Weight (bw). The selection criteria are to obtain an increase in yd, pa, and ta, and a decrease in ph and bw. These selection criteria are acording to eonological interests. The dataset is called Gouveio.
+
+```{r}
+head(Gouveio)
+
+```
+
+
+## Scenario 1
+
+To illustrate the importance of this method lets see what happen without constraints.
+
+```{r}
+mymeanvec <- c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653)
+mytraits <- c("yd", "pa",  "ta", "ph", "bw")
+mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
+s0 <- polyclonal(
+  traits = mytraits,
+  clmin = 7,
+  clmax = 20,
+  meanvec = mymeanvec,
+  criteria = mycriteria,
+  data = Gouveio
+  )
+
+s0$gain
+```
+ The results show that in this case a decrease until over 2% is verified in pa in some dimensions. In this case the problem works like a selection index, the maximization of the linear combination of the traits (objective function) is made by the choice of the top clones without restrictions. This is better ilustrate looking at the clones selected in the different groups.
+```{r}
+s0$selected
+```
+In this case the behavior is the same of a selection index since with the increase of the dimension of the group the unique change is the adding of new clones contrarily to what happens with constraints for which clones in one group may or may not be in a larger group.
+
+The base situation avoid losses in all interesting traits. There is a function in this package that calculates the base situation directly, however it also can be calculated with the polyclonal function. Function BaseSituation calculates automatically the groups from 7 to 20 clones. Other dimensions can be accessed with polyclonal function.
+
+```{r}
+#with the Basesituation() function:
+restrict <- c("yd", "pa", "ta", "ph", "bw")
+
+ss1 <- BaseSituation(
+  traits = mytraits,
+  constraints = restrict,
+  meanvec = mymeanvec,
+  criteria = mycriteria,
+  data = Gouveio
+  )
+
+ss1$gain
+
+
+#with the polyclonal function:
+
+mydmg <- data.frame(
+  lhs = c("yd", "pa", "ta", "ph", "bw"),
+  rel = c(">=", ">=", ">=", ">=", ">="),
+  rhs = c(0, 0, 0, 0, 0),
+  stringsAsFactors = FALSE
+  )
+ss0 <- polyclonal(
+  traits = mytraits,
+  clmin = 7,
+  clmax = 12,
+  dmg = mydmg,
+  meanvec = mymeanvec,
+  criteria = mycriteria,
+  data = Gouveio
+  )
+
+ss0$gain
+
+```
+
+
+
+In the example for ´polyclonal´ function the intention is to maximized the genetic gain of the groups with dimensions between 7 to 20 clones, but requiring the desired minimum gains given in percentage of the overall mean for the five traits yd, pa, ta, ph and bw of 20%%, 3%%, 3%%, 1%% and 2%%.
+
+Recalling this example:
+```{r}
+mymeanvec <- c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653)
+mytraits <- c("yd", "pa",  "ta", "ph", "bw")
+mydmg <- data.frame(
+  lhs = c("yd", "pa", "ta", "ph", "bw"),
+  rel = c(">=", ">=", ">=", ">=", ">="),
+  rhs = c(20, 3, 3, 1, 2),
+  stringsAsFactors = FALSE
+  )
+mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
+s1 <- polyclonal(
+  traits = mytraits,
+  clmin = 7,
+  clmax = 20,
+  dmg = mydmg,
+  meanvec = mymeanvec,
+  criteria = mycriteria,
+  data = Gouveio
+  )
+
+s1$gain
+```
+
+In this case, despite the dimensions asked were between 7 and 20, the object ´gain´ only gives the gains for groups with 7, 8 and 10 clones. This means that the desired minimum gains asked cannot be achieved in groups of other dimensions.There is not any group of 9 clones in the 150 that can meet de asked conditions.
+
+```{r}
+s1$selected
+```
+In the list of the clones that compose the groups is possible to see that a clone which appear in the group of one dimension can be out of the group of a different dimension. For instance, the clone GV060 is not present in the group of 7 clones, appears in the group of 8 clones and then are out of the group of 10 clones.
+
+Trying other desired minimum gains other results are obtained. If there is not possible to achieve any group that satisfy the conditions a message will be showed. Considering a DMG for yd = 44 remaining the others the same.
+
+```{r}
+
+mydmg2 <- data.frame(
+  lhs = c("yd", "pa", "ta", "ph", "bw"),
+  rel = c(">=", ">=", ">=", ">=", ">="),
+  rhs = c(44, 3, 3, 1, 2),
+  stringsAsFactors = FALSE
+  )
+
+s2 <- polyclonal(
+  traits = mytraits,
+  clmin = 7,
+  clmax = 20,
+  dmg = mydmg2,
+  meanvec = mymeanvec,
+  criteria = mycriteria,
+  data = Gouveio
+  )
+
+```
+This means that no group between 7 to 20 clones can achieved those gains. Furthermore, if we try with a DMG of pa = 0 the same message will be displayed. However, if we are good with the decrease of 1% in pa we can try like the following:
+
+```{r}
+
+mydmg3 <- data.frame(
+  lhs = c("yd", "pa", "ta", "ph", "bw"),
+  rel = c(">=", ">=", ">=", ">=", ">="),
+  rhs = c(44, -1, 3, 1, 2),
+  stringsAsFactors = FALSE
+  )
+
+s3 <- polyclonal(
+  traits = mytraits,
+  clmin = 7,
+  clmax = 20,
+  dmg = mydmg3,
+  meanvec = mymeanvec,
+  criteria = mycriteria,
+  data = Gouveio
+  )
+
+s3$gain
+```
+
+As is possible to see now, there is a 7 clones group that satisfy the conditions. Other values can be used in clmin and clmax. Knowing that in s3, no group can be achieved between 8 and 20 clones, let's try the possibility of groups between 6 and 7 clones. A group of 6 clones is also possible to achieved for this conditions.
+```{r}
+
+s4 <- polyclonal(
+  traits = mytraits,
+  clmin = 6,
+  clmax = 7,
+  dmg = mydmg3,
+  meanvec = mymeanvec,
+  criteria = mycriteria,
+  data = Gouveio
+  )
+
+s4$gain
+
+```
+Not only inferior limits can be established. In certain circumstances it can useful to establish upper limits. Continuing with the same situation lets consider now that a superior limit is establish for yd.
+
+```{r}
+mydmg5 <- data.frame(
+  lhs = c("yd", "yd", "pa", "ta", "ph", "bw"),
+  rel = c(">=", "<=", ">=", ">=", ">=", ">="),
+  rhs = c(39.9, 40.1, -1, 3, 1, 2),
+  stringsAsFactors = FALSE
+  )
+
+s5 <- polyclonal(
+  traits = mytraits,
+  clmin = 7,
+  clmax = 20,
+  dmg = mydmg5,
+  meanvec = mymeanvec,
+  criteria = mycriteria,
+  data = Gouveio
+  )
+
+s5$gain
+
+```
+
+
+## Important notes
+
+* If the gain of a group of a certain dimension is not displayed that means that it is not possible to satisfy all the constraints for that dimension. It is possible that the constraints can not be satisfied for one dimension and can be with other dimension.
+
+* The selected genotypes in a group of a given dimension can be very different from the ones selected in another group changing only the dimension of the group. That is, changing any of the conditions (including the dimension of the group) a new problem is obtained. 
+
+* The data.frame for the dmg can have any name for the columns bu the order must be respected. 1st the trait, then the signal and the last column for the right hand side.
+
+* If a decrease in a trait is considered admissible, that value shell be indicated as a negative number in the dmg.
+
+
+

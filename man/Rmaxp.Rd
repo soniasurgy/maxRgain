@@ -23,7 +23,7 @@ $gain  With the gains of the several traits in each dimension
 $selected  with the reference os the clones selected in the group of each dimension
 }
 \description{
-The maximum possible gains achieved in the specified trait  for polyclonal groups from 7 to 20 clones
+The maximum possible gains achieved in the specified trait  for  groups from 7 to 20 clones
 }
 \examples{
 mymeanvec <- c(pa = 12.760)
