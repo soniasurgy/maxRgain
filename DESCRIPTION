@@ -1,0 +1,27 @@
+Package: maxRgain
+Title: Polyclonal selection based on integer programming
+Version: 0.0.0.9000
+Authors@R: c(
+    person(given = "Sónia", family = "Surgy", email = "soniasurgy@isa.ulisboa.pt", role = c("aut", "cre")),
+    person(given = "Elsa", family = "Gonçalves", email = "elsagoncalves@isa.ulisboa.pt", role = c("aut")),
+    person(given = "Jorge", family = "Cadima", email = "jcadima@isa.ulisboa.pt", role = c("aut"))
+    )
+Description: Implements an Integer Programming-based method for optimising genetic gain in polyclonal selection, where the goal is to select a group of genotypes that jointly meet multi-trait selection criteria. The method uses genetic effect predictors from mixed models and is demonstrated with grapevine data, but is applicable to other species and breeding contexts.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+BugReports: https://github.com/soniasurgy/maxRgain/issues
+Imports: 
+    lpSolve,
+    utils
+Suggests: 
+    knitr,
+    rmarkdown,
+    roxygen2,
+    devtools,
+    usethis
+VignetteBuilder: knitr
+Depends: 
+    R (>= 3.5.0)
+LazyData: true
