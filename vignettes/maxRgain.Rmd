@@ -1,11 +1,14 @@
 ---
-title: "Introduction to SelectVitis"
+title: "Introduction to maxRgain"
+author: "Sónia Surgy"
+date: "2025-06-30"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{SelectVitis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -15,7 +18,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(SelectVitis)
+library(maxRgain)
 ```
 ## Introduction
 
