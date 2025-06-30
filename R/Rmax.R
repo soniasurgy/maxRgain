@@ -1,6 +1,6 @@
 #' Maximum possible gain
 #'
-#' The maximum possible gains achieved in the specified trait  for polyclonal groups from 7 to 20 clones
+#' The maximum possible gains achieved in the specified trait  for  groups from 7 to 20 clones
 #'
 #' @inheritParams polyclonal
 #' @returns list with 2 objects
