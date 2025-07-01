@@ -1,0 +1,22 @@
+citHeader("To cite the 'nomeDoPackage' package in publications, please use:")
+
+bibentry(
+  bibtype  = "Article",
+  title    = "Integer programming as a powerful tool for polyclonal selection in ancient grapevine varieties",
+  author   = c(person("Sónia", "Surgy"), person("Jorge", "Cadima"), person("Elsa", "Gonçalves")),
+  journal  = "Theor Appl Genet",
+  year     = "2025",
+  volume   = "138",
+  pages    = "122",
+  doi      = "10.1007/s00122-025-04885-0"
+)
+
+
+bibentry(
+  bibtype = "Unpublished",
+  title = "maxRgain - A package to perform polyclonal selection",
+  author = c(person("Sónia", "Surgy"), person("Jorge", "Cadima"), person("Elsa", "Gonçalves")),
+  year = "2025",
+  note = "Manuscript in preparation",
+  url = "https://github.com/teu-username/nomeDoPackage"
+)

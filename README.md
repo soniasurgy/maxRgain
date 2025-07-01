@@ -96,7 +96,7 @@ polyclonal(
 For detailed guidance, see the package vignette:
 
 ``` r
-vignette("Introduction to maxRgain", package = "maxRgain")
+vignette("maxRgain", package = "maxRgain")
 ```
 
 ## Citation
