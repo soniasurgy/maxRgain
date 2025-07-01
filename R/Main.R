@@ -1,10 +1,10 @@
 #' Integer programming calculations
 #'
 #' @param traits A vector with the names of the columns in the data corresponding to the target traits to be optimized, i.e., those included in the objective function.
-#' @param ref A vector with the name of the column containing the reference identifiers of the clones.
+#' @param ref Name of the reference column (e.g., genotype ID). Defaults to the first column.
 #' @param clmin An integer specifying the number of clones to include in the smallest polyclonal group.
-#' @param clmax An integer specifying the number of clones to include in the largest polyclonal group.
-#' @param dmg Desired minimum gain for the traits in the constraints.
+#' @param clmax An integer specifying the number of clones to include in the largest polyclonal group. Equal to clmin if omitted.
+#' @param dmg A data.frame composed by three columns: the first with the traits of the constraints; the second with the signal of the constraint (">=", "<=" or "=="); and the third with the values for the right-hand side of the constraints.
 #' @param meanvec A vector with the phenotypic mean values, with names corresponding to column names (e.g., trait1 = mean1, trait2 = mean2). If not provided, it is assumed the values are already divided by the mean.
 #' @param criteria A vector with the selection criteria, with values of 1 or -1 depending on whether an increase or decrease in the trait is desired, respectively (e.g., trait1 = 1, trait2 = -1). If not provided, it is assumed that an increase is wanted.
 #' @param data  A data frame comprising the input data consisting of the Estimated Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.
