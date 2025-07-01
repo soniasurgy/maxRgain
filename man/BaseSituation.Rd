@@ -16,7 +16,7 @@ BaseSituation(
 \arguments{
 \item{traits}{A vector with the names of the columns in the data corresponding to the target traits to be optimized, i.e., those included in the objective function.}
 
-\item{ref}{A vector with the name of the column containing the reference identifiers of the clones.}
+\item{ref}{Name of the reference column (e.g., genotype ID). Defaults to the first column.}
 
 \item{constraints}{A vector with the traits in the constraints.}
 

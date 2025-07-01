@@ -18,13 +18,13 @@ polyclonal(
 \arguments{
 \item{traits}{A vector with the names of the columns in the data corresponding to the target traits to be optimized, i.e., those included in the objective function.}
 
-\item{ref}{A vector with the name of the column containing the reference identifiers of the clones.}
+\item{ref}{Name of the reference column (e.g., genotype ID). Defaults to the first column.}
 
 \item{clmin}{An integer specifying the number of clones to include in the smallest polyclonal group.}
 
-\item{clmax}{An integer specifying the number of clones to include in the largest polyclonal group.}
+\item{clmax}{An integer specifying the number of clones to include in the largest polyclonal group. Equal to clmin if omitted.}
 
-\item{dmg}{Desired minimum gain for the traits in the constraints.}
+\item{dmg}{A data.frame composed by three columns: the first with the traits of the constraints; the second with the signal of the constraint (">=", "<=" or "=="); and the third with the values for the right-hand side of the constraints.}
 
 \item{meanvec}{A vector with the phenotypic mean values, with names corresponding to column names (e.g., trait1 = mean1, trait2 = mean2). If not provided, it is assumed the values are already divided by the mean.}
 
