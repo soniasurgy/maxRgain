@@ -1,4 +1,15 @@
-citHeader("To cite the 'nomeDoPackage' package in publications, please use:")
+citHeader("To cite the 'maxRgain' package in publications, please use:")
+
+bibentry(
+  bibtype = "Unpublished",
+  title = "maxRgain - A package to perform polyclonal selection",
+  author = c(person("Sónia", "Surgy"), person("Jorge", "Cadima"), person("Elsa", "Gonçalves")),
+  year = "2025",
+  note = "Manuscript in preparation",
+  url = "https://github.com/teu-username/nomeDoPackage"
+)
+
+citHeader("\nTo cite the the underlying method, please use:")
 
 bibentry(
   bibtype  = "Article",
@@ -12,11 +23,4 @@ bibentry(
 )
 
 
-bibentry(
-  bibtype = "Unpublished",
-  title = "maxRgain - A package to perform polyclonal selection",
-  author = c(person("Sónia", "Surgy"), person("Jorge", "Cadima"), person("Elsa", "Gonçalves")),
-  year = "2025",
-  note = "Manuscript in preparation",
-  url = "https://github.com/teu-username/nomeDoPackage"
-)
+
