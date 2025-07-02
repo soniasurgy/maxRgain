@@ -27,12 +27,14 @@ BaseSituation(
 \item{data}{A data frame comprising the input data consisting of the Estimated Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.}
 }
 \value{
-list with 2 objects
-$gain  With the gains of the several traits in each dimension
-$selected  with the reference os the clones selected in the group of each dimension
+A list with the following components:
+\itemize{
+\item \code{gain}  with the gains of the several traits in each dimension
+\item \code{selected}  with the reference of the clones selected in the group of each dimension
+}
 }
 \description{
-Base Situation
+Situation where the objective function defined by all traits is maximized and the desired minimum gain for each trait is 0 (all the constraints >= 0).
 }
 \examples{
 mymeanvec <- c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653)

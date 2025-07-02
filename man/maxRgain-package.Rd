@@ -16,11 +16,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Sónia Surgy \email{soniasurgy@isa.ulisboa.pt}
+\strong{Maintainer}: S<U+00F3>nia Surgy \email{soniasurgy@isa.ulisboa.pt}
 
 Authors:
 \itemize{
-  \item Elsa Gonçalves \email{elsagoncalves@isa.ulisboa.pt}
+  \item Elsa Gon<U+00E7>alves \email{elsagoncalves@isa.ulisboa.pt}
   \item Jorge Cadima \email{jcadima@isa.ulisboa.pt}
 }
 

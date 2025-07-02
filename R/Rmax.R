@@ -1,11 +1,12 @@
 #' Maximum possible gain
 #'
-#' The maximum possible gains achieved in the specified trait  for  groups from 7 to 20 clones
+#' The maximum possible is the mean of the EBLUPs of the genotypic effects of the best n clones in a given trait, as a percentage of the overall- This function calculates the maximum possible gain achieved in the specified trait for groups from 7 to 20 clones
 #'
 #' @inheritParams polyclonal
-#' @returns list with 2 objects
-#'     $gain  With the gains of the several traits in each dimension
-#'     $selected  with the reference os the clones selected in the group of each dimension
+#' @returns
+#' A list with the following components:
+#'  -   `gain`  with the gains of the several traits in each dimension
+#'  -   `selected`  with the reference of the clones selected in the group of each dimension
 #' @references Surgy, S., Cadima, J. & Gonçalves, E. Integer programming as a powerful tool for polyclonal selection in ancient grapevine varieties. Theor Appl Genet 138, 122 (2025). https://doi.org/10.1007/s00122-025-04885-0
 #' @export
 #' @examples
@@ -56,13 +57,14 @@ Rmaxp <- function(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
 
 #' Maximum admissible gain
 #'
-#' The maximum admissible gains achieved in the specified trait for polyclonal groups from 7 to 20 clones. All gains are presented in a percentage of the mean and are according with the criteria.
+#' The maximum genetic gain in one trait that can be achieved without decreasing any of the other traits, as a percentage of the overall mean. This function calculates the maximum admissible gains achieved in the specified trait for polyclonal groups from 7 to 20 clones.
 #'
 #' @inheritParams polyclonal
 #' @param  constraints A vector with the traits for the constraints. If not provided, all the traits in data are assumed.
-#' @returns list with 2 objects
-#'     $gain  an object with the gains of the several traits in each dimension
-#'     $selected  an object with the reference of the clones selected in the group of each dimension. In this case it will be a list for each trait
+#' @returns
+#' A list with the following components:
+#'  -   `gain`  with the gains of the several traits in each dimension
+#'  -   `selected_<trait>`  with the reference of the clones selected in the group of each dimension in each trait
 #' @references Surgy, S., Cadima, J. & Gonçalves, E. Integer programming as a powerful tool for polyclonal selection in ancient grapevine varieties. Theor Appl Genet 138, 122 (2025). https://doi.org/10.1007/s00122-025-04885-0
 #' @export
 #' @examples
@@ -122,11 +124,14 @@ Rmaxa <- function(traits, ref = NULL, constraints = NULL, meanvec = NULL, criter
 
 #' Base Situation
 #'
+#'Situation where the objective function defined by all traits is maximized and the desired minimum gain for each trait is 0 (all the constraints >= 0).
+#'
 #' @inheritParams polyclonal
 #' @param constraints A vector with the traits in the constraints.
-#' @returns list with 2 objects
-#'     $gain  With the gains of the several traits in each dimension
-#'     $selected  with the reference os the clones selected in the group of each dimension
+#' @returns
+#' A list with the following components:
+#'  -   `gain`  with the gains of the several traits in each dimension
+#'  -   `selected`  with the reference of the clones selected in the group of each dimension
 #' @references Surgy, S., Cadima, J. & Gonçalves, E. Integer programming as a powerful tool for polyclonal selection in ancient grapevine varieties. Theor Appl Genet 138, 122 (2025). https://doi.org/10.1007/s00122-025-04885-0
 #' @export
 #' @examples

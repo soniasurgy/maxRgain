@@ -27,12 +27,14 @@ Rmaxa(
 \item{data}{A data frame comprising the input data consisting of the Estimated Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.}
 }
 \value{
-list with 2 objects
-$gain  an object with the gains of the several traits in each dimension
-$selected  an object with the reference of the clones selected in the group of each dimension. In this case it will be a list for each trait
+A list with the following components:
+\itemize{
+\item \code{gain}  with the gains of the several traits in each dimension
+\item \verb{selected_<trait>}  with the reference of the clones selected in the group of each dimension in each trait
+}
 }
 \description{
-The maximum admissible gains achieved in the specified trait for polyclonal groups from 7 to 20 clones. All gains are presented in a percentage of the mean and are according with the criteria.
+The maximum genetic gain in one trait that can be achieved without decreasing any of the other traits, as a percentage of the overall mean. This function calculates the maximum admissible gains achieved in the specified trait for polyclonal groups from 7 to 20 clones.
 }
 \examples{
 mymeanvec <- c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653)
