@@ -1,5 +1,5 @@
 Package: maxRgain
-Title: Polyclonal selection based on integer programming
+Title: Maximizing the genetic gains of the Polyclonal selection based on integer programming
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Sónia", family = "Surgy", email = "soniasurgy@isa.ulisboa.pt", role = c("aut", "cre")),

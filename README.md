@@ -101,14 +101,14 @@ vignette("maxRgain", package = "maxRgain")
 
 ## Citation
 
-The method and the software can be cited as follows:
+The underlying method and this package can be cited as follows:
 
 **Method:**  
 Surgy, S., Cadima, J. & Gonçalves, E. Integer programming as a powerful
 tool for polyclonal selection in ancient grapevine varieties. Theor Appl
 Genet 138, 122 (2025). <https://doi.org/10.1007/s00122-025-04885-0>
 
-**Software (In preparation):**  
+**Package (In preparation):**  
 Surgy, S., Cadima, J. & Gonçalves, E. maxRgain - A package to perform
 polyclonal selection. Manuscript in preparation.
 
