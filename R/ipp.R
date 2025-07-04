@@ -55,7 +55,7 @@ ipp <- function(traits, ref, clmin, clmax, const, relation, rhs, data)
           ganhos <- mean(resultados[,c(-1, -length(resultados))]*100)
         }
         gainout <- data.frame(t(ganhos), clsel)
-        colnames(gainout) <- c(colnames(resultados[, c(-1, -length(resultados)), drop = FALSE]), "N.Clones")
+        colnames(gainout) <- c(colnames(resultados[, c(-1, -length(resultados)), drop = FALSE]), "Gr.Size")
       }else{
         clonesout <- c(clonesout, resultados[,1], rep(" ", indlinha-clsel))
         colnomes <- c(colnomes, clsel)
