@@ -47,11 +47,13 @@ Rmaxp <- function(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
   for (i in 8:20) {
     listclone$Entry[i] <- as.character(i)
   }
-  listgain <- data.frame(listgain, N.Clones = gainp$N.Clones)
-  return(list(
+  listgain <- data.frame(Group.Size = gainp$Group.Size, listgain)
+  result <- list(
     gain = listgain,
     selected = listclone
-  ))
+  )
+  class(result) <- "output_rmaxp"
+  return(result)
 }
 
 
@@ -114,11 +116,13 @@ Rmaxa <- function(traits, ref = NULL, constraints = NULL, meanvec = NULL, criter
     name_obj <- paste0("selected_", trt)
     selected_list[[name_obj]] <- maxa
   }
-  listgain <- data.frame(listgain, N.Clones = gaina$N.Clones)
-  return(c(list(
+  listgain <- data.frame(Group.Size = gaina$Group.Size, listgain )
+  result<- c(list(
     gain = listgain),
     selected_list
-  ))
+  )
+  class(result) <- "output_rmaxa"
+  return(result)
 }
 
 

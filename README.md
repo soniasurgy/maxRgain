@@ -1,29 +1,21 @@
 
 # maxRgain
 
-<!-- badges: start -->
-<!-- badges: end -->
-
-maxRgain implements an integer programming-based method for optimizing
+maxRgain implements an Integer Programming-based method for optimising
 genetic gain in polyclonal selection, where the goal is to select a
-group of genotypes that collectively meet multi-trait selection
-criteria. The method relies on genetic effect predictors obtained from
-mixed models and is demonstrated using grapevine breeding data, although
-it is broadly applicable to other species and breeding contexts. This
-package offers a ready-to-use implementation of the method proposed by
-Surgy et al. (2025), allowing breeders to perform group-based
-multi-trait selection in a consistent and computationally efficient
-manner. It supports balanced genetic improvement across traits and
-fosters transparency in breeding decision-making.
+group of genotypes that jointly meet multi-trait selection criteria. The
+method uses predictors of genotypic effects obtained from the fitting of
+mixed models. Its application is demonstrated with grapevine data, but
+is applicable to other species and breeding contexts.
 
 ## Key Features
 
 - Integer programming approach to group selection under multiple trait
   constraints
 
-- Selection based on genetic effect predictors from mixed models
+- Selection based on predictors of genotypic effects from mixed models
 
-- Examples with real grapevine breeding data
+- Examples with real data from field trials of grapevine
 
 - The method can be generalized to a variety of crops and breeding
   programs
@@ -69,13 +61,13 @@ polyclonal(
   data = Gouveio
   )
 #> $gain
-#>         yd       pa       ta N.Clones
-#> 1 24.95480 3.017470 3.049012       12
-#> 2 25.49744 3.000773 3.011566       11
-#> 3 26.57930 3.138235 3.068115       10
-#> 4 27.74793 3.004891 3.103729        9
-#> 5 27.85813 3.021805 3.101100        8
-#> 6 28.80319 3.231580 3.120158        7
+#>         yd       pa       ta Gr.Size
+#> 1 24.95480 3.017470 3.049012      12
+#> 2 25.49744 3.000773 3.011566      11
+#> 3 26.57930 3.138235 3.068115      10
+#> 4 27.74793 3.004891 3.103729       9
+#> 5 27.85813 3.021805 3.101100       8
+#> 6 28.80319 3.231580 3.120158       7
 #> 
 #> $selected
 #>       12    11    10     9     8     7
@@ -109,8 +101,8 @@ tool for polyclonal selection in ancient grapevine varieties. Theor Appl
 Genet 138, 122 (2025). <https://doi.org/10.1007/s00122-025-04885-0>
 
 **Package (In preparation):**  
-Surgy, S., Cadima, J. & Gonçalves, E. maxRgain - A package to perform
-polyclonal selection. Manuscript in preparation.
+Surgy, S., Cadima, J. & Gonçalves, E. maxRgain - A package to maximize
+genetic gains of polyclonal selection. Manuscript in preparation.
 
 ## License
 

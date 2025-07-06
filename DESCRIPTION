@@ -6,7 +6,7 @@ Authors@R: c(
     person(given = "Elsa", family = "Gonçalves", email = "elsagoncalves@isa.ulisboa.pt", role = c("aut")),
     person(given = "Jorge", family = "Cadima", email = "jcadima@isa.ulisboa.pt", role = c("aut"))
     )
-Description: Implements an Integer Programming-based method for optimising genetic gain in polyclonal selection, where the goal is to select a group of genotypes that jointly meet multi-trait selection criteria. The method uses genetic effect predictors from mixed models and is demonstrated with grapevine data, but is applicable to other species and breeding contexts.
+Description: Implements an Integer Programming-based method for optimising genetic gain in polyclonal selection, where the goal is to select a group of genotypes that jointly meet multi-trait selection criteria. The method uses predictors of genotypic effects obtained from the fitting of mixed models. Its application is demonstrated with grapevine data, but is applicable to other species and breeding contexts.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

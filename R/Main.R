@@ -83,5 +83,5 @@ polyclonal <- function(traits, ref = NULL, clmin = 7, clmax,  dmg = NULL, meanve
   if (intclmin < 1){
     stop("clmin must be a positive integer")
   }
-  return(ipp(traits=traits, ref = ref, clmin, clmax, const = const,  relation = relation, rhs = rhs, data = auxeblups))
+  return(ipp(traits=traits, ref = ref, clmin, clmax, const = const,  relation = relation, rhs = rhs, data = auxeblups, dmg = dmg))
 }

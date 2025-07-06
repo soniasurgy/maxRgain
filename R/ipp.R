@@ -1,5 +1,5 @@
 
-ipp <- function(traits, ref, clmin, clmax, const, relation, rhs, data)
+ipp <- function(traits, ref, clmin, clmax, const, relation, rhs, data, dmg)
 {
   clsel <- 0
   clselmax <- 0
@@ -55,7 +55,7 @@ ipp <- function(traits, ref, clmin, clmax, const, relation, rhs, data)
           ganhos <- mean(resultados[,c(-1, -length(resultados))]*100)
         }
         gainout <- data.frame(t(ganhos), clsel)
-        colnames(gainout) <- c(colnames(resultados[, c(-1, -length(resultados)), drop = FALSE]), "Gr.Size")
+        colnames(gainout) <- c(colnames(resultados[, c(-1, -length(resultados)), drop = FALSE]), "Group.Size")
       }else{
         clonesout <- c(clonesout, resultados[,1], rep(" ", indlinha-clsel))
         colnomes <- c(colnomes, clsel)
@@ -72,6 +72,19 @@ ipp <- function(traits, ref, clmin, clmax, const, relation, rhs, data)
   if (indsol==0){
     print("No possible solution!")
   }else{
-    return(output_ipp(indsol, clonesout, indlinha, colnomes, gainout))
+    clonesout <- matrix(clonesout, nrow = indlinha, ncol = indsol)
+    clonesout <- as.data.frame(clonesout)
+    colnames(clonesout) <- colnomes
+
+    if (!is.null(dmg)){
+      dmg <- data.frame(dmg, row.names = 1)
+    }
+    result <- list(
+      dmg = dmg,
+      gain = gainout,
+      selected = clonesout
+    )
+    class(result) <- "output_ipp"
+    return(result)
   }
 }

@@ -2,7 +2,7 @@
 title: "Introduction to maxRgain"
 author: "Sónia Surgy, Jorge Cadima, Elsa Gonçalves"
 output: 
-  html_vignette:
+  html_document:
     toc: true
     toc_depth: 2
 
@@ -39,7 +39,7 @@ Each function in the package includes an example that reproduces scenarios descr
 
 # Data included
 
-The package includes a real dataset—Gouveio—to support reproducibility of the examples and to allow users to explore additional scenarios. This dataset contains Empirical Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, obtained from the fitting of a mixed model fitted to phenotypic data from a selection field trial involving 150 genotypes of the grapevine variety Gouveio established acording to a resolvable row-column design.
+The package includes a real dataset—Gouveio—to support reproducibility of the examples and to allow users to explore additional scenarios. This dataset contains Empirical Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, obtained from the fitting of a mixed model fitted to phenotypic data from a selection field trial involving 150 genotypes of the grapevine variety Gouveio established according to a resolvable row-column design.
 
 
 ```{r}
@@ -54,7 +54,7 @@ The traits evaluated were:
 * pH
 * Berry Weight (bw)
 
-The selection criteria reflect priorities: increasing yield, potential alcohol, and total acidity, while decreasing pH and berry weight.
+The selection criteria are defined by the breede. In this example will be: increasing yield, potential alcohol, and total acidity, while decreasing pH and berry weight.
 
 
 # Common arguments
@@ -87,7 +87,6 @@ Below is a table describing the common arguments used across the functions in th
 * If no group satisfies the specified conditions, the message 'No possible solution!' is returned.
 
 # Functions 
-
 
 ## `polyclonal()` 
 
@@ -187,7 +186,6 @@ mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
 # Vector with the traits used for the constraints
 restrict <- c("yd", "pa", "ta", "ph", "bw")
 ```
-
 For the `BaseSituation()` function, if the `constraints` argument is omitted, all columns in the dataset are considered as constrained traits, except the one specified by `ref`. If `ref` is also omitted, the first column is assumed to correspond to the reference column.
 ```{r}
 # Using the BaseSituation() function:
@@ -257,7 +255,7 @@ Rmaxa(traits, ref = NULL, constraints = NULL, meanvec = NULL, criteria = NULL, d
 ```
 
 
-This function computes the maximum admissible gain for group sizes ranging from 7 to 20 genotypes. The maximum admissible gain corresponds to the value obtained by maximising one trait while avoiding losses in all others, enforced through constraints—predefined in this case as *>= 0*. As with `Rmaxp()`, the user may request gains for one or multiple traits simultaneously. The output displays one column per trait; however, the values in different columns correspond to independent solutions and should be interpreted separately. This distinguishes the output of the gain object from this function from that of the `BaseSituation()` function, where all traits are optimised together.
+This function computes the maximum admissible gain for group sizes ranging from 7 to 20 genotypes. The maximum admissible gain corresponds to the value obtained by maximising one trait while avoiding losses in all others, enforced through constraints—predefined in this case as *>= 0*. As with `Rmaxp()`, the user may request gains for one or multiple traits simultaneously. The output displays one column per trait; however, the values in different columns correspond to independent solutions and should be interpreted separately. This distinguishes the output of the gain object from this function from that of the `BaseSituation()` function, where all traits are optimized together.
 
 ```{r}
 # Vector with the means
