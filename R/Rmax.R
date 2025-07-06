@@ -17,8 +17,7 @@
 #'    meanvec = mymeanvec,
 #'    data = Gouveio
 #'    )
-#' maxpos$gain
-#' maxpos$selected
+#' maxpos
 Rmaxp <- function(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
 {
   for (i in 1:length(traits)){
@@ -79,9 +78,7 @@ Rmaxp <- function(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
 #'    criteria = mycriteria,
 #'    data = Gouveio
 #'    )
-#' maxadm$gain
-#' maxadm$selected_yd
-#' maxadm$selected_pa
+#' maxadm
 Rmaxa <- function(traits, ref = NULL, constraints = NULL, meanvec = NULL, criteria = NULL, data)
 {
   selected_list <- list()
@@ -150,8 +147,7 @@ Rmaxa <- function(traits, ref = NULL, constraints = NULL, meanvec = NULL, criter
 #'    criteria = mycriteria,
 #'    data = Gouveio
 #'    )
-#' bassit$gain
-#' bassit$selected
+#' bassit
 BaseSituation <- function(traits, ref = NULL, constraints = NULL, meanvec = NULL, criteria = NULL, data)
 {
   if (is.null(constraints)){

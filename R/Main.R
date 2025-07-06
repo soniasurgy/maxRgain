@@ -37,8 +37,7 @@
 #'    criteria = mycriteria,
 #'    data = Gouveio
 #'    )
-#' selections$gain
-#' selections$selected
+#' selections
 polyclonal <- function(traits, ref = NULL, clmin = 7, clmax,  dmg = NULL, meanvec = NULL, criteria = NULL, data)
 {
   if (length(traits) < 1){
