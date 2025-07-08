@@ -1,5 +1,5 @@
 
-ipp <- function(traits, ref, clmin, clmax, const, relation, rhs, data, dmg)
+ipp <- function(traits, ref, clmin, clmax, const, relation, rhs, dmg, auxsum, data )
 {
   clsel <- 0
   clselmax <- 0
@@ -8,14 +8,16 @@ ipp <- function(traits, ref, clmin, clmax, const, relation, rhs, data, dmg)
   objvalue <- 0
   gainout <- NULL
   auxeblups <- data.frame(data)
+
+  
   #***** Objective function *****
   objdir <- "max"
   auxobj <- auxeblups[, traits, drop = FALSE]
   fobj=0
   for (a in 1:length(auxobj)){
     fobj=fobj+auxobj[a]
-  }
-  colnames(fobj) <- c("objfun")
+  }   
+  names(fobj) <- NULL
   if (is.null(const)){
     const <- c(1)
     constvalue <- data.frame(rep(1,nrow(auxeblups)))
@@ -75,16 +77,28 @@ ipp <- function(traits, ref, clmin, clmax, const, relation, rhs, data, dmg)
     clonesout <- matrix(clonesout, nrow = indlinha, ncol = indsol)
     clonesout <- as.data.frame(clonesout)
     colnames(clonesout) <- colnomes
-
-    if (!is.null(dmg)){
-      dmg <- data.frame(dmg, row.names = 1)
+    
+    
+    auxsum <- data.frame(auxsum, row.names = 1)
+    auxsum$MaxGain <- NA_real_
+    auxsum$MaxGroup <- NA_integer_
+    common_names <- intersect(colnames(gainout), rownames(auxsum))
+    
+    for (name in common_names) {
+      max_val <- max(gainout[[name]], na.rm = TRUE)
+      auxsum[name, "MaxGain"] <- max_val
+      rows_with_max <- which(gainout[[name]] == max_val)
+      last_row <- tail(rows_with_max, 1)
+      auxsum[name, "MaxGroup"] <- gainout$Group.Size[last_row]
     }
     result <- list(
-      dmg = dmg,
       gain = gainout,
-      selected = clonesout
+      selected = clonesout,
+      n_traits = length(traits),
+      n_constraints = length(const),
+      overview = auxsum
     )
-    class(result) <- "output_ipp"
+    class(result) <- "polyresult"
     return(result)
   }
 }

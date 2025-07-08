@@ -61,7 +61,7 @@ Rmaxp <- function(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
 #' The maximum genetic gain in one trait that can be achieved without decreasing any of the other traits, as a percentage of the overall mean. This function calculates the maximum admissible gains achieved in the specified trait for polyclonal groups from 7 to 20 clones.
 #'
 #' @inheritParams polyclonal
-#' @param  constraints A vector with the traits for the constraints. If not provided, all the traits in data are assumed.
+#' @param  constraints Vector with traits to which constraints apply. If omitted, all except `ref` are used.
 #' @returns
 #' A list with the following components:
 #'  -   `gain`  with the gains of the several traits in each dimension
@@ -125,10 +125,10 @@ Rmaxa <- function(traits, ref = NULL, constraints = NULL, meanvec = NULL, criter
 
 #' Base Situation
 #'
-#'Situation where the objective function defined by all traits is maximized and the desired minimum gain for each trait is 0 (all the constraints >= 0).
+#'The base situation relies on the use of constraints to prevent losses in all traits of interest. In this case, one constraint is defined for each trait included in the constraint set. The traits subject to constraints may or may not coincide with those targeted for maximization. In the this function, all constraints associated with the traits are greater than or equal to zero, ensuring no negative gain in any of them.
 #'
 #' @inheritParams polyclonal
-#' @param constraints A vector with the traits in the constraints.
+#' @param constraints Vector with traits to which constraints apply. If omitted, all except `ref` are used.
 #' @returns
 #' A list with the following components:
 #'  -   `gain`  with the gains of the several traits in each dimension

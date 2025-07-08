@@ -15,7 +15,7 @@ Rmaxp(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
 
 \item{criteria}{A vector with the selection criteria, with values of 1 or -1 depending on whether an increase or decrease in the trait is desired, respectively (e.g., trait1 = 1, trait2 = -1). If not provided, it is assumed that an increase is wanted.}
 
-\item{data}{A data frame comprising the input data consisting of the Estimated Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.}
+\item{data}{A data frame comprising the input data consisting of the Empirical Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.}
 }
 \value{
 A list with the following components:
@@ -35,8 +35,7 @@ maxpos <- Rmaxp(
    meanvec = mymeanvec,
    data = Gouveio
    )
-maxpos$gain
-maxpos$selected
+maxpos
 }
 \references{
 Surgy, S., Cadima, J. & Gonçalves, E. Integer programming as a powerful tool for polyclonal selection in ancient grapevine varieties. Theor Appl Genet 138, 122 (2025). https://doi.org/10.1007/s00122-025-04885-0

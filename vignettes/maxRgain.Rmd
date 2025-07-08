@@ -166,7 +166,7 @@ Examining the lists of genotypes composing each group reveals that a genotype pr
 BaseSituation(traits, ref = NULL, constraints = NULL, meanvec = NULL, criteria = NULL, data)
 ```
 
-The base situation relies on the use of constraints to prevent losses in all traits of interest. In this case, one constraint is defined for each trait included in the constraint set. The traits subject to constraints may or may not coincide with those targeted for maximization. In the base situation, all constraints associated with the traits must be greater than or equal to zero, ensuring no negative gain in any of them.
+The *base situation* relies on the use of constraints to prevent losses in all traits of interest. In this case, one constraint is defined for each trait included in the constraint set. The traits subject to constraints may or may not coincide with those targeted for maximization. In the base situation, all constraints associated with the traits are greater than or equal to zero, ensuring no negative gain in any of them.
 
 The package includes a function, `BaseSituation()`, which automatically computes this configuration for group sizes ranging from 7 to 20 genotypes.
 

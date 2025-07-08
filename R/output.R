@@ -1,10 +1,5 @@
 #' @noRd
-print.output_ipp <- function(x, ...) {
-if (!is.null(x$dmg)) {
-  cat("Desired minimum gains (dmg):\n")
-  print(unname(x$dmg))
-  cat("\n")
-}
+print.polyresult <- function(x, ...) {
 cat("Predited genetic gains as a % of the overall mean\n")
 cat("\n$gain \n")
 gain_df <- x$gain
@@ -20,10 +15,39 @@ rownames(selected_df) <- NULL
 print(format(selected_df, justify = "left"), row.names = FALSE)
 }
 
-
-
-
-
+#' Summary method for output_ipp objects
+#'
+#' Provides a summary of the results returned by \code{polyclonal()} or \code{ipp()}.
+#'
+#' @param object An object of class \code{"output_ipp"}.
+#' @param ... Further arguments passed to or from other methods.
+#'
+#' @return An object of class \code{"summary_polyresult"}.
+#' @export
+#' @method summary polyresult
+#' 
+summary.polyresult <- function(object, ..., digits = getOption("digits")) {
+  cat("Summary of Selection Results\n")
+  cat("-----------------------------------\n")
+  
+  # Number of groups
+  if (!is.null(object$selected)) {
+    cat("\nNumber of groups selected:", ncol(object$selected), "\n")
+    cat("Group sizes:", paste(colnames(object$selected), collapse = ", "), "\n")
+  } else {
+    cat("\nNo selected individuals.\n")
+  }
+  
+  # Mostrar restrições, se existirem
+  if (!is.null(object$overview)) {
+    cat("\nOverview\n")
+    print(object$overview)
+  }
+  
+  invisible(object)
+}
+  
+  
 #' @noRd
 print.output_rmaxp <- function(x, ...) {
   cat("Rmaxp gains for each trait correspond to independently selected groups;\n")
@@ -62,7 +86,7 @@ print.output_rmaxa <- function(x, ...) {
   
   for (name in names(x)) {
     if (startsWith(name, "selected_")) {
-      cat("\n===>", name, "\n")
+      cat("\n$",name,"\n")
       print(x[[name]], row.names = FALSE)
     }
   }

@@ -20,17 +20,17 @@ polyclonal(
 
 \item{ref}{Name of the reference column (e.g., genotype ID). Defaults to the first column.}
 
-\item{clmin}{An integer specifying the number of clones to include in the smallest polyclonal group.}
+\item{clmin}{An integer specifying the     minimum group size.}
 
-\item{clmax}{An integer specifying the number of clones to include in the largest polyclonal group. Equal to clmin if omitted.}
+\item{clmax}{An integer specifying the maximum group size. If omitted, equal to \code{clmin}.}
 
-\item{dmg}{A data.frame composed by three columns: the first with the traits of the constraints; the second with the signal of the constraint (">=", "<=" or "=="); and the third with the values for the right-hand side of the constraints.}
+\item{dmg}{A data.frame composed by three columns: trait names; constraints signs (">=", "<=" or "=="); and  \emph{right-hand side} values of the constraints.}
 
 \item{meanvec}{A vector with the phenotypic mean values, with names corresponding to column names (e.g., trait1 = mean1, trait2 = mean2). If not provided, it is assumed the values are already divided by the mean.}
 
 \item{criteria}{A vector with the selection criteria, with values of 1 or -1 depending on whether an increase or decrease in the trait is desired, respectively (e.g., trait1 = 1, trait2 = -1). If not provided, it is assumed that an increase is wanted.}
 
-\item{data}{A data frame comprising the input data consisting of the Estimated Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.}
+\item{data}{A data frame comprising the input data consisting of the Empirical Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.}
 }
 \value{
 A list with the following components:
@@ -65,8 +65,7 @@ selections <- polyclonal(
    criteria = mycriteria,
    data = Gouveio
    )
-selections$gain
-selections$selected
+selections
 }
 \references{
 Surgy, S., Cadima, J. & Gonçalves, E. Integer programming as a powerful tool for polyclonal selection in ancient grapevine varieties. Theor Appl Genet 138, 122 (2025). https://doi.org/10.1007/s00122-025-04885-0
