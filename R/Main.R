@@ -6,7 +6,7 @@
 #' @param clmax An integer specifying the maximum group size. If omitted, equal to `clmin`.
 #' @param dmg A `data.frame` with three columns defining constraints: trait names; constraints signs (`">="`, `"<="` or `"=="`); and  _right-hand side_ values of the constraints.
 #' @param meanvec A named numeric vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.
-#' @param criteria A named numeric vector indicating the selection criterion for each trait: 1 for traits to be increased, -1 for traits to be decreased. If omitted, all traits are assumed to be selected for increase. 
+#' @param criteria A named numeric vector indicating the selection criterion for each trait: 1 for traits to be increased, -1 for traits to be decreased. If omitted, all traits are assumed to be selected for increase.
 #' @param data  A data frame comprising the input data consisting of the Empirical Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.
 #' @note The order of traits must be consistent across `traits`, `dmg`, `meanvec`, and `criteria`. Both `meanvec` and `criteria` must include values for all traits specified in `traits` and `dmg`.
 #' @return
@@ -66,8 +66,8 @@ polyclonal <- function(traits, ref = NULL, clmin = 7, clmax,  dmg = NULL, meanve
   if (!is.null(criteria) && length(criteria) != length(cols)) {
     stop("Length of 'meanvec' must contain values for all traits in `traits` and `constraints`.")
   }
-  
-  # Set defaults 
+
+  # Set defaults
   if (is.null(criteria)) criteria <- stats::setNames(rep(1, length(cols)), cols)
   if (is.null(meanvec)) meanvec <- stats::setNames(rep(1, length(cols)), cols)
 
@@ -84,7 +84,7 @@ polyclonal <- function(traits, ref = NULL, clmin = 7, clmax,  dmg = NULL, meanve
   # Normalize trait and constraint values
   auxeblups <- norm_eblup(data[, cols, drop = FALSE], cols, meanvec, criteria)
   auxeblups <- data.frame(data[, ref, drop = FALSE], auxeblups)
-  
+
   # Check clone group size limits
   if(missing(clmax)) clmax <- clmin
   if (clmax < clmin || clmin < 1) stop("'clmax' must be >= 'clmin' and both >= 1.")
@@ -96,8 +96,8 @@ polyclonal <- function(traits, ref = NULL, clmin = 7, clmax,  dmg = NULL, meanve
   objdir <- "max"
   auxobj <- auxeblups[, traits, drop = FALSE]
   fobj=0
-  fobj <- Reduce(`+`, auxobj)  
-  
+  fobj <- Reduce(`+`, auxobj)
+
   # Constraint matrix
   if (is.null(const)) {
     constvalue <- data.frame(rep(1, nrow(auxeblups)))
@@ -108,14 +108,14 @@ polyclonal <- function(traits, ref = NULL, clmin = 7, clmax,  dmg = NULL, meanve
     colnames(constvalue) <- c("var", const)
     dirvalue <- c("==", relation)
   }
-  
+
   # Vars for results
   clsel <- 0
   clselmax <- 0
   indsol <- 0
   gainout <- NULL
   auxeblups <- data.frame(data)
-  
+
   # Iterate over group sizes
   for (i in clmax:clmin){
     rhsvalue  <- i
@@ -124,18 +124,18 @@ polyclonal <- function(traits, ref = NULL, clmin = 7, clmax,  dmg = NULL, meanve
         rhsvalue <- c(rhsvalue,  rhs[a]*i/100)
       }
     }
-    
+
     # Solver
     prob <- lpSolve::lp(
-      direction = objdir, 
-      objective.in = fobj, 
-      const.mat = constvalue, 
-      const.dir=dirvalue,  
-      const.rhs=rhsvalue, 
-      transpose.constraints = FALSE,  
-      all.bin = TRUE, 
+      direction = objdir,
+      objective.in = fobj,
+      const.mat = constvalue,
+      const.dir=dirvalue,
+      const.rhs=rhsvalue,
+      transpose.constraints = FALSE,
+      all.bin = TRUE,
       use.rw=TRUE)
-    
+
     # Handle results
     if (prob$status==0){
       clsel = sum(prob$solution)
@@ -166,29 +166,33 @@ polyclonal <- function(traits, ref = NULL, clmin = 7, clmax,  dmg = NULL, meanve
       indsol <- indsol + 1
     }
   }
-  
+
   # impossible
   if (indsol == 0) {
     message("No possible solution!")
     return(invisible(NULL))
   }
-  
+
   clonesout <- matrix(clonesout, nrow = indlinha, ncol = indsol)
   clonesout <- as.data.frame(clonesout)
   colnames(clonesout) <- colnomes
-  
-  
+
+
   auxsum <- data.frame(auxsum, row.names = 1)
   auxsum$MaxGain <- NA_real_
   auxsum$MaxGroup <- NA_integer_
   common_names <- intersect(colnames(gainout), rownames(auxsum))
-  
+
   for (name in common_names) {
     max_val <- max(gainout[[name]], na.rm = TRUE)
     auxsum[name, "MaxGain"] <- max_val
     rows_with_max <- which(gainout[[name]] == max_val)
     last_row <- utils::tail(rows_with_max, 1)
     auxsum[name, "MaxGroup"] <- gainout$Group.Size[last_row]
+  }
+
+  if (ncol(clonesout) != (clmax - clmin +1)) {
+    cat("No possible solution was found for some of the requested group sizes.")
   }
   result <- list(
     gain = gainout,
@@ -199,6 +203,6 @@ polyclonal <- function(traits, ref = NULL, clmin = 7, clmax,  dmg = NULL, meanve
   )
   class(result) <- "polyresult"
   return(result)
-  
+
 }
 

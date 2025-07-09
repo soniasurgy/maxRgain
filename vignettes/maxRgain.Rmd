@@ -69,9 +69,9 @@ Below is a table describing the common arguments used across the functions in th
 | `clmin` |  Minimum group size. |`polyclonal()` |
 | `clmax` |  Maximum group size. If omitted, equal to `clmin` |`polyclonal()` |
 | `dmg`        |  A *data.frame* with three columns defining constraints: trait names, constraint signs (`">="`, `"<="`, `"=="`), and *right-hand side* values. |`polyclonal()` |
-| `constraints`| Vector with traits to which constraints apply. If omitted, all except `ref` are used. | `basesituation()`, `rmaxa()` |
-| `meanvec`    |  Vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean. |All   |
-| `criteria`   |  Vector with the criterion for each trait: 1 to increase, -1 to decrease. If omitted, all traits are assumed to be increasing. |All   |
+| `constraints`| Named numeric vector with traits to which constraints apply. If omitted, all except `ref` are used. | `basesituation()`, `rmaxa()` |
+| `meanvec`    |  Named numeric vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean. |All   |
+| `criteria`   |  Named numeric vector with the criterion for each trait: 1 to increase, -1 to decrease. If omitted, all traits are assumed to be increasing. |All   |
 | `data`       | A *data.frame* with the predictors of genotypic effects for the several traits. Rows are genotypes; columns are traits.   | All |
 
 
@@ -100,13 +100,13 @@ polyclonal(traits, ref = NULL, clmin = 7, clmax,  dmg = NULL, meanvec = NULL, cr
 In the example for the `polyclonal()` function, the objective is to maximize the genetic gain of groups with sizes ranging from 7 to 20 genotypes, while enforcing minimum desired gains (expressed as percentages of the overall mean) for the five traits: 20% for yield (yd), 3% for potential alcohol (pa), 3% for total acidity (ta), 1% for pH, and 2% for berry weight (bw).
 
 ```{r}
-# Vector with the means
+# Named numeric vector with the means
 mymeanvec <- c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653)
 
 # Vector with the traits to be maximized
 mytraits <- c("yd", "pa",  "ta", "ph", "bw")
 
-# Vector with the criteria
+# Named numeric vector with the criteria
 mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
 
 # Vector with the column with the names given to the genotypes
