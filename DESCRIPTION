@@ -14,8 +14,9 @@ RoxygenNote: 7.3.2
 BugReports: https://github.com/soniasurgy/maxRgain/issues
 Imports: 
     lpSolve,
-    utils
-Suggests: 
+    utils, 
+    stats
+Suggests:   
     knitr,
     rmarkdown,
     roxygen2,

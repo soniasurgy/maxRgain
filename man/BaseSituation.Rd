@@ -18,11 +18,11 @@ BaseSituation(
 
 \item{ref}{Name of the reference column (e.g., genotype ID). Defaults to the first column.}
 
-\item{constraints}{A vector with the traits in the constraints.}
+\item{constraints}{Vector with traits to which constraints apply. If omitted, all except \code{ref} are used.}
 
-\item{meanvec}{A vector with the phenotypic mean values, with names corresponding to column names (e.g., trait1 = mean1, trait2 = mean2). If not provided, it is assumed the values are already divided by the mean.}
+\item{meanvec}{Vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.}
 
-\item{criteria}{A vector with the selection criteria, with values of 1 or -1 depending on whether an increase or decrease in the trait is desired, respectively (e.g., trait1 = 1, trait2 = -1). If not provided, it is assumed that an increase is wanted.}
+\item{criteria}{Vector with the criterion for each trait: 1 to increase, -1 to decrease. If omitted, all traits are assumed to be increasing.}
 
 \item{data}{A data frame comprising the input data consisting of the Empirical Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.}
 }
@@ -34,7 +34,7 @@ A list with the following components:
 }
 }
 \description{
-Situation where the objective function defined by all traits is maximized and the desired minimum gain for each trait is 0 (all the constraints >= 0).
+The base situation relies on the use of constraints to prevent losses in all traits of interest. In this case, one constraint is defined for each trait included in the constraint set. The traits subject to constraints may or may not coincide with those targeted for maximization. In the this function, all constraints associated with the traits are greater than or equal to zero, ensuring no negative gain in any of them.
 }
 \examples{
 mymeanvec <- c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653)

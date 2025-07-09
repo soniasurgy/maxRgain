@@ -1,5 +1,6 @@
 ---
 title: "Introduction to maxRgain"
+subtitle: "Maximizing the genetic gains of the Polyclonal selection based on integer programming"
 author: "Sónia Surgy, Jorge Cadima, Elsa Gonçalves"
 output: 
   html_document:
@@ -25,7 +26,7 @@ library(maxRgain)
 ```
 # Introduction
 
-Polyclonal selection is a breeding strategy developed in the context of ancient grapevine varieties, aimed at selecting a group of distinct genotypes that collectively satisfy predefined criteria for desirable quantitative traits. This approach relies on the predictors of the genetic effects obtained from the fitting of a mixed model. Rather than focusing on individual genotypes, polyclonal selection considers the group as the unit of selection, with the goal of maximising the overall predicted genetic gain across multiple traits of interest. The identification of such a superior group constitutes an optimisation problem, in which the objective is to select a subset of genotypes that jointly maximise the expected genetic value, subject to constraints which satisfy agronomic and enological interests.
+Polyclonal selection is a breeding strategy developed in the context of ancient grapevine varieties, aimed at selecting a group of distinct genotypes that collectively satisfy predefined criteria for desirable quantitative traits. This approach relies on the predictors of the genetic effects obtained from the fitting of a mixed model. Rather than focusing on individual genotypes, polyclonal selection considers the group as the unit of selection, with the goal of maximizing the overall predicted genetic gain across multiple traits of interest. The identification of such a superior group constitutes an optimization problem, in which the objective is to select a subset of genotypes that jointly maximize the expected genetic value, subject to constraints which satisfy agronomic and enological interests.
 
 Most existing methods for genetic selection based on several traits, such as selection indices, are designed to maximize the genetic gain of selection of a genotype. When the objective is to select a group of genotypes, rather than individuals independently, the conventional approach has been to simply choose the top-ranking genotypes. However, this strategy does not ensure that the selected group, as a whole, satisfies predefined breeding objectives when multiple traits are considered simultaneously.
 
@@ -54,7 +55,7 @@ The traits evaluated were:
 * pH
 * Berry Weight (bw)
 
-The selection criteria are defined by the breede. In this example will be: increasing yield, potential alcohol, and total acidity, while decreasing pH and berry weight.
+The selection criteria are defined by the breeder. In this example, they are: increasing yield, potential alcohol, and total acidity, while decreasing pH and berry weight.
 
 
 # Common arguments
@@ -111,7 +112,7 @@ mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
 # Vector with the column with the names given to the genotypes
 myref = "Clone"
 ```
-If `meanvec` is omitted, it is assumed that all trait values have already been standardised by dividing by their respective overall means. If `criteria` is omitted, the default assumption is that an increase is desired for all traits. If `ref` is omitted, the first column in the dataset is assumed to contain the names of the genotypes."
+If `meanvec` is omitted, it is assumed that all trait values have already been standardized by dividing by their respective overall means. If `criteria` is omitted, the default assumption is that an increase is desired for all traits. If `ref` is omitted, the first column in the dataset is assumed to contain the names of the genotypes."
 
 In `polyclonal()` function the constraints are indicated by argument `dmg` (desired minimum gains). This argument consists in a *data.frame* composed by three columns: the first with the traits of the constraints; the second with the signal of the constraint (">=", "<=" or "=="); and the third with the values for the *right-hand side* of the constraints. The column names can be arbitrary, but their order must be preserved.
 ```{r}
@@ -144,19 +145,22 @@ with_dmg <- polyclonal(
 
 Groups ranging from 7 to 20 genotypes were requested, as these cover the most appropriate group sizes for practical applications of the polyclonal methodology for grapevine selection. However, other group sizes can also be specified. In fact, it is possible to request a single group size by assigning the same value to both `clmin` and `clmax` or omitting `clmax`. Analysing the output reveals how the imposed constraints influence the selection results.
 ```{r}
-# Object gain
-with_dmg$gain
+# Results
+with_dmg
 ```
 
 The output displays the genetic gain achieved for each trait across the different group sizes. For example, in the group composed of 10 genotypes, the gains obtained were approximately 21.4%, 3.0%, 3.3%, 1.1% and 2.3% for yield (yd), potential alcohol (pa), total acidity (ta), pH, and berry weight (bw), respectively. All values are expressed as percentages of the overall trait mean.  Positive values indicate gains in accordance with the selection criteria.
 
 In this case, although group sizes between 7 and 20 genotypes were requested, the object `gain` only provides results for groups of 7, 8, and 10 genotypes. This indicates that the desired minimum gains could not be achieved for other group sizes within the specified range. 
 
-```{r}
-# Object selected
-with_dmg$selected
-```
 Examining the lists of genotypes composing each group reveals that a genotype present in a group of one size may be absent from groups of different sizes. For example, genotype GV060 is not included in the group of 7 genotypes, appears in the group of 8 genotypes, and is then excluded from the group of 10 genotypes.
+
+The `summary()` method can be used with `polyclonal()` and `BaseSituation()` objects to retrieve a summary of the initial conditions and results.
+
+```{r}
+# Summary results
+summary(with_dmg)
+```
 
 
 ## `BaseSituation()` 
@@ -197,15 +201,12 @@ base_sit <- BaseSituation(
   data = Gouveio
   )
 
-# Object gain
-base_sit$gain
+# Results
+base_sit
 
 ```
 Comparing the two scenarios highlights the impact of the constraints: when using the BaseSituation() function, no losses are observed in any of the traits. Additionally, the comparison reveals differences in the composition of the selected groups, as the genotypes chosen under the constrained scenario often differ from those selected without constraints.
-```{r}
-# Object selected
-base_sit$selected
-```
+
 As an example, it is possible to analyse the groups of 7 and 8 genotypes. In the group of 8 genotypes, there are not just one but two genotypes that differ from the group of 7: genotypes GV089 and GV137. On the other hand, genotype GV132, which is included in the group of 7 genotypes, is not present in the group of 8. This illustrates how the inclusion of constraints can lead to changes in group composition, rather than simply adding the next best-ranked individual.
 
 
@@ -235,17 +236,14 @@ max_pos_gain <- Rmaxp(
   data = Gouveio
   )
 
-# Object gain
-max_pos_gain$gain
+# Results
+max_pos_gain
 ```
 As in previous outputs, one column per trait is shown. However, in this case, the gain reported in each column refers to an independent solution. For example, the group of 20 genotypes achieving a gain of 39.5% for yd is not composed of the same genotypes as the group achieving a gain of 5.9% for pa. This can be verified by examining the output stored in the selected object.
 
-```{r}
-# Object selected
-max_pos_gain$selected
-```
-
 Since no constraints are applied in this scenario, the output represents a ranking of genotypes for each trait. Increasing the group size simply adds the next genotype in the ranking. Thus, each column corresponds to the top genotypes for a given trait. The final column, Entry, indicates the smallest group size at which each genotype is first included. For example, genotype GV137 appears for the first time in yd when the group size reaches 10 genotypes; when the group increases to 11, GV137 remains in the group and genotype GV079 is added.
+
+No customized `summary()` is provided, given that the conditions do not vary and no constraints are applied.
 
 ## `Rmaxa()` 
 
@@ -255,7 +253,7 @@ Rmaxa(traits, ref = NULL, constraints = NULL, meanvec = NULL, criteria = NULL, d
 ```
 
 
-This function computes the maximum admissible gain for group sizes ranging from 7 to 20 genotypes. The maximum admissible gain corresponds to the value obtained by maximising one trait while avoiding losses in all others, enforced through constraints—predefined in this case as *>= 0*. As with `Rmaxp()`, the user may request gains for one or multiple traits simultaneously. The output displays one column per trait; however, the values in different columns correspond to independent solutions and should be interpreted separately. This distinguishes the output of the gain object from this function from that of the `BaseSituation()` function, where all traits are optimized together.
+This function computes the maximum admissible gain for group sizes ranging from 7 to 20 genotypes. The maximum admissible gain corresponds to the value obtained by maximizing one trait while avoiding losses in all others, enforced through constraints—predefined in this case as *>= 0*. As with `Rmaxp()`, the user may request gains for one or multiple traits simultaneously. The output displays one column per trait; however, the values in different columns correspond to independent solutions and should be interpreted separately. This distinguishes the output of the gain object from this function from that of the `BaseSituation()` function, where all traits are optimized together.
 
 ```{r}
 # Vector with the means
@@ -276,18 +274,12 @@ max_adm_gain <- Rmaxa(
   data = Gouveio
   )
 
-# Object gain
-max_adm_gain$gain
+# Results
+max_adm_gain
 ```
 As in the `Rmaxp()` gain output, one column per trait is shown; however, the gain reported in each column corresponds to an independent solution. For example, the group of 20 genotypes achieving a gain of 26.2% for *yd* is not composed of the same genotypes as the group achieving a gain of 5.7% for *pa*. Furthermore, the gains obtained with `Rmaxa()` for any trait are always less than or equal to those obtained with `Rmaxp()`, since `Rmaxa()` incorporates constraints during optimisation. 
 
 Regarding the `selected` object, due to the constraints applied in this function, the genotypes composing one group differ from those in other groups. Consequently, there is one selected object per trait, named as `selected_<trait>`.
-
-```{r}
-# Object selected
-max_adm_gain$selected_yd
-```
-
 
 # Conclusion
 

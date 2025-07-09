@@ -40,55 +40,168 @@
 #' selections
 polyclonal <- function(traits, ref = NULL, clmin = 7, clmax,  dmg = NULL, meanvec = NULL, criteria = NULL, data)
 {
+  # Input checks
   if (length(traits) < 1) stop("There must be at least one trait in selection")
-  if (!is.null(ref) && length(ref) != 1) stop("There must be only one reference column (ref).")
+  if (!is.null(ref) && length(ref) != 1) stop("Only one reference column is allowed (ref).")
   if (is.null(ref)) ref <- names(data)[1]
 
-  if (!all(traits %in% names(data))) stop("Some columns in 'traits' do not exist in data.")
-  if (!all(ref %in% names(data))) stop("The reference column (ref) does not exist in data.")
+  if (!all(traits %in% names(data))) stop("Some columns in 'traits' do not exist in `data`.")
+  if (!all(ref %in% names(data))) stop("The reference column (ref) does not exist in `data`.")
 
-  # Handle constraints
-  const <- dmg[,1]
-  relation <- dmg[,2]
-  rhs <- dmg[,3]
-  
+  # Constraint setup
+  const <- if (!is.null(dmg)) dmg[[1]] else NULL
+  relation <- if (!is.null(dmg)) dmg[[2]] else NULL
+  rhs <- if (!is.null(dmg)) dmg[[3]] else NULL
 
-  if (!all(const %in% names(data))) stop("Some constraint columns (dmg) do not exist in data.")
+
+  if (!is.null(const) && !all(const %in% names(data))) {
+    stop("Some constraint columns (dmg) do not exist in 'data'.")
+  }
 
   # Trait + constraint columns
   cols <- unique(c(traits, const))
-  
-  
-  # Check meanvec and criteria lengths
+
+
+  # Validate vector lengths
   if (!is.null(meanvec) && length(meanvec) != length(cols)) {
     stop("Length of 'meanvec' must match number of traits + constraints.")
   }
   if (!is.null(criteria) && length(criteria) != length(cols)) {
     stop("Length of 'criteria' must match number of traits + constraints.")
   }
-  if (is.null(criteria)) criteria <- setNames(rep(1, length(cols)), cols)
-  if (is.null(meanvec)) meanvec <- setNames(rep(1, length(cols)), cols)
   
-  # Creating auxsum
+  # Set defaults 
+  if (is.null(criteria)) criteria <- stats::setNames(rep(1, length(cols)), cols)
+  if (is.null(meanvec)) meanvec <- stats::setNames(rep(1, length(cols)), cols)
+
+  # Create summary matrix
   auxsum <- data.frame(col1=cols)
-  
+
   if (!is.null(dmg)){
     idx <- match(auxsum$col1, dmg[[1]])
     auxsum$Crit <- criteria [idx]
     auxsum$Mean <- meanvec[idx]
-    auxsum$DMG <- dmg[[3]][idx]
+    auxsum$DMG <- rhs[idx]
   }
+
+  # Normalize trait and constraint values
+  auxeblups <- norm_eblup(data[, cols, drop = FALSE], cols, meanvec, criteria)
+  auxeblups <- data.frame(data[, ref, drop = FALSE], auxeblups)
   
-  # Normalize data
-  auxeblups <- data[, cols, drop = FALSE]
-  auxeblups <- norm_eblup(auxeblups, cols, meanvec, criteria)
-  auxeblups <- data.frame(data[,ref, drop = FALSE],auxeblups)
+  # Check clone group size limits
   if(missing(clmax)) clmax <- clmin
-  if (clmax < clmin) stop("'clmax' must be greater than or equal to 'clmin'.")
+  if (clmax < clmin || clmin < 1) stop("'clmax' must be >= 'clmin' and both >= 1.")
 
   clmin <- as.integer(clmin)
   clmax <- as.integer(clmax)
-  if (clmin < 1) stop("'clmax' must be greater than or equal to 'clmin'.")
 
-  return(ipp(traits=traits, ref = ref, clmin, clmax, const = const,  relation = relation, rhs = rhs, dmg = dmg, auxsum = auxsum, data = auxeblups ))
+  # Objective function (sum of traits to maximize)
+  objdir <- "max"
+  auxobj <- auxeblups[, traits, drop = FALSE]
+  fobj=0
+  fobj <- Reduce(`+`, auxobj)  
+  
+  # Constraint matrix
+  if (is.null(const)) {
+    constvalue <- data.frame(rep(1, nrow(auxeblups)))
+    colnames(constvalue) <- "var"
+    dirvalue <- "=="
+  } else {
+    constvalue <- data.frame(rep(1, nrow(auxeblups)), auxeblups[, const, drop = FALSE])
+    colnames(constvalue) <- c("var", const)
+    dirvalue <- c("==", relation)
+  }
+  
+  # Vars for results
+  clsel <- 0
+  clselmax <- 0
+  indsol <- 0
+  gainout <- NULL
+  auxeblups <- data.frame(data)
+  
+  # Iterate over group sizes
+  for (i in clmax:clmin){
+    rhsvalue  <- i
+    if (!is.null(rhs)){
+      for (a in 1:length(rhs)){
+        rhsvalue <- c(rhsvalue,  rhs[a]*i/100)
+      }
+    }
+    
+    # Solver
+    prob <- lpSolve::lp(
+      direction = objdir, 
+      objective.in = fobj, 
+      const.mat = constvalue, 
+      const.dir=dirvalue,  
+      const.rhs=rhsvalue, 
+      transpose.constraints = FALSE,  
+      all.bin = TRUE, 
+      use.rw=TRUE)
+    
+    # Handle results
+    if (prob$status==0){
+      clsel = sum(prob$solution)
+      auxresultados <- data.frame(auxeblups[,c(ref,traits)], prob$solution)
+      resultados <- subset(auxresultados, prob$solution==1)
+
+      if (indsol==0){
+        indlinha <- clsel
+        clonesout <- resultados[,1]
+        colnomes <- c(clsel)
+        if (length(resultados) > 3){
+          ganhos <- colMeans(resultados[,c(-1, -length(resultados))]*100)
+        }else{
+          ganhos <- mean(resultados[,c(-1, -length(resultados))]*100)
+        }
+        gainout <- data.frame(t(ganhos), clsel)
+        colnames(gainout) <- c(colnames(resultados[, c(-1, -length(resultados)), drop = FALSE]), "Group.Size")
+      }else{
+        clonesout <- c(clonesout, resultados[,1], rep(" ", indlinha-clsel))
+        colnomes <- c(colnomes, clsel)
+        if (length(resultados) > 3){
+          ganhos <- colMeans(resultados[,c(-1, -length(resultados))]*100)
+        }else{
+          ganhos <- mean(resultados[,c(-1, -length(resultados))]*100)
+        }
+        gainout <- rbind(gainout, c(t(ganhos), clsel))
+      }
+      indsol <- indsol + 1
+    }
+  }
+  
+  # impossible
+  if (indsol == 0) {
+    message("No possible solution!")
+    return(invisible(NULL))
+  }
+  
+  clonesout <- matrix(clonesout, nrow = indlinha, ncol = indsol)
+  clonesout <- as.data.frame(clonesout)
+  colnames(clonesout) <- colnomes
+  
+  
+  auxsum <- data.frame(auxsum, row.names = 1)
+  auxsum$MaxGain <- NA_real_
+  auxsum$MaxGroup <- NA_integer_
+  common_names <- intersect(colnames(gainout), rownames(auxsum))
+  
+  for (name in common_names) {
+    max_val <- max(gainout[[name]], na.rm = TRUE)
+    auxsum[name, "MaxGain"] <- max_val
+    rows_with_max <- which(gainout[[name]] == max_val)
+    last_row <- utils::tail(rows_with_max, 1)
+    auxsum[name, "MaxGroup"] <- gainout$Group.Size[last_row]
+  }
+  result <- list(
+    gain = gainout,
+    selected = clonesout,
+    n_traits = length(traits),
+    n_constraints = length(const),
+    overview = auxsum
+  )
+  class(result) <- "polyresult"
+  return(result)
+  
 }
+
