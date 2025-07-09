@@ -29,7 +29,7 @@ invisible(x)
 #' @return An object of class \code{"summary_polyresult"}.
 #' @export
 #' @method summary polyresult
-#'
+#' @noRd
 summary.polyresult <- function(object, ...) {
   cat("Summary of Selection Results\n")
   cat("-----------------------------------\n")

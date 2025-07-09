@@ -69,7 +69,7 @@ Below is a table describing the common arguments used across the functions in th
 | `clmin` |  Minimum group size. |`polyclonal()` |
 | `clmax` |  Maximum group size. If omitted, equal to `clmin` |`polyclonal()` |
 | `dmg`        |  A *data.frame* with three columns defining constraints: trait names, constraint signs (`">="`, `"<="`, `"=="`), and *right-hand side* values. |`polyclonal()` |
-| `constraints`| Vector with traits to which constraints apply. If omitted, all except `ref` are used. | `BaseSituation()`, `Rmaxa()` |
+| `constraints`| Vector with traits to which constraints apply. If omitted, all except `ref` are used. | `basesituation()`, `rmaxa()` |
 | `meanvec`    |  Vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean. |All   |
 | `criteria`   |  Vector with the criterion for each trait: 1 to increase, -1 to decrease. If omitted, all traits are assumed to be increasing. |All   |
 | `data`       | A *data.frame* with the predictors of genotypic effects for the several traits. Rows are genotypes; columns are traits.   | All |
@@ -155,7 +155,7 @@ In this case, although group sizes between 7 and 20 genotypes were requested, th
 
 Examining the lists of genotypes composing each group reveals that a genotype present in a group of one size may be absent from groups of different sizes. For example, genotype GV060 is not included in the group of 7 genotypes, appears in the group of 8 genotypes, and is then excluded from the group of 10 genotypes.
 
-The `summary()` method can be used with `polyclonal()` and `BaseSituation()` objects to retrieve a summary of the initial conditions and results.
+The `summary()` method can be used with `polyclonal()` and `basesituation()` objects to retrieve a summary of the initial conditions and results.
 
 ```{r}
 # Summary results
@@ -163,16 +163,16 @@ summary(with_dmg)
 ```
 
 
-## `BaseSituation()` 
+## `basesituation()` 
 
 
 ```{r, eval = FALSE}
-BaseSituation(traits, ref = NULL, constraints = NULL, meanvec = NULL, criteria = NULL, data)
+basesituation(traits, ref = NULL, constraints = NULL, meanvec = NULL, criteria = NULL, data)
 ```
 
 The *base situation* relies on the use of constraints to prevent losses in all traits of interest. In this case, one constraint is defined for each trait included in the constraint set. The traits subject to constraints may or may not coincide with those targeted for maximization. In the base situation, all constraints associated with the traits are greater than or equal to zero, ensuring no negative gain in any of them.
 
-The package includes a function, `BaseSituation()`, which automatically computes this configuration for group sizes ranging from 7 to 20 genotypes.
+The package includes a function, `basesituation()`, which automatically computes this configuration for group sizes ranging from 7 to 20 genotypes.
 
 
 ```{r}
@@ -190,10 +190,10 @@ mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
 # Vector with the traits used for the constraints
 restrict <- c("yd", "pa", "ta", "ph", "bw")
 ```
-For the `BaseSituation()` function, if the `constraints` argument is omitted, all columns in the dataset are considered as constrained traits, except the one specified by `ref`. If `ref` is also omitted, the first column is assumed to correspond to the reference column.
+For the `basesituation()` function, if the `constraints` argument is omitted, all columns in the dataset are considered as constrained traits, except the one specified by `ref`. If `ref` is also omitted, the first column is assumed to correspond to the reference column.
 ```{r}
-# Using the BaseSituation() function:
-base_sit <- BaseSituation(
+# Using the basesituation() function:
+base_sit <- basesituation(
   traits = mytraits,
   constraints = restrict,
   meanvec = mymeanvec,
@@ -205,15 +205,15 @@ base_sit <- BaseSituation(
 base_sit
 
 ```
-Comparing the two scenarios highlights the impact of the constraints: when using the BaseSituation() function, no losses are observed in any of the traits. Additionally, the comparison reveals differences in the composition of the selected groups, as the genotypes chosen under the constrained scenario often differ from those selected without constraints.
+Comparing the two scenarios highlights the impact of the constraints: when using the basesituation() function, no losses are observed in any of the traits. Additionally, the comparison reveals differences in the composition of the selected groups, as the genotypes chosen under the constrained scenario often differ from those selected without constraints.
 
 As an example, it is possible to analyse the groups of 7 and 8 genotypes. In the group of 8 genotypes, there are not just one but two genotypes that differ from the group of 7: genotypes GV089 and GV137. On the other hand, genotype GV132, which is included in the group of 7 genotypes, is not present in the group of 8. This illustrates how the inclusion of constraints can lead to changes in group composition, rather than simply adding the next best-ranked individual.
 
 
-## `Rmaxp()` 
+## `rmaxp()` 
 
 ```{r, eval = FALSE}
-Rmaxp(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
+rmaxp(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
 ```
 
 
@@ -229,8 +229,8 @@ mytraits <- c("yd", "pa")
 The vector specifying the selection criteria can be omitted, as the default value of 1 is used for all traits. With this function, no constraints are applied.
 
 ```{r}
-# Using Rmaxp()
-max_pos_gain <- Rmaxp(
+# Using rmaxp()
+max_pos_gain <- rmaxp(
   traits = mytraits,
   meanvec = mymeanvec,
   data = Gouveio
@@ -245,15 +245,15 @@ Since no constraints are applied in this scenario, the output represents a ranki
 
 No customized `summary()` is provided, given that the conditions do not vary and no constraints are applied.
 
-## `Rmaxa()` 
+## `rmaxa()` 
 
 ```{r , eval=FALSE}
-Rmaxa(traits, ref = NULL, constraints = NULL, meanvec = NULL, criteria = NULL, data)
+rmaxa(traits, ref = NULL, constraints = NULL, meanvec = NULL, criteria = NULL, data)
 
 ```
 
 
-This function computes the maximum admissible gain for group sizes ranging from 7 to 20 genotypes. The maximum admissible gain corresponds to the value obtained by maximizing one trait while avoiding losses in all others, enforced through constraints—predefined in this case as *>= 0*. As with `Rmaxp()`, the user may request gains for one or multiple traits simultaneously. The output displays one column per trait; however, the values in different columns correspond to independent solutions and should be interpreted separately. This distinguishes the output of the gain object from this function from that of the `BaseSituation()` function, where all traits are optimized together.
+This function computes the maximum admissible gain for group sizes ranging from 7 to 20 genotypes. The maximum admissible gain corresponds to the value obtained by maximizing one trait while avoiding losses in all others, enforced through constraints—predefined in this case as *>= 0*. As with `rmaxp()`, the user may request gains for one or multiple traits simultaneously. The output displays one column per trait; however, the values in different columns correspond to independent solutions and should be interpreted separately. This distinguishes the output of the gain object from this function from that of the `basesituation()` function, where all traits are optimized together.
 
 ```{r}
 # Vector with the means
@@ -265,10 +265,10 @@ mytraits <- c("yd", "pa")
 # Vector with the criteria 
 mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
 ```
-As with the `BaseSituation()` function, when defining the constraints it is only necessary to specify the traits to which the constraints apply, since all are assumed to be greater than or equal to zero. If this vector is omitted, all columns in the dataset are considered as constrained traits, except the one indicated in `ref` or the first column if ref is omitted. The `criteria` as well as the `meanvec` arguments must indicate the criteria for all the traits involved in both maximization and the constraints.
+As with the `basesituation()` function, when defining the constraints it is only necessary to specify the traits to which the constraints apply, since all are assumed to be greater than or equal to zero. If this vector is omitted, all columns in the dataset are considered as constrained traits, except the one indicated in `ref` or the first column if ref is omitted. The `criteria` as well as the `meanvec` arguments must indicate the criteria for all the traits involved in both maximization and the constraints.
 ```{r}
-# Using Rmaxa()
-max_adm_gain <- Rmaxa(
+# Using rmaxa()
+max_adm_gain <- rmaxa(
   traits = mytraits,
   meanvec = mymeanvec,
   data = Gouveio
@@ -277,7 +277,7 @@ max_adm_gain <- Rmaxa(
 # Results
 max_adm_gain
 ```
-As in the `Rmaxp()` gain output, one column per trait is shown; however, the gain reported in each column corresponds to an independent solution. For example, the group of 20 genotypes achieving a gain of 26.2% for *yd* is not composed of the same genotypes as the group achieving a gain of 5.7% for *pa*. Furthermore, the gains obtained with `Rmaxa()` for any trait are always less than or equal to those obtained with `Rmaxp()`, since `Rmaxa()` incorporates constraints during optimisation. 
+As in the `rmaxp()` gain output, one column per trait is shown; however, the gain reported in each column corresponds to an independent solution. For example, the group of 20 genotypes achieving a gain of 26.2% for *yd* is not composed of the same genotypes as the group achieving a gain of 5.7% for *pa*. Furthermore, the gains obtained with `rmaxa()` for any trait are always less than or equal to those obtained with `rmaxp()`, since `rmaxa()` incorporates constraints during optimisation. 
 
 Regarding the `selected` object, due to the constraints applied in this function, the genotypes composing one group differ from those in other groups. Consequently, there is one selected object per trait, named as `selected_<trait>`.
 

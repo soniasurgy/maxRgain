@@ -1,8 +1,9 @@
 #' Maximum possible gain
 #'
-#' The maximum possible is the mean of the EBLUPs of the genotypic effects of the best n clones in a given trait, as a percentage of the overall- This function calculates the maximum possible gain achieved in the specified trait for groups from 7 to 20 clones
+#' The maximum possible is the mean of the EBLUPs of the genotypic effects of the best n clones in a given trait, as a percentage of the overall - This function calculates the maximum possible gain achieved in the specified trait for groups from 7 to 20 clones
 #'
 #' @inheritParams polyclonal
+#' @note The order of the traits must be consistent across `traits`, `meanvec`, and `criteria`.
 #' @returns
 #' A list with the following components:
 #'  -   `gain`  with the gains of the several traits in each dimension
@@ -12,13 +13,13 @@
 #' @examples
 #' mymeanvec <- c(pa = 12.760)
 #' mytraits <- c("pa")
-#' maxpos <- Rmaxp(
+#' maxpos <- rmaxp(
 #'    traits = mytraits,
 #'    meanvec = mymeanvec,
 #'    data = Gouveio
 #'    )
 #' maxpos
-Rmaxp <- function(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
+rmaxp <- function(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
 {
   for (i in 1:length(traits)){
     trt <- traits[i]
@@ -58,10 +59,14 @@ Rmaxp <- function(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
 
 #' Maximum admissible gain
 #'
-#' The maximum genetic gain in one trait that can be achieved without decreasing any of the other traits, as a percentage of the overall mean. This function calculates the maximum admissible gains achieved in the specified trait for polyclonal groups from 7 to 20 clones.
+#' The maximum admissible genetic gain in one trait that can be achieved without decreasing any of the other traits, as a percentage of the overall mean. This function calculates the maximum admissible gains achieved in the specified trait for polyclonal groups from 7 to 20 clones.
 #'
 #' @inheritParams polyclonal
 #' @param  constraints Vector with traits to which constraints apply. If omitted, all except `ref` are used.
+#' @note
+#' The order of traits must be consistent across `traits`, `constraints`, `meanvec`, and `criteria`. 
+#' Both `meanvec` and `criteria` must include values for all traits specified in `traits` and `constraints`. 
+#' If `constraints` is omitted, all traits in the dataset are considered; in that case, `meanvec` and `criteria` must provide values for all of them.
 #' @returns
 #' A list with the following components:
 #'  -   `gain`  with the gains of the several traits in each dimension
@@ -72,14 +77,14 @@ Rmaxp <- function(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
 #' mymeanvec <- c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653)
 #' mytraits <- c("yd", "pa")
 #' mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
-#' maxadm <- Rmaxa(
+#' maxadm <- rmaxa(
 #'    traits = mytraits,
 #'    meanvec = mymeanvec,
 #'    criteria = mycriteria,
 #'    data = Gouveio
 #'    )
 #' maxadm
-Rmaxa <- function(traits, ref = NULL, constraints = NULL, meanvec = NULL, criteria = NULL, data)
+rmaxa <- function(traits, ref = NULL, constraints = NULL, meanvec = NULL, criteria = NULL, data)
 {
   selected_list <- list()
   if (is.null(constraints)){
@@ -123,12 +128,16 @@ Rmaxa <- function(traits, ref = NULL, constraints = NULL, meanvec = NULL, criter
 }
 
 
-#' Base Situation
+#' Base situation
 #'
 #'The base situation relies on the use of constraints to prevent losses in all traits of interest. In this case, one constraint is defined for each trait included in the constraint set. The traits subject to constraints may or may not coincide with those targeted for maximization. In the this function, all constraints associated with the traits are greater than or equal to zero, ensuring no negative gain in any of them.
 #'
 #' @inheritParams polyclonal
 #' @param constraints Vector with traits to which constraints apply. If omitted, all except `ref` are used.
+#' @note
+#' The order of traits must be consistent across `traits`, `constraints`, `meanvec`, and `criteria`. 
+#' Both `meanvec` and `criteria` must include values for all traits specified in `traits` and `constraints`. 
+#' If `constraints` is omitted, all traits in the dataset are considered; in that case, `meanvec` and `criteria` must provide values for all of them.
 #' @returns
 #' A list with the following components:
 #'  -   `gain`  with the gains of the several traits in each dimension
@@ -140,7 +149,7 @@ Rmaxa <- function(traits, ref = NULL, constraints = NULL, meanvec = NULL, criter
 #' mytraits <- c("yd", "pa", "ta", "ph", "bw")
 #' myconst <- c("yd", "pa", "ta", "ph", "bw")
 #' mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
-#' bassit <- BaseSituation(
+#' bassit <- basesituation(
 #'    traits = mytraits,
 #'    constraints = myconst,
 #'    meanvec = mymeanvec,
@@ -148,7 +157,7 @@ Rmaxa <- function(traits, ref = NULL, constraints = NULL, meanvec = NULL, criter
 #'    data = Gouveio
 #'    )
 #' bassit
-BaseSituation <- function(traits, ref = NULL, constraints = NULL, meanvec = NULL, criteria = NULL, data)
+basesituation <- function(traits, ref = NULL, constraints = NULL, meanvec = NULL, criteria = NULL, data)
 {
   if (is.null(constraints)){
     auxlength <- length(data[,-1])
