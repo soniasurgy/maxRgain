@@ -1,7 +1,7 @@
 
 # maxRgain
 
-maxRgain implements an Integer Programming-based method for optimising
+maxRgain implements an Integer Programming-based method for optimizing
 genetic gain in polyclonal selection, where the goal is to select a
 group of genotypes that jointly meet multi-trait selection criteria. The
 method uses predictors of genotypic effects obtained from the fitting of
@@ -60,29 +60,34 @@ polyclonal(
   meanvec = c(yd = 3.517, pa = 12.760, ta = 4.495),
   data = Gouveio
   )
-#> $gain
-#>         yd       pa       ta Gr.Size
-#> 1 24.95480 3.017470 3.049012      12
-#> 2 25.49744 3.000773 3.011566      11
-#> 3 26.57930 3.138235 3.068115      10
-#> 4 27.74793 3.004891 3.103729       9
-#> 5 27.85813 3.021805 3.101100       8
-#> 6 28.80319 3.231580 3.120158       7
+#> Predited genetic gains as a % of the overall mean
+#> 
+#> $gain 
+#>  Group.Size        yd       pa       ta
+#>          12  87.76604 38.50292 13.70531
+#>          11  89.67451 38.28986 13.53699
+#>          10  93.47938 40.04388 13.79118
+#>           9  97.58947 38.34240 13.95126
+#>           8  97.97704 38.55823 13.93945
+#>           7 101.30081 41.23496 14.02511
+#> 
+#> 
+#> Selected genotypes (per group size)
 #> 
 #> $selected
-#>       12    11    10     9     8     7
-#> 1  GV060 GV060 GV060 GV060 GV060 GV081
-#> 2  GV079 GV080 GV081 GV079 GV080 GV088
-#> 3  GV080 GV088 GV088 GV081 GV081 GV095
-#> 4  GV081 GV089 GV093 GV088 GV088 GV097
-#> 5  GV088 GV093 GV095 GV093 GV093 GV127
-#> 6  GV089 GV097 GV097 GV097 GV097 GV140
-#> 7  GV090 GV127 GV127 GV127 GV127 GV146
-#> 8  GV097 GV133 GV133 GV140 GV146      
-#> 9  GV127 GV140 GV140 GV146            
-#> 10 GV133 GV144 GV146                  
-#> 11 GV140 GV146                        
-#> 12 GV146
+#>     12    11    10     9     8     7
+#>  GV060 GV060 GV060 GV060 GV060 GV081
+#>  GV079 GV080 GV081 GV079 GV080 GV088
+#>  GV080 GV088 GV088 GV081 GV081 GV095
+#>  GV081 GV089 GV093 GV088 GV088 GV097
+#>  GV088 GV093 GV095 GV093 GV093 GV127
+#>  GV089 GV097 GV097 GV097 GV097 GV140
+#>  GV090 GV127 GV127 GV127 GV127 GV146
+#>  GV097 GV133 GV133 GV140 GV146      
+#>  GV127 GV140 GV140 GV146            
+#>  GV133 GV144 GV146                  
+#>  GV140 GV146                        
+#>  GV146
 ```
 
 For detailed guidance, see the package vignette:

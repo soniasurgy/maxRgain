@@ -1,5 +1,7 @@
 #' Integer programming calculations
 #'
+#' This function maximizes the predicted genetic gain in the selection of groups of genotypes based on the predictores of genotypic effects.
+#'
 #' @param traits A vector with the names of the columns in the data corresponding to the target traits to be optimized, i.e., those included in the objective function.
 #' @param ref Name of the reference column (e.g., genotype ID). Defaults to the first column.
 #' @param clmin An integer specifying the 	minimum group size.
@@ -13,6 +15,7 @@
 #' A list with the following components:
 #'  - `gain`  with the gains of the several traits in each dimension
 #'  - `selected`  with the reference os the clones selected in the group of each dimension
+#'
 #' @references Surgy, S., Cadima, J. & Gonçalves, E. Integer programming as a powerful tool for polyclonal selection in ancient grapevine varieties. Theor Appl Genet 138, 122 (2025). https://doi.org/10.1007/s00122-025-04885-0
 #' @export
 #' @examples

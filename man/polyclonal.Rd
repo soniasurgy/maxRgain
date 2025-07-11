@@ -40,7 +40,7 @@ A list with the following components:
 }
 }
 \description{
-Integer programming calculations
+This function maximizes the predicted genetic gain in the selection of groups of genotypes based on the predictores of genotypic effects.
 }
 \note{
 The order of traits must be consistent across \code{traits}, \code{dmg}, \code{meanvec}, and \code{criteria}. Both \code{meanvec} and \code{criteria} must include values for all traits specified in \code{traits} and \code{dmg}.

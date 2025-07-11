@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 
 # maxRgain
 
-maxRgain implements an Integer Programming-based method for optimising genetic gain in polyclonal selection, where the goal is to select a group of genotypes that jointly meet multi-trait selection criteria. The method uses predictors of genotypic effects obtained from the fitting of mixed models. Its application is demonstrated with grapevine data, but is applicable to other species and breeding contexts.
+maxRgain implements an Integer Programming-based method for optimizing genetic gain in polyclonal selection, where the goal is to select a group of genotypes that jointly meet multi-trait selection criteria. The method uses predictors of genotypic effects obtained from the fitting of mixed models. Its application is demonstrated with grapevine data, but is applicable to other species and breeding contexts.
 
 ## Key Features
 
