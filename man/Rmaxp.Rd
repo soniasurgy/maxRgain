@@ -11,9 +11,9 @@ rmaxp(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
 
 \item{ref}{Name of the reference column (e.g., genotype ID). Defaults to the first column.}
 
-\item{meanvec}{A named numeric vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.}
+\item{meanvec}{Vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.}
 
-\item{criteria}{A named numeric vector indicating the selection criterion for each trait: 1 for traits to be increased, -1 for traits to be decreased. If omitted, all traits are assumed to be selected for increase.}
+\item{criteria}{Vector with the criterion for each trait: 1 to increase, -1 to decrease. If omitted, all traits are assumed to be increasing.}
 
 \item{data}{A data frame comprising the input data consisting of the Empirical Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.}
 }

@@ -26,9 +26,9 @@ polyclonal(
 
 \item{dmg}{A \code{data.frame} with three columns defining constraints: trait names; constraints signs (\code{">="}, \code{"<="} or \code{"=="}); and  \emph{right-hand side} values of the constraints.}
 
-\item{meanvec}{A named numeric vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.}
+\item{meanvec}{Vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.}
 
-\item{criteria}{A named numeric vector indicating the selection criterion for each trait: 1 for traits to be increased, -1 for traits to be decreased. If omitted, all traits are assumed to be selected for increase.}
+\item{criteria}{Vector with the criterion for each trait: 1 to increase, -1 to decrease. If omitted, all traits are assumed to be increasing.}
 
 \item{data}{A data frame comprising the input data consisting of the Empirical Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.}
 }
@@ -40,12 +40,13 @@ A list with the following components:
 }
 }
 \description{
-This function maximizes the predicted genetic gain in the selection of groups of genotypes based on the predictores of genotypic effects.
-}
-\note{
-The order of traits must be consistent across \code{traits}, \code{dmg}, \code{meanvec}, and \code{criteria}. Both \code{meanvec} and \code{criteria} must include values for all traits specified in \code{traits} and \code{dmg}.
+Integer programming calculations
 }
 \examples{
+# The order of elements in the vectors `traits`, `meanvec`, and
+#`criteria` does not affect the results.
+# For example, `c("yd", "pa", "ta", "ph", "bw")` produces the same outcome as
+# `c("pa", "yd", "ta", "ph", "bw")`only in a different order.
 mymeanvec <- c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653)
 mytraits <- c("yd", "pa",  "ta", "ph", "bw")
 mydmg <- data.frame(
