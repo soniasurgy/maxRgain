@@ -3,10 +3,13 @@
 
 maxRgain implements an Integer Programming-based method for optimizing
 genetic gain in polyclonal selection, where the goal is to select a
-group of genotypes that jointly meet multi-trait selection criteria. The
-method uses predictors of genotypic effects obtained from the fitting of
-mixed models. Its application is demonstrated with grapevine data, but
-is applicable to other species and breeding contexts.
+group of genotypes that jointly meet multi-trait selection criteria.
+Polyclonal selection, as opposed to the selection of a single genotype,
+helps to preserve genetic diversity and provides greater environmental
+stability, while still obtaining high genetic gains. The method uses
+predictors of genotypic effects obtained from the fitting of mixed
+models. Its application is demonstrated with grapevine data, but is
+applicable to other species and breeding contexts.
 
 ## Key Features
 
@@ -38,38 +41,45 @@ To install from CRAN:
 install.packages("maxRgain")
 ```
 
+## Dependencies
+
+This package depends on the following R packages:
+
+- **lpSolve**: for solving integer linear programming problems.
+- **stats** and **utils**: base R packages used for common statistical
+  and utility functions.
+
 ## Example
 
-This is a basic example which shows how to solve a common problem:
+In this example, we wish to improve yields by at least 20%, and the
+potential alcohol and total acidity by at least 3%. We wish to obtain
+group sizes between 7 and 12 genotypes.
 
 ``` r
 library(maxRgain)
-data("Gouveio")
-mydmg <- data.frame(
-  lhs = c("yd", "pa", "ta"),
-  rel = c(">=", ">=", ">="),
-  rhs = c(20, 3, 3),
-  stringsAsFactors = FALSE
-  )
 
 polyclonal(
   traits = c("yd", "pa", "ta"),
   clmin = 7,
   clmax = 12,
-  dmg = mydmg,
+  dmg = data.frame(
+    lhs = c("yd", "pa", "ta"),
+    rel = c(">=", ">=", ">="),
+    rhs = c(20, 3, 3)
+    ),
   meanvec = c(yd = 3.517, pa = 12.760, ta = 4.495),
   data = Gouveio
   )
 #> Predited genetic gains as a % of the overall mean
 #> 
 #> $gain 
-#>  Group.Size        yd       pa       ta
-#>          12  87.76604 38.50292 13.70531
-#>          11  89.67451 38.28986 13.53699
-#>          10  93.47938 40.04388 13.79118
-#>           9  97.58947 38.34240 13.95126
-#>           8  97.97704 38.55823 13.93945
-#>           7 101.30081 41.23496 14.02511
+#>  Group.Size       yd       pa       ta
+#>          12 24.95480 3.017470 3.049012
+#>          11 25.49744 3.000773 3.011566
+#>          10 26.57930 3.138235 3.068115
+#>           9 27.74793 3.004891 3.103729
+#>           8 27.85813 3.021805 3.101100
+#>           7 28.80319 3.231580 3.120158
 #> 
 #> 
 #> Selected genotypes (per group size)

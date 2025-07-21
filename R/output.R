@@ -4,7 +4,6 @@ print.polyresult <- function(x, ...) {
 cat("Predited genetic gains as a % of the overall mean\n")
 cat("\n$gain \n")
 gain_df <- x$gain
-gain_df <- gain_df[, c(ncol(gain_df), 1:(ncol(gain_df)-1))]
 rownames(gain_df) <- NULL
 print(format(gain_df, justify = "left"), row.names = FALSE)
 cat("\n")

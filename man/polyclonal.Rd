@@ -7,7 +7,7 @@
 polyclonal(
   traits,
   ref = NULL,
-  clmin = 7,
+  clmin,
   clmax,
   dmg = NULL,
   meanvec = NULL,
@@ -20,15 +20,15 @@ polyclonal(
 
 \item{ref}{Name of the reference column (e.g., genotype ID). Defaults to the first column.}
 
-\item{clmin}{An integer specifying the     minimum group size.}
+\item{clmin}{An integer specifying the minimum group size.}
 
 \item{clmax}{An integer specifying the maximum group size. If omitted, equal to \code{clmin}.}
 
 \item{dmg}{A \code{data.frame} with three columns defining constraints: trait names; constraints signs (\code{">="}, \code{"<="} or \code{"=="}); and  \emph{right-hand side} values of the constraints.}
 
-\item{meanvec}{Vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.}
+\item{meanvec}{A named numeric vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.}
 
-\item{criteria}{Vector with the criterion for each trait: 1 to increase, -1 to decrease. If omitted, all traits are assumed to be increasing.}
+\item{criteria}{A named numeric vector indicating the selection criterion for each trait: 1 for traits to be increased, -1 for traits to be decreased. If omitted, all traits are assumed to be selected for increase.}
 
 \item{data}{A data frame comprising the input data consisting of the Empirical Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.}
 }
@@ -40,20 +40,18 @@ A list with the following components:
 }
 }
 \description{
-Integer programming calculations
+This function maximizes the predicted genetic gain in the selection of groups of genotypes based on the predictores of genotypic effects.
+}
+\note{
+The order of traits must be consistent across \code{traits}, \code{dmg}, \code{meanvec}, and \code{criteria}. Both \code{meanvec} and \code{criteria} must include values for all traits specified in \code{traits} and \code{dmg}.
 }
 \examples{
-# The order of elements in the vectors `traits`, `meanvec`, and
-#`criteria` does not affect the results.
-# For example, `c("yd", "pa", "ta", "ph", "bw")` produces the same outcome as
-# `c("pa", "yd", "ta", "ph", "bw")`only in a different order.
 mymeanvec <- c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653)
 mytraits <- c("yd", "pa",  "ta", "ph", "bw")
 mydmg <- data.frame(
   lhs = c("yd", "pa", "ta", "ph", "bw"),
   rel = c(">=", ">=", ">=", ">=", ">="),
-  rhs = c(20, 3, 3, 1, 2),
-  stringsAsFactors = FALSE
+  rhs = c(20, 3, 3, 1, 2)
   )
 mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
 selections <- polyclonal(
@@ -66,6 +64,7 @@ selections <- polyclonal(
    data = Gouveio
    )
 selections
+summary(selections)
 }
 \references{
 Surgy, S., Cadima, J. & Gonçalves, E. Integer programming as a powerful tool for polyclonal selection in ancient grapevine varieties. Theor Appl Genet 138, 122 (2025). https://doi.org/10.1007/s00122-025-04885-0

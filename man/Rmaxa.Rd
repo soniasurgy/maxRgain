@@ -7,6 +7,8 @@
 rmaxa(
   traits,
   ref = NULL,
+  clmin,
+  clmax,
   constraints = NULL,
   meanvec = NULL,
   criteria = NULL,
@@ -18,11 +20,15 @@ rmaxa(
 
 \item{ref}{Name of the reference column (e.g., genotype ID). Defaults to the first column.}
 
+\item{clmin}{An integer specifying the minimum group size.}
+
+\item{clmax}{An integer specifying the maximum group size. If omitted, equal to \code{clmin}.}
+
 \item{constraints}{Vector with traits to which constraints apply. If omitted, all except \code{ref} are used.}
 
-\item{meanvec}{Vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.}
+\item{meanvec}{A named numeric vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.}
 
-\item{criteria}{Vector with the criterion for each trait: 1 to increase, -1 to decrease. If omitted, all traits are assumed to be increasing.}
+\item{criteria}{A named numeric vector indicating the selection criterion for each trait: 1 for traits to be increased, -1 for traits to be decreased. If omitted, all traits are assumed to be selected for increase.}
 
 \item{data}{A data frame comprising the input data consisting of the Empirical Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.}
 }
@@ -34,7 +40,7 @@ A list with the following components:
 }
 }
 \description{
-The maximum admissible genetic gain in one trait that can be achieved without decreasing any of the other traits, as a percentage of the overall mean. This function calculates the maximum admissible gains achieved in the specified trait for polyclonal groups from 7 to 20 clones.
+The maximum admissible genetic gain in one trait that can be achieved without decreasing any of the other traits, as a percentage of the overall mean. This function calculates the maximum admissible gains achieved in the specified traits.
 }
 \note{
 The order of traits must be consistent across \code{traits}, \code{constraints}, \code{meanvec}, and \code{criteria}.
@@ -47,6 +53,8 @@ mytraits <- c("yd", "pa")
 mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
 maxadm <- rmaxa(
    traits = mytraits,
+   clmin = 7,
+   clmax = 20,
    meanvec = mymeanvec,
    criteria = mycriteria,
    data = Gouveio

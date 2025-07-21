@@ -4,16 +4,20 @@
 \alias{rmaxp}
 \title{Maximum possible gain}
 \usage{
-rmaxp(traits, ref = NULL, meanvec = NULL, criteria = NULL, data)
+rmaxp(traits, ref = NULL, clmin, clmax, meanvec = NULL, criteria = NULL, data)
 }
 \arguments{
 \item{traits}{A vector with the names of the columns in the data corresponding to the target traits to be optimized, i.e., those included in the objective function.}
 
 \item{ref}{Name of the reference column (e.g., genotype ID). Defaults to the first column.}
 
-\item{meanvec}{Vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.}
+\item{clmin}{An integer specifying the minimum group size.}
 
-\item{criteria}{Vector with the criterion for each trait: 1 to increase, -1 to decrease. If omitted, all traits are assumed to be increasing.}
+\item{clmax}{An integer specifying the maximum group size. If omitted, equal to \code{clmin}.}
+
+\item{meanvec}{A named numeric vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.}
+
+\item{criteria}{A named numeric vector indicating the selection criterion for each trait: 1 for traits to be increased, -1 for traits to be decreased. If omitted, all traits are assumed to be selected for increase.}
 
 \item{data}{A data frame comprising the input data consisting of the Empirical Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.}
 }
@@ -25,7 +29,7 @@ A list with the following components:
 }
 }
 \description{
-The maximum possible is the mean of the EBLUPs of the genotypic effects of the best n clones in a given trait, as a percentage of the overall - This function calculates the maximum possible gain achieved in the specified trait for groups from 7 to 20 clones
+The maximum possible is the mean of the EBLUPs of the genotypic effects of the best n clones in a given trait, as a percentage of the overall mean. This function calculates the maximum possible gain achieved in the specified traits.
 }
 \note{
 The order of the traits must be consistent across \code{traits}, \code{meanvec}, and \code{criteria}.
@@ -35,6 +39,8 @@ mymeanvec <- c(pa = 12.760)
 mytraits <- c("pa")
 maxpos <- rmaxp(
    traits = mytraits,
+   clmin = 7,
+   clmax = 20,
    meanvec = mymeanvec,
    data = Gouveio
    )
