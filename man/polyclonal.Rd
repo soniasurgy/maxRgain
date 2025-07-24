@@ -7,7 +7,7 @@
 polyclonal(
   traits,
   ref = NULL,
-  clmin,
+  clmin = 1,
   clmax,
   dmg = NULL,
   meanvec = NULL,
@@ -20,17 +20,17 @@ polyclonal(
 
 \item{ref}{Name of the reference column (e.g., genotype ID). Defaults to the first column.}
 
-\item{clmin}{An integer specifying the minimum group size.}
+\item{clmin}{An integer specifying the minimum group size. If omitted, equal to 1.}
 
 \item{clmax}{An integer specifying the maximum group size. If omitted, equal to \code{clmin}.}
 
 \item{dmg}{A \code{data.frame} with three columns defining constraints: trait names; constraints signs (\code{">="}, \code{"<="} or \code{"=="}); and  \emph{right-hand side} values of the constraints.}
 
-\item{meanvec}{A named numeric vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.}
+\item{meanvec}{A named numeric vector of trait means; if omitted, data are assumed to be already normalized by the mean.}
 
 \item{criteria}{A named numeric vector indicating the selection criterion for each trait: 1 for traits to be increased, -1 for traits to be decreased. If omitted, all traits are assumed to be selected for increase.}
 
-\item{data}{A data frame comprising the input data consisting of the Empirical Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.}
+\item{data}{A data frame comprising the input data consisting of the Predictors of genetic effects, which serve as the basis for the selection procedure.}
 }
 \value{
 A list with the following components:
@@ -40,7 +40,7 @@ A list with the following components:
 }
 }
 \description{
-This function maximizes the predicted genetic gain in the selection of groups of genotypes based on the predictores of genotypic effects.
+This function maximizes the predicted genetic gain in the selection of groups of genotypes based on the predictors of genotypic effects.
 }
 \note{
 The order of traits must be consistent across \code{traits}, \code{dmg}, \code{meanvec}, and \code{criteria}. Both \code{meanvec} and \code{criteria} must include values for all traits specified in \code{traits} and \code{dmg}.

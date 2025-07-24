@@ -4,7 +4,7 @@
 #'
 #'
 #'  \describe{
-#'    \item{Clone}{the name of the clone}
+#'    \item{Clone}{the genotype label}
 #'    \item{yd}{EBLUP of the genotypic effect of yield}
 #'    \item{pa}{EBLUP of the genotypic effect of potential alcool}
 #'    \item{ta}{EBLUP of the genotypic effect of total acidity}

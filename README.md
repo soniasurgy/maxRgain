@@ -51,9 +51,9 @@ This package depends on the following R packages:
 
 ## Example
 
-In this example, we wish to improve yields by at least 20%, and the
-potential alcohol and total acidity by at least 3%. We wish to obtain
-group sizes between 7 and 12 genotypes.
+In this example, we wish to improve yields (yd) by at least 20%, and the
+potential alcohol (pa) and total acidity (ta) by at least 3%. We wish to
+obtain group sizes between 7 and 12 genotypes.
 
 ``` r
 library(maxRgain)
@@ -100,7 +100,7 @@ polyclonal(
 #>  GV146
 ```
 
-For detailed guidance, see the package vignette:
+For a more detailed discussion, see the package vignette:
 
 ``` r
 vignette("maxRgain", package = "maxRgain")
@@ -111,13 +111,14 @@ vignette("maxRgain", package = "maxRgain")
 The underlying method and this package can be cited as follows:
 
 **Method:**  
-Surgy, S., Cadima, J. & Gonçalves, E. Integer programming as a powerful
-tool for polyclonal selection in ancient grapevine varieties. Theor Appl
-Genet 138, 122 (2025). <https://doi.org/10.1007/s00122-025-04885-0>
+Surgy, S., Cadima, J. & Gonçalves, E., 2025. Integer programming as a
+powerful tool for polyclonal selection in ancient grapevine varieties.
+Theor Appl Genet 138, 122. <https://doi.org/10.1007/s00122-025-04885-0>
 
 **Package (In preparation):**  
-Surgy, S., Cadima, J. & Gonçalves, E. maxRgain - A package to maximize
-genetic gains of polyclonal selection. Manuscript in preparation.
+Surgy, S., Cadima, J. & Gonçalves, E., 2025. maxRgain - A package to
+maximize genetic gains of polyclonal selection. Manuscript in
+preparation.
 
 ## License
 

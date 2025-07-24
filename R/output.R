@@ -1,7 +1,7 @@
 #' @export
 #' @noRd
 print.polyresult <- function(x, ...) {
-cat("Predited genetic gains as a % of the overall mean\n")
+cat("Predicted genetic gains as a % of the overall mean\n")
 cat("\n$gain \n")
 gain_df <- x$gain
 rownames(gain_df) <- NULL
@@ -53,11 +53,11 @@ summary.polyresult <- function(object, ...) {
 #' @export
 #' @noRd
 print.output_rmaxp <- function(x, ...) {
-  cat("Rmaxp gains for each trait correspond to independently selected groups;\n")
+  cat("Maximum possible gains for each trait correspond to independently selected groups;\n")
   cat("thus, gains are not directly comparable and should be interpreted separately.\n")
   cat("See 'selected' for group details\n\n")
 
-  cat("Predited genetic gains as a % of the overall mean\n\n")
+  cat("Predicted genetic gains as a % of the overall mean\n\n")
   cat("$gain\n")
   gain_df <- x$gain
 
@@ -76,11 +76,11 @@ print.output_rmaxp <- function(x, ...) {
 #' @export
 #' @noRd
 print.output_rmaxa <- function(x, ...) {
-  cat("Rmaxa gains for each trait correspond to independently selected groups;\n")
+  cat("Maximum admissible gains for each trait correspond to independently selected groups;\n")
   cat("thus, gains are not directly comparable and should be interpreted separately.\n")
   cat("See 'selected' for group details\n\n")
 
-  cat("Predited genetic gains as a % of the overall mean\n")
+  cat("Predicted genetic gains as a % of the overall mean\n")
   cat("\n$gain \n")
   gain_df <- x$gain
 

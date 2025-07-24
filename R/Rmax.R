@@ -21,7 +21,7 @@
 #'    data = Gouveio
 #'    )
 #' maxpos
-rmaxp <- function(traits, ref = NULL, clmin, clmax,  meanvec = NULL, criteria = NULL, data)
+rmaxp <- function(traits, ref = NULL, clmin = 2, clmax,  meanvec = NULL, criteria = NULL, data)
 {
   first <- TRUE
   for (trt in traits){
@@ -91,7 +91,7 @@ rmaxp <- function(traits, ref = NULL, clmin, clmax,  meanvec = NULL, criteria = 
 #'    data = Gouveio
 #'    )
 #' maxadm
-rmaxa <- function(traits, ref = NULL, clmin, clmax, constraints = NULL, meanvec = NULL, criteria = NULL, data)
+rmaxa <- function(traits, ref = NULL, clmin = 2, clmax, constraints = NULL, meanvec = NULL, criteria = NULL, data)
 {
   selected_list <- list()
 

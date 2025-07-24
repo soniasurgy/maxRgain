@@ -1,15 +1,15 @@
 #' Integer programming calculations
 #'
-#' This function maximizes the predicted genetic gain in the selection of groups of genotypes based on the predictores of genotypic effects.
+#' This function maximizes the predicted genetic gain in the selection of groups of genotypes based on the predictors of genotypic effects.
 #'
 #' @param traits A vector with the names of the columns in the data corresponding to the target traits to be optimized, i.e., those included in the objective function.
 #' @param ref Name of the reference column (e.g., genotype ID). Defaults to the first column.
-#' @param clmin An integer specifying the minimum group size.
+#' @param clmin An integer specifying the minimum group size. If omitted, equal to 2.
 #' @param clmax An integer specifying the maximum group size. If omitted, equal to `clmin`.
 #' @param dmg A `data.frame` with three columns defining constraints: trait names; constraints signs (`">="`, `"<="` or `"=="`); and  _right-hand side_ values of the constraints.
-#' @param meanvec A named numeric vector of overall means per trait; if omitted, data are assumed to be already normalized by the mean.
+#' @param meanvec A named numeric vector of trait means; if omitted, data are assumed to be already normalized by the mean.
 #' @param criteria A named numeric vector indicating the selection criterion for each trait: 1 for traits to be increased, -1 for traits to be decreased. If omitted, all traits are assumed to be selected for increase.
-#' @param data  A data frame comprising the input data consisting of the Empirical Best Linear Unbiased Predictors (EBLUPs) of genotypic effects, which serve as the basis for the selection procedure.
+#' @param data  A data frame comprising the input data consisting of the Predictors of genetic effects, which serve as the basis for the selection procedure.
 #' @note The order of traits must be consistent across `traits`, `dmg`, `meanvec`, and `criteria`. Both `meanvec` and `criteria` must include values for all traits specified in `traits` and `dmg`.
 #' @return
 #' A list with the following components:
@@ -38,7 +38,7 @@
 #'    )
 #' selections
 #' summary(selections)
-polyclonal <- function(traits, ref = NULL, clmin, clmax,  dmg = NULL, meanvec = NULL, criteria = NULL, data)
+polyclonal <- function(traits, ref = NULL, clmin = 2, clmax,  dmg = NULL, meanvec = NULL, criteria = NULL, data)
 {
   # Input checks
   if (length(traits) < 1) stop("There must be at least one trait in selection")
