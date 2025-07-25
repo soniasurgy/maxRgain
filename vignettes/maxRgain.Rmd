@@ -86,7 +86,8 @@ Below is a table describing the common arguments used across the functions in th
 
 * The dataframe used for the `dmg` argument can have any column names, but the order must be respected: first the trait, then the relation (e.g., ">="), and finally the *right-hand side* value, that is, the value for the minimum desired gain in percentage of the overall mean of the trait. It should be noted that positive values are always understood as *improvements*, even for a criterion value of -1. Thus, >= 3 with criterion value -1 is understood as a decrease of at least 3% Consequently, minimum desired gains should be defined consistently, regardless of the selection criterion used.
 
-* If a loss in a trait is admissible, the corresponding value must be indicated as a negative number in the `dmg` argument. On the other hand, if the goal is to establish an upper bound on the increase of the gain of a trait, the relation in the `dmg` argument must be specified as "<=".
+* If a loss in a trait is admissible, the maximum admissible loss must be
+indicated as a negative number on the right-hand side of the `dmg` argument. On the other hand, if the goal is to establish an upper bound on the increase of the gain of a trait, the relation in the `dmg` argument must be specified as "<=".
 
 * If no group of any requested size satisfies the specified conditions, the message 'No possible solution!' is returned.
 
