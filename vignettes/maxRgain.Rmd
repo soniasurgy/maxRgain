@@ -2,10 +2,8 @@
 title: "Introduction to maxRgain"
 subtitle: "An integer-programming method of maximizing genetic gains in polyclonal selection"
 author: "Sónia Surgy, Jorge Cadima, Elsa Gonçalves"
-output: 
-   html_document:
-    toc: true
-    toc_depth: 2
+output: rmarkdown::html_vignette
+
 
 vignette: >
   %\VignetteIndexEntry{Introduction to maxRgain}
@@ -98,7 +96,7 @@ indicated as a negative number on the right-hand side of the `dmg` argument. On 
 This is the main function of this package. 
 
 ```{r, eval = FALSE}
-polyclonal(traits, ref = NULL, clmin, clmax, dmg = NULL, 
+polyclonal(traits, ref = NULL, clmin = 2, clmax, dmg = NULL, 
            meanvec = NULL, criteria = NULL, data)
 ```
 
@@ -226,7 +224,7 @@ summary(base_sit)
 ## `rmaxp()` 
 
 ```{r, eval = FALSE}
-rmaxp(traits, ref = NULL, clmin , clmax, meanvec = NULL, criteria = NULL, data)
+rmaxp(traits, ref = NULL, clmin = 2 , clmax, meanvec = NULL, criteria = NULL, data)
 ```
 
 
@@ -264,7 +262,7 @@ No customized `summary()` is provided, given that the conditions do not vary and
 ## `rmaxa()` 
 
 ```{r , eval=FALSE}
-rmaxa(traits, ref = NULL, clmin, clmax, constraints = NULL, meanvec = NULL, criteria = NULL, data)
+rmaxa(traits, ref = NULL, clmin = 2, clmax, constraints = NULL, meanvec = NULL, criteria = NULL, data)
 
 ```
 

@@ -1,5 +1,12 @@
+#' Print method for polyresult objects
+#'
+#' Prints the predicted genetic gains and selected genotypes.
+#'
+#' @param x An object of class \code{polyresult}
+#' @param ... Additional arguments passed to methods (currently unused)
+#' @return Invisibly returns the input object \code{x}
+#' @rdname polyresult
 #' @export
-#' @noRd
 print.polyresult <- function(x, ...) {
 cat("Predicted genetic gains as a % of the overall mean\n")
 cat("\n$gain \n")
@@ -18,17 +25,15 @@ invisible(x)
 
 }
 
-#' Summary method for polyclonal objects
+#' Summary method for polyresult objects
 #'
 #' Provides a summary of the results returned by \code{polyclonal()}.
 #'
-#' @param object An object of class \code{"polyresult"}.
-#' @param ... Further arguments passed to or from other methods.
-#'
-#' @return An object of class \code{"summary_polyresult"}.
+#' @param object An object of class \code{polyresult}
+#' @param ... Further arguments passed to methods (currently unused)
+#' @return Invisibly returns the input object \code{object}
+#' @rdname polyresult
 #' @export
-#' @method summary polyresult
-#' @noRd
 summary.polyresult <- function(object, ...) {
   cat("Summary of Selection Results\n")
   cat("-----------------------------------\n")
@@ -50,8 +55,13 @@ summary.polyresult <- function(object, ...) {
   invisible(object)
 }
 
+#' Print method for output_rmaxp objects
+#'
+#' @param x An object of class \code{output_rmaxp}
+#' @param ... Additional arguments passed to methods (currently unused)
+#' @return Invisibly returns the input object \code{x}
+#' @rdname output_rmaxp
 #' @export
-#' @noRd
 print.output_rmaxp <- function(x, ...) {
   cat("Maximum possible gains for each trait correspond to independently selected groups;\n")
   cat("thus, gains are not directly comparable and should be interpreted separately.\n")
@@ -73,8 +83,13 @@ print.output_rmaxp <- function(x, ...) {
 
 }
 
+' Print method for output_rmaxa objects
+#'
+#' @param x An object of class \code{output_rmaxa}
+#' @param ... Additional arguments passed to methods (currently unused)
+#' @return Invisibly returns the input object \code{x}
+#' @rdname output_rmaxa
 #' @export
-#' @noRd
 print.output_rmaxa <- function(x, ...) {
   cat("Maximum admissible gains for each trait correspond to independently selected groups;\n")
   cat("thus, gains are not directly comparable and should be interpreted separately.\n")
@@ -94,4 +109,5 @@ print.output_rmaxa <- function(x, ...) {
       print(x[[name]], row.names = FALSE)
     }
   }
+  invisible(x)
 }

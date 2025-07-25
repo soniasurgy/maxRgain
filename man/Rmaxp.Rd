@@ -7,7 +7,7 @@
 rmaxp(
   traits,
   ref = NULL,
-  clmin = 1,
+  clmin = 2,
   clmax,
   meanvec = NULL,
   criteria = NULL,
@@ -19,7 +19,7 @@ rmaxp(
 
 \item{ref}{Name of the reference column (e.g., genotype ID). Defaults to the first column.}
 
-\item{clmin}{An integer specifying the minimum group size. If omitted, equal to 1.}
+\item{clmin}{An integer specifying the minimum group size. If omitted, equal to 2.}
 
 \item{clmax}{An integer specifying the maximum group size. If omitted, equal to \code{clmin}.}
 

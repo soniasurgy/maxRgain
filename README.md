@@ -70,7 +70,7 @@ polyclonal(
   meanvec = c(yd = 3.517, pa = 12.760, ta = 4.495),
   data = Gouveio
   )
-#> Predited genetic gains as a % of the overall mean
+#> Predicted genetic gains as a % of the overall mean
 #> 
 #> $gain 
 #>  Group.Size       yd       pa       ta

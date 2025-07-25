@@ -70,7 +70,7 @@ polyclonal(
 ```
 For a more detailed discussion, see the package vignette:
 
-```{r, eval = FALSE}
+```{r, eval=FALSE}
 vignette("maxRgain", package = "maxRgain")
 ```
 ## Citation
