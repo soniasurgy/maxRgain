@@ -3,8 +3,7 @@
 #' Objects of class \code{polyresult} contain the results returned by the \code{polyclonal} function.
 #'
 #' @name polyresult
-#' @aliases polyresult print.polyresult summary.polyresult
-#' @exportClass polyresult
+#' @keywords internal
 NULL
 
 
@@ -13,8 +12,7 @@ NULL
 #' Objects of class \code{output_rmaxa} represent maximum admissible gains for each trait.
 #'
 #' @name output_rmaxa
-#' @aliases output_rmaxa print.output_rmaxa
-#' @exportClass output_rmaxa
+#' @keywords internal
 NULL
 
 #' Results for output_rmaxp objects
@@ -22,7 +20,6 @@ NULL
 #' Objects of class \code{output_rmaxp} represent maximum possible gains for each trait.
 #'
 #' @name output_rmaxp
-#' @aliases output_rmaxp print.output_rmaxp
-#' @exportClass output_rmaxp
+#' @keywords internal
 NULL
 

@@ -16,7 +16,7 @@
 #'  - `gain`  with the gains of the several traits in each dimension
 #'  - `selected`  with the reference os the clones selected in the group of each dimension
 #'
-#' @references Surgy, S., Cadima, J. & Gonçalves, E. Integer programming as a powerful tool for polyclonal selection in ancient grapevine varieties. Theor Appl Genet 138, 122 (2025). https://doi.org/10.1007/s00122-025-04885-0
+#' @references Surgy, S., Cadima, J. & Gonçalves, E. Integer programming as a powerful tool for polyclonal selection in ancient grapevine varieties. Theor Appl Genet 138, 122 (2025). \doi{10.1007/s00122-025-04885-0}
 #' @export
 #' @examples
 #' mymeanvec <- c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653)

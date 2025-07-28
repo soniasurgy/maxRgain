@@ -81,6 +81,7 @@ print.output_rmaxp <- function(x, ...) {
   rownames(selected_df) <- NULL
   print(format(selected_df, justify = "left"), row.names = FALSE)
 
+  invisible(x)
 }
 
 ' Print method for output_rmaxa objects
