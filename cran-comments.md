@@ -4,10 +4,14 @@ This is the first submission of the package `maxRgain` to CRAN.
 
 ### Test environments
 
-- R version 4.4.0 on Windows 10, 64-bit (R CMD check)
-- R version 4.3.3 on Ubuntu 22.04 (local)
-- R version 4.3.2 on macOS (via rhub)
-- Tested with devtools::check(), rhub::check(), and win-builder
+This package has successfully passed checks on the following environments using the integrated GitHub Actions workflow with R-hub:
+
+Tested on R 4.6.0 (under development) on:
+
+- Ubuntu 24.04.2 LTS (Linux)
+- Windows Server 2022 Datacenter (Windows)
+- macOS Ventura 13.7.6 (macOS)
+
 
 ### R CMD check results
 
@@ -15,9 +19,11 @@ There are:
 
 - 0 ERRORs
 - 0 WARNINGs
-- 0 NOTEs
 
-(Except a possible NOTE on time verification: "unable to verify current time".)
+**Notes from R CMD check:**  
+- `checking for future file timestamps`: This note ("unable to verify current time") is a known harmless issue on some systems and does not affect the package functionality.  
+- `checking top-level files`: The file `cran-comments.md` is intentionally included to facilitate communication with CRAN maintainers.
+
 
 ### Additional comments
 
@@ -26,4 +32,5 @@ There are:
 - A vignette is included.
 - LICENSE is GPL (>= 3).
 
-Please let me know if any changes are required.
+
+I’m available for any questions or clarifications. Thank you for your time!
