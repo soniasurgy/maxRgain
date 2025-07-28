@@ -84,7 +84,7 @@ print.output_rmaxp <- function(x, ...) {
   invisible(x)
 }
 
-' Print method for output_rmaxa objects
+#' Print method for output_rmaxa objects
 #'
 #' @param x An object of class \code{output_rmaxa}
 #' @param ... Additional arguments passed to methods (currently unused)

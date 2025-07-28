@@ -18,3 +18,4 @@ Invisibly returns the input object \code{x}
 \description{
 Objects of class \code{output_rmaxa} represent maximum admissible gains for each trait.
 }
+\keyword{internal}

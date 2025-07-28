@@ -29,3 +29,4 @@ Prints the predicted genetic gains and selected genotypes.
 
 Provides a summary of the results returned by \code{polyclonal()}.
 }
+\keyword{internal}
