@@ -205,7 +205,7 @@ polyclonal <- function(traits, ref = NULL, clmin = 2, clmax,  dmg = NULL, meanve
   }
 
   if (ncol(clonesout) != (clmax - clmin +1)) {
-    cat("No possible solution was found for some of the requested group sizes.")
+    message("No possible solution was found for some of the requested group sizes.")
   }
   gainout <- gainout[, c(ncol(gainout), 1:(ncol(gainout) - 1))]
 

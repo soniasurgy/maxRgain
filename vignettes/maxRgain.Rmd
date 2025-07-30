@@ -67,8 +67,8 @@ Below is a table describing the common arguments used across the functions in th
 |--------------|------------------------------|-------------|
 | `traits` | A vector with the names of the traits to be optimized, i.e., those included in the objective function| All |
 | `ref`        | Name of the reference column (e.g., genotype ID). Defaults to the first column. | All |
-| `clmin` |  Integer, indicating the minimum group size (default is 1). |`polyclonal()` |
-| `clmax` |  Integer, indicating the maximum group size. If omitted, equal to `clmin` |`polyclonal()` |
+| `clmin` |  Integer, indicating the minimum group size (default is 1). | All |
+| `clmax` |  Integer, indicating the maximum group size. If omitted, equal to `clmin` | All |
 | `dmg`        |  Can be of one of two types. In the standard form, it will be a dataframe with three columns defining constraints: trait names, constraint relations (`">="`, `"<="`), and *right-hand side* values. Alternatively, it can be given the text value `dmg = "base"` which sets the *right-hand side* of the constraints of all traits to zero. |`polyclonal()` |
 | `constraints`| Named numeric vector with traits to which constraints apply. If omitted, all except `ref` are used. |`rmaxa()` |
 | `meanvec`    |  Named numeric vector of the means for each trait. If omitted, data are assumed to be normalized (divided) by the mean. |All   |
