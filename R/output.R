@@ -112,3 +112,23 @@ print.output_rmaxa <- function(x, ...) {
   }
   invisible(x)
 }
+
+
+update.polyresult <- function(object, ...) {
+  # Recupera a chamada original
+  old_call <- object$call
+
+  # Obtem todos os argumentos da função com defaults
+  all_args <- as.list(formals(polyclonal))
+
+  # Preenche com os argumentos usados na chamada original
+  for (arg in names(old_call)[-1]) {  # ignora o nome da função
+    all_args[[arg]] <- old_call[[arg]]
+  }
+
+  # Sobrescreve com quaisquer argumentos novos fornecidos em ...
+  new_args <- modifyList(all_args, list(...))
+
+  # Chama a função original com os novos argumentos
+  do.call("polyclonal", new_args)
+}

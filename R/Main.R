@@ -217,6 +217,7 @@ polyclonal <- function(traits, ref = NULL, clmin = 2, clmax,  dmg = NULL, meanve
     overview = auxsum
   )
   class(result) <- "polyresult"
+  result$call <- match.call()
   return(result)
 
 }
