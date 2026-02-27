@@ -63,7 +63,7 @@ summary.polyresult <- function(object, ...) {
 #' @rdname output_rmaxp
 #' @export
 print.output_rmaxp <- function(x, ...) {
-  cat("Maximum possible gains for each trait correspond to independently selected groups;\n")
+  cat("Maximum possible gains for each trait correspond to independently selected groups; ")
   cat("thus, gains are not directly comparable and should be interpreted separately.\n")
   cat("See 'selected' for group details\n\n")
 
@@ -92,7 +92,7 @@ print.output_rmaxp <- function(x, ...) {
 #' @rdname output_rmaxa
 #' @export
 print.output_rmaxa <- function(x, ...) {
-  cat("Maximum admissible gains for each trait correspond to independently selected groups;\n")
+  cat("Maximum admissible gains for each trait correspond to independently selected groups; ")
   cat("thus, gains are not directly comparable and should be interpreted separately.\n")
   cat("See 'selected' for group details\n\n")
 
@@ -113,7 +113,33 @@ print.output_rmaxa <- function(x, ...) {
   invisible(x)
 }
 
-
+#' Update method for polyclonal results
+#'
+#' Allows updating any argument of a previous \code{polyclonal()} call without rewriting the full call.
+#' Defaults are preserved for arguments not provided.
+#'
+#' @param object A \code{polyresult} object returned by \code{polyclonal()}.
+#' @param ... Arguments to update in the original \code{polyclonal()} call.
+#'
+#' @return A new \code{polyresult} object with updated arguments applied.
+#'
+#' @examples
+#' mymeanvec <- c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653)
+#' mytraits <- c("yd", "pa", "ta", "ph", "bw")
+#' mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
+#' #' Original call
+#'
+#' selections <- polyclonal(traits = mytraits,
+#'                   clmin = 7, clmax = 15,
+#'                   meanvec = mymeanvec,
+#'                   criteria = mycriteria,
+#'                   data = Gouveio)
+#' # Update clmax
+#' selupdate1 <- update(selections, clmax = 20)
+#' # Update clmax and dmg
+#' selupdate2 <- update(selections, clmax = 20, dmg = "base")
+#'
+#' @export
 update.polyresult <- function(object, ...) {
   # Recupera a chamada original
   old_call <- object$call
@@ -127,7 +153,7 @@ update.polyresult <- function(object, ...) {
   }
 
   # Sobrescreve com quaisquer argumentos novos fornecidos em ...
-  new_args <- modifyList(all_args, list(...))
+  new_args <- utils::modifyList(all_args, list(...))
 
   # Chama a função original com os novos argumentos
   do.call("polyclonal", new_args)

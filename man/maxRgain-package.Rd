@@ -21,8 +21,8 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Elsa Gonçalves \email{elsagoncalves@isa.ulisboa.pt}
   \item Jorge Cadima \email{jcadima@isa.ulisboa.pt}
+  \item Elsa Gonçalves \email{elsagoncalves@isa.ulisboa.pt}
 }
 
 }

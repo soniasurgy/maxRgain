@@ -80,21 +80,47 @@ polyclonal <- function(traits, ref = NULL, clmin = 2, clmax,  dmg = NULL, meanve
   if (is.null(criteria)) criteria <- stats::setNames(rep(1, length(cols)), cols)
   if (is.null(meanvec)) meanvec <- stats::setNames(rep(1, length(cols)), cols)
 
+  
+  
   # Create summary matrix
   auxsum <- data.frame(col1=cols)
 
-  if (!is.null(dmg)){
-    idx <- match(auxsum$col1, dmg[[1]])
-    auxsum$Crit <- criteria [idx]
-    auxsum$Mean <- meanvec[idx]
-    auxsum$DMG <- rhs[idx]
-  }else{
+  
+  if (!is.null(dmg) && is.data.frame(dmg)) {
+    
+    auxsum$Crit <- criteria[match(auxsum$col1, names(criteria))]
+    auxsum$Mean <- meanvec[match(auxsum$col1, names(meanvec))]
+    
+    auxsum$DMinG <- rep(NA, nrow(auxsum))
+    auxsum$DMaxG <- rep(NA, nrow(auxsum))
+    
+    # Para cada linha de dmg
+    for (i in seq_len(nrow(dmg))) {
+      trt <- const[i]        # nome da característica
+      rhs_val <- rhs[i]        # valor do RHS
+      rel <- relation[i]       # sinal da restrição
+      
+      # Achar a posição correta em auxsum
+      aux_idx <- which(auxsum$col1 == trt)
+      
+      # Atribuir conforme sinal
+      if (rel == ">=") {
+        auxsum$DMinG[aux_idx] <- rhs_val
+      } else if (rel == "<=") {
+        auxsum$DMaxG[aux_idx] <- rhs_val
+      }
+    }
+    
+  } else {
     idx <- match(auxsum$col1, traits)
-    auxsum$Crit <- criteria [idx]
+    auxsum$Crit <- criteria[idx]
     auxsum$Mean <- meanvec[idx]
-    auxsum$DMG <- c(rep("NA", length(idx)))
+    auxsum$DMinG <- rep(NA, length(idx))
+    auxsum$DMaxG <- rep(NA, length(idx))
   }
-
+  
+  
+  
   # Normalize trait and constraint values
   auxeblups <- norm_eblup(data[, cols, drop = FALSE], cols, meanvec, criteria)
   auxeblups <- data.frame(data[, ref, drop = FALSE], auxeblups)
@@ -189,7 +215,6 @@ polyclonal <- function(traits, ref = NULL, clmin = 2, clmax,  dmg = NULL, meanve
   clonesout <- matrix(clonesout, nrow = indlinha, ncol = indsol)
   clonesout <- as.data.frame(clonesout)
   colnames(clonesout) <- colnomes
-
 
   auxsum <- data.frame(auxsum, row.names = 1)
   auxsum$MaxGain <- NA_real_
