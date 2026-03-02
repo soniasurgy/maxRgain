@@ -124,20 +124,30 @@ print.output_rmaxa <- function(x, ...) {
 #' @return A new \code{polyresult} object with updated arguments applied.
 #'
 #' @examples
-#' mymeanvec <- c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653)
-#' mytraits <- c("yd", "pa", "ta", "ph", "bw")
-#' mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
 #' #' Original call
 #'
-#' selections <- polyclonal(traits = mytraits,
+#' selections <- polyclonal(traits = c("yd", "pa", "ta", "ph", "bw"),
 #'                   clmin = 7, clmax = 15,
-#'                   meanvec = mymeanvec,
-#'                   criteria = mycriteria,
+#'                   dmg = "base",
+#'                   meanvec = c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653),
+#'                   criteria = c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1),
 #'                   data = Gouveio)
+#'
+#' selections
 #' # Update clmax
-#' selupdate1 <- update(selections, clmax = 20)
-#' # Update clmax and dmg
-#' selupdate2 <- update(selections, clmax = 20, dmg = "base")
+#' selupdate1 <- update(selections, clmax = 10)
+#'
+#' selupdate1
+#'
+#' # Update dmg
+#' selupdate2 <- update(selupdate1, dmg = data.frame(
+#'                      lhs = c("yd", "pa", "ta", "ph", "bw"),
+#'                      rel = c(">=", ">=", ">=", ">=", ">="),
+#'                      rhs = c(25, 0, 0, 0, 0)
+#'                      )
+#'                    )
+#'
+#' selupdate2
 #'
 #' @export
 update.polyresult <- function(object, ...) {
@@ -152,8 +162,16 @@ update.polyresult <- function(object, ...) {
     all_args[[arg]] <- old_call[[arg]]
   }
 
-  # Sobrescreve com quaisquer argumentos novos fornecidos em ...
-  new_args <- utils::modifyList(all_args, list(...))
+  # Argumentos novos em ...
+  dots <- list(...)
+
+  # Se o utilizador forneceu dmg, força a remoção de qualquer valor antigo
+  if ("dmg" %in% names(dots)) {
+    all_args$dmg <- NULL
+  }
+
+  # Agora combina com os novos argumentos
+  new_args <- utils::modifyList(all_args, dots)
 
   # Chama a função original com os novos argumentos
   do.call("polyclonal", new_args)

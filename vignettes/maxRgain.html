@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Sónia Surgy, Jorge Cadima, Elsa Gonçalves" />
+
+
+<title>Introduction to maxRgain</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to maxRgain</h1>
+<h3 class="subtitle">An integer-programming method of maximizing genetic
+gains in polyclonal selection</h3>
+<h4 class="author">Sónia Surgy, Jorge Cadima, Elsa Gonçalves</h4>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Polyclonal selection is a breeding strategy developed for ancient
+grapevine varieties, but of more widespread interest. It seeks to select
+a group of different genotypes that collectively meet predefined
+desirable criteria for quantitative traits. Polyclonal selection, as
+opposed to the selection of a single genotype, helps to preserve genetic
+diversity and provides greater environmental stability, while still
+securing high genetic gains.</p>
+<p>This approach relies on the predictors of the genetic effects
+obtained from the fitting of a mixed model. Rather than focusing on
+individual genotypes, polyclonal selection considers the group as the
+unit of selection, with the goal of maximizing the overall predicted
+genetic gain across multiple traits of interest. Identifying such a
+superior group is an optimization problem, in which the objective is to
+select a subset of genotypes that jointly maximize the expected genetic
+value, subject to constraints which satisfy agronomic and enological
+interests.</p>
+<p>Most existing methods for genetic selection based on several traits,
+such as selection indices, are designed to maximize the genetic gain of
+selection of a single genotype. When the objective is to select a group
+of genotypes, rather than a single genotype, the conventional approach
+has been to simply choose the top-ranking genotypes. However, this
+strategy does not ensure that the selected group, as a whole, satisfies
+predefined breeding objectives when multiple traits are considered
+simultaneously.</p>
+<p>This package implements a novel Integer Programming-based method
+developed by Surgy et al. (2025), designed specifically for group-based
+selection under multiple trait criteria. While the methodology is
+demonstrated using data from grapevine breeding trials, it is broadly
+applicable across different species and breeding programs, especially in
+scenarios where group performance is more relevant than individual merit
+alone.</p>
+<p>For a complete description of the methodology, please refer to:</p>
+<p>Surgy, S., Cadima, J. &amp; Gonçalves, E. Integer programming as a
+powerful tool for polyclonal selection in ancient grapevine varieties.
+Theor Appl Genet 138, 122 (2025). <a href="https://doi.org/10.1007/s00122-025-04885-0">https://doi.org/10.1007/s00122-025-04885-0</a></p>
+<p>Each function in the package includes an example that reproduces
+scenarios described in the original publication, thereby facilitating
+both practical understanding and a direct application of the method.
+This document provides a more detailed explanation of the outputs
+generated by the various functions and offers guidance on how to
+interpret them effectively.</p>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>The package includes a real dataset - Gouveio - to ensure the
+reproducibility of the examples and to allow users to explore additional
+scenarios. This dataset contains Empirical Best Linear Unbiased
+Predictors (EBLUPs) of genotypic effects, obtained from the fitting of a
+linear mixed model to phenotypic data from a selection field trial
+involving 150 genotypes of the grapevine variety Gouveio, established
+according to a resolvable row-column design.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">head</span>(Gouveio)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt;   Clone           yd         pa         ta         ph          bw</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; 1 GV001 -0.005005668 0.23031296 -0.3811156 0.12110451 -0.02831195</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt; 2 GV002 -0.486152063 0.41496698  0.0265791 0.02831156  0.12689991</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt; 3 GV003 -0.402470892 0.03527182 -0.2086296 0.07848777 -0.08730846</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; 4 GV004 -0.316439937 0.15302600 -0.3562443 0.11582836  0.03532205</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; 5 GV005  0.341634591 0.42183408 -0.1215062 0.05332889  0.03196529</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; 6 GV006  0.575303862 0.62634443 -0.1553684 0.08762044  0.04216359</span></span></code></pre></div>
+<p>The traits evaluated were:</p>
+<ul>
+<li>Yield (yd)</li>
+<li>Potential Alcohol (pa)</li>
+<li>Total Acidity (ta)</li>
+<li>pH (ph)</li>
+<li>Berry Weight (bw)</li>
+</ul>
+<p>The selection criteria are defined by the breeder. In this example,
+they are: to increase yield, potential alcohol, and total acidity, while
+decreasing pH and berry weight.</p>
+</div>
+<div id="common-arguments" class="section level1">
+<h1>Common arguments</h1>
+<p>Below is a table describing the common arguments used across the
+functions in this package:</p>
+<table>
+<colgroup>
+<col width="24%" />
+<col width="52%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+<th>Used in functions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>traits</code></td>
+<td>A vector with the names of the traits to be optimized, i.e., those
+included in the objective function</td>
+<td>All</td>
+</tr>
+<tr class="even">
+<td><code>ref</code></td>
+<td>Name of the reference column (e.g., genotype ID). Defaults to the
+first column.</td>
+<td>All</td>
+</tr>
+<tr class="odd">
+<td><code>clmin</code></td>
+<td>Integer, indicating the minimum group size (default is 1).</td>
+<td>All</td>
+</tr>
+<tr class="even">
+<td><code>clmax</code></td>
+<td>Integer, indicating the maximum group size. If omitted, equal to
+<code>clmin</code></td>
+<td>All</td>
+</tr>
+<tr class="odd">
+<td><code>dmg</code></td>
+<td>Can be of one of two types. In the standard form, it will be a
+dataframe with three columns defining constraints: trait names,
+constraint relations (<code>&quot;&gt;=&quot;</code>, <code>&quot;&lt;=&quot;</code>), and
+<em>right-hand side</em> values. Alternatively, it can be given the text
+value <code>dmg = &quot;base&quot;</code> which sets the <em>right-hand side</em>
+of the constraints of all traits to zero.</td>
+<td><code>polyclonal()</code></td>
+</tr>
+<tr class="even">
+<td><code>constraints</code></td>
+<td>Named numeric vector with traits to which constraints apply. If
+omitted, all except <code>ref</code> are used.</td>
+<td><code>rmaxa()</code></td>
+</tr>
+<tr class="odd">
+<td><code>meanvec</code></td>
+<td>Named numeric vector of the means for each trait. If omitted, data
+are assumed to be normalized (divided) by the mean.</td>
+<td>All</td>
+</tr>
+<tr class="even">
+<td><code>criteria</code></td>
+<td>Named numeric vector with the criterion for each trait: 1 to
+increase, -1 to decrease. If omitted, all traits are assumed to be
+increasing.</td>
+<td>All</td>
+</tr>
+<tr class="odd">
+<td><code>data</code></td>
+<td>A dataframe with the predictors of genotypic effects for the several
+traits. Rows are genotypes; columns are traits.</td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="important-notes" class="section level1">
+<h1>Important notes</h1>
+<ul>
+<li><p>If the gain for a group of a certain size is not displayed, it
+means that it was not possible to satisfy all the constraints for that
+group size. It is possible that constraints are not feasible for some
+group sizes but are feasible for others.</p></li>
+<li><p>The genotypes selected in a group of a given size may differ
+substantially from those selected in a group of another size. Changing
+any condition — including the group size — results in a new optimisation
+problem.</p></li>
+<li><p>The dataframe used for the <code>dmg</code> argument can have any
+column names, but the order must be respected: first the trait, then the
+relation (e.g., “&gt;=”), and finally the <em>right-hand side</em>
+value, that is, the value for the minimum desired gain in percentage of
+the overall mean of the trait. It should be noted that positive values
+are always understood as <em>improvements</em>, even for a criterion
+value of -1. Thus, &gt;= 3 with criterion value -1 is understood as a
+decrease of at least 3% Consequently, minimum desired gains should be
+defined consistently, regardless of the selection criterion
+used.</p></li>
+<li><p>If a loss in a trait is admissible, the maximum admissible loss
+must be indicated as a negative number on the right-hand side of the
+<code>dmg</code> argument. On the other hand, if the goal is to
+establish an upper bound on the increase of the gain of a trait, the
+relation in the <code>dmg</code> argument must be specified as
+“&lt;=”.</p></li>
+<li><p>If no group of any requested size satisfies the specified
+conditions, the message ‘No possible solution!’ is returned.</p></li>
+</ul>
+</div>
+<div id="functions" class="section level1">
+<h1>Functions</h1>
+<div id="polyclonal" class="section level2">
+<h2><code>polyclonal()</code></h2>
+<p>This is the main function of this package.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">polyclonal</span>(traits, <span class="at">ref =</span> <span class="cn">NULL</span>, <span class="at">clmin =</span> <span class="dv">2</span>, clmax, <span class="at">dmg =</span> <span class="cn">NULL</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>           <span class="at">meanvec =</span> <span class="cn">NULL</span>, <span class="at">criteria =</span> <span class="cn">NULL</span>, data)</span></code></pre></div>
+<p>In the example for the <code>polyclonal()</code> function, the
+objective is to maximize the genetic gain of groups with sizes ranging
+from 7 to 20 genotypes, while enforcing desired minimum gains for the
+five traits (expressed as percentages of the overall mean of each trait
+in the field trial): 20% for yield (yd), 3% for potential alcohol (pa),
+3% for total acidity (ta), 1% for pH, and 2% for berry weight (bw).</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Named numeric vector with the trait means</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>mymeanvec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">yd =</span> <span class="fl">3.517</span>, <span class="at">pa =</span> <span class="fl">12.760</span>, <span class="at">ta =</span> <span class="fl">4.495</span>, <span class="at">ph =</span> <span class="fl">3.927</span>, <span class="at">bw =</span> <span class="fl">1.653</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># Vector with the traits to be optimized</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>mytraits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;yd&quot;</span>, <span class="st">&quot;pa&quot;</span>,  <span class="st">&quot;ta&quot;</span>, <span class="st">&quot;ph&quot;</span>, <span class="st">&quot;bw&quot;</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># Named numeric vector with the selection criteria</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>mycriteria <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">yd =</span> <span class="dv">1</span>, <span class="at">pa =</span> <span class="dv">1</span>, <span class="at">ta =</span> <span class="dv">1</span>, <span class="at">ph =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">bw =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co"># Name of the reference column with the genotype labels</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>myref <span class="ot">=</span> <span class="st">&quot;Clone&quot;</span></span></code></pre></div>
+<p>If <code>meanvec</code> is omitted, it is assumed that all trait
+values have already been standardized by dividing by their respective
+overall means. If <code>criteria</code> is omitted, the default
+assumption is that an increase is desired for all traits. If
+<code>ref</code> is omitted, the first column in the dataset is assumed
+to contain the genotype labels.</p>
+<p>In the <code>polyclonal()</code> function the constraints are
+indicated by argument <code>dmg</code> (desired minimum gains). The
+standard form of this argument is a data frame with three columns: the
+first specifying the traits to be constrained; the second with the
+constraint relation; the second with the relation of the constraint
+(“&gt;=” or “&lt;=”); and the third with the <em>right-hand side</em>
+values of the constraints. Column names are arbitrary, but their order
+must be preserved.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># dataframe with the desired minimum gains</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>mydmg <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">lhs =</span> <span class="fu">c</span>(<span class="st">&quot;yd&quot;</span>, <span class="st">&quot;pa&quot;</span>, <span class="st">&quot;ta&quot;</span>, <span class="st">&quot;ph&quot;</span>, <span class="st">&quot;bw&quot;</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">rel =</span> <span class="fu">c</span>(<span class="st">&quot;&gt;=&quot;</span>, <span class="st">&quot;&gt;=&quot;</span>, <span class="st">&quot;&gt;=&quot;</span>, <span class="st">&quot;&gt;=&quot;</span>, <span class="st">&quot;&gt;=&quot;</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">rhs =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Note that the positive values of 1 and 2 for pH (ph) and berry weight
+(bw), which have selection criteria -1, mean a decrease of at least 1%
+in pH and a decrease of at least 3% in berry weight.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>mydmg</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;   lhs rel rhs</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; 1  yd  &gt;=  20</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; 2  pa  &gt;=   3</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 3  ta  &gt;=   3</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 4  ph  &gt;=   1</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 5  bw  &gt;=   2</span></span></code></pre></div>
+<p>Now, the <code>polyclonal</code> function is called to perform the
+selection based on the specified constraints:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Using polyclonal() function</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>with_dmg <span class="ot">&lt;-</span> <span class="fu">polyclonal</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">traits =</span> mytraits,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">clmin =</span> <span class="dv">7</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="at">clmax =</span> <span class="dv">20</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="at">dmg =</span> mydmg,</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="at">meanvec =</span> mymeanvec,</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="at">criteria =</span> mycriteria,</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="at">data =</span> Gouveio</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  )</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; No possible solution was found for some of the requested group sizes.</span></span></code></pre></div>
+<p>Groups ranging from 7 to 20 genotypes were requested, as these cover
+the most appropriate group sizes for practical applications of the
+polyclonal methodology for grapevine selection. However, other group
+sizes can also be specified. In fact, it is possible to request a single
+group size by assigning the same value to both <code>clmin</code> and
+<code>clmax</code> or by omitting <code>clmax</code>. Analysing the
+output reveals how the imposed constraints influence the selection
+results.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Results</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>with_dmg</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; Predicted genetic gains as a % of the overall mean</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; $gain </span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt;  Group.Size       yd       pa       ta       ph       bw</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt;          10 21.35475 3.009712 3.321584 1.062815 2.314695</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt;           8 20.97573 3.029873 4.004230 1.002937 2.130498</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt;           7 24.20511 3.057488 3.278892 1.010023 2.255069</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; Selected genotypes (per group size)</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; $selected</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt;     10     8     7</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt;  GV053 GV060 GV038</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt;  GV065 GV065 GV081</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt;  GV080 GV088 GV088</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt;  GV081 GV089 GV089</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt;  GV088 GV095 GV127</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt;  GV089 GV097 GV144</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt;  GV095 GV144 GV146</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt;  GV097 GV146      </span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt;  GV144            </span></span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co">#&gt;  GV146</span></span></code></pre></div>
+<p>The output displays the genetic gain achieved for each trait across
+the different group sizes. All values are expressed as percentages of
+the trait mean. For example, in the 10-genotype group, the gains
+obtained were approximately 21.4%, 3.0%, 3.3%, 1.1% and 2.3% for yield
+(yd), potential alcohol (pa), total acidity (ta), pH (ph), and berry
+weight (bw), respectively. Positive values indicate gains in accordance
+with the selection criteria.</p>
+<p>In this case, although group sizes between 7 and 20 genotypes were
+requested, the object <code>gain</code> only provides results for groups
+of 7, 8, and 10 genotypes. This indicates that the desired minimum gains
+could not be achieved for other group sizes within the specified
+range.</p>
+<p>Examining the lists of genotypes within each group reveals that
+genotype groups of different sizes are not necessarily nested. For
+example, genotype GV060 is not included in the group of 7 genotypes,
+appears in the group of 8 genotypes, and is then excluded from the group
+of 10 genotypes.</p>
+<p>The <code>summary()</code> method can be used with
+<code>polyclonal()</code> object to retrieve a summary of the initial
+conditions and results.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Summary results</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">summary</span>(with_dmg)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; Summary of Selection Results</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; -----------------------------------</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; Number of groups selected: 3 </span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; Group sizes: 10, 8, 7 </span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; Overview</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt;    Crit   Mean DMG   MaxGain MaxGroup</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; yd    1  3.517  20 24.205112        7</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; pa    1 12.760   3  3.057488        7</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; ta    1  4.495   3  4.004230        8</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; ph   -1  3.927   1  1.062815       10</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; bw   -1  1.653   2  2.314695       10</span></span></code></pre></div>
+<p>The <code>summary()</code> indicates how many groups were achieved
+for those conditions and the related dimensions. In the table, the first
+column gives the trait names, followed by the means, the criteria and
+the desired minimum gain (DMG). The Last two columns, “MaxGain” and
+“MaxGroup” show the maximum gain achieved for each trait and the group
+size where that gain occurs, respectively.</p>
+<p>The so-called <em>base situation</em>, as described in the original
+publication of the method (Surgy et al., 2025), consists in maximizing
+the predicted genetic gain of the target traits while ensuring that no
+trait decreases. To implement this, the right-hand side of all
+constraints is set to zero.</p>
+<p>To simplify the computation of this scenario, the argument
+<code>dmg</code> can be set to <code>&quot;base&quot;</code>. In that case, all
+traits present in the dataset are included as constraints, each required
+to be greater than or equal to zero, except for the reference trait
+specified in <code>ref</code>. If <code>ref</code> is omitted, the first
+column of the dataset is assumed to correspond to the reference
+trait.</p>
+<p>It is important to note that when using the “base” mode, the user
+must provide values for both <code>meanvec</code> and
+<code>criteria</code> for <em>all</em> traits in the dataset. If the
+user wishes to exclude any traits from the constraint set, the full
+specification of <code>dmg</code> must be provided instead.</p>
+<p>The following example illustrates the application of the base
+situation. Groups of 7 to 12 clones are selected under these conditions.
+The same values for <code>traits</code>, <code>meanvec</code>, and
+<code>criteria</code> are used throughout.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co"># Named numeric vector with the trait means</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>mymeanvec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">yd =</span> <span class="fl">3.517</span>, <span class="at">pa =</span> <span class="fl">12.760</span>, <span class="at">ta =</span> <span class="fl">4.495</span>, <span class="at">ph =</span> <span class="fl">3.927</span>, <span class="at">bw =</span> <span class="fl">1.653</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># Vector with the traits to be optimized</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>mytraits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;yd&quot;</span>, <span class="st">&quot;pa&quot;</span>,<span class="st">&quot;ta&quot;</span>, <span class="st">&quot;ph&quot;</span>, <span class="st">&quot;bw&quot;</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co"># Named numeric vector with the selection criteria</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>mycriteria <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">yd =</span> <span class="dv">1</span>, <span class="at">pa =</span> <span class="dv">1</span>, <span class="at">ta =</span> <span class="dv">1</span>, <span class="at">ph =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">bw =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>base_sit <span class="ot">&lt;-</span> <span class="fu">polyclonal</span>(</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>  <span class="at">traits =</span> mytraits,</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>  <span class="at">clmin =</span> <span class="dv">7</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>  <span class="at">clmax =</span> <span class="dv">12</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>  <span class="at">dmg =</span> <span class="st">&quot;base&quot;</span>,</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>  <span class="at">meanvec =</span> mymeanvec,</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>  <span class="at">criteria =</span> mycriteria,</span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>  <span class="at">data =</span> Gouveio</span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Unlike what happens with a selection index, where increasing the
+group size typically involves the sequential inclusion of genotypes
+according to a fixed ranking, the method implemented here allows each
+group size to be independently optimized. As a result, groups of
+different sizes are not necessarily nested.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>base_sit</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; Predicted genetic gains as a % of the overall mean</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; $gain </span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt;  Group.Size       yd          pa       ta       ph       bw</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt;          12 37.93654 0.087693734 3.145778 1.755908 3.933390</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt;          11 39.23907 0.029947255 3.244531 1.886373 3.506967</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt;          10 38.30817 0.148095205 3.356216 1.864944 4.434100</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt;           9 40.16918 0.004116393 3.103095 1.857812 3.837374</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt;           8 39.12182 0.148572474 3.225021 1.827456 5.037591</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt;           7 40.82980 0.069781809 2.568590 1.646327 5.396038</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; Selected genotypes (per group size)</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; $selected</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#&gt;     12    11    10     9     8     7</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co">#&gt;  GV079 GV080 GV080 GV080 GV080 GV080</span></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt;  GV080 GV088 GV088 GV088 GV088 GV088</span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#&gt;  GV088 GV089 GV089 GV089 GV089 GV095</span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt;  GV089 GV093 GV095 GV093 GV095 GV127</span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#&gt;  GV093 GV095 GV127 GV095 GV127 GV132</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt;  GV094 GV127 GV132 GV127 GV137 GV144</span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt;  GV095 GV132 GV137 GV137 GV144 GV145</span></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co">#&gt;  GV127 GV137 GV144 GV144 GV145      </span></span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="co">#&gt;  GV137 GV144 GV145 GV145            </span></span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co">#&gt;  GV144 GV145 GV146                  </span></span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a><span class="co">#&gt;  GV145 GV146                        </span></span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co">#&gt;  GV146</span></span></code></pre></div>
+<p>For example, consider the groups of 7 and 8 genotypes. In the
+8-genotype group, not just one but two genotypes differ from the groups
+of 7: genotypes GV089 and GV137. On the other hand, genotype GV132,
+which is included in the group of 7 genotypes, is not present in the
+group of 8. This illustrates how the inclusion of constraints can lead
+to changes in group composition, rather than simply adding the next
+best-ranked individual.</p>
+<p>In the base situation, <code>summary()</code> show all DMG
+constraints as 0.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">summary</span>(base_sit)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt; Summary of Selection Results</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt; -----------------------------------</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt; Number of groups selected: 6 </span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt; Group sizes: 12, 11, 10, 9, 8, 7 </span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt; Overview</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt;    Crit   Mean DMG    MaxGain MaxGroup</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt; yd    1  3.517   0 40.8297959        7</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt; pa    1 12.760   0  0.1485725        8</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; ta    1  4.495   0  3.3562158       10</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; ph   -1  3.927   0  1.8863728       11</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt; bw   -1  1.653   0  5.3960377        7</span></span></code></pre></div>
+</div>
+<div id="rmaxp" class="section level2">
+<h2><code>rmaxp()</code></h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">rmaxp</span>(traits, <span class="at">ref =</span> <span class="cn">NULL</span>, <span class="at">clmin =</span> <span class="dv">2</span> , clmax, <span class="at">meanvec =</span> <span class="cn">NULL</span>, <span class="at">criteria =</span> <span class="cn">NULL</span>, data)</span></code></pre></div>
+<p>The package includes a function <code>rmaxp()</code>, which computes
+the maximum possible gain for each trait. The maximum possible gain
+corresponds to the value obtained by selecting the top genotypes for
+each trait individually, without applying any constraints. The function
+allows the user to request the gain for one or multiple traits
+simultaneously. The output displays one column per trait; however, the
+values in different columns are not linked to the same solution and
+should be interpreted independently.</p>
+<p>In the following example, it is asked the maximum possible gain for
+<code>yd</code> and <code>pa</code> for group sizes from 9 to 20
+genotypes.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># Named numeric vector with the trait means</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>mymeanvec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">yd =</span> <span class="fl">3.517</span>, <span class="at">pa =</span> <span class="fl">12.760</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co"># Vector with the traits to be optimized</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>mytraits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;yd&quot;</span>, <span class="st">&quot;pa&quot;</span>)</span></code></pre></div>
+<p>The vector specifying the selection criteria can be omitted, as the
+default value of 1 is used for both traits. With this function, no
+constraints are applied.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># Using rmaxp()</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>max_pos_gain <span class="ot">&lt;-</span> <span class="fu">rmaxp</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="at">traits =</span> mytraits,</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="at">clmin =</span> <span class="dv">9</span>, </span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="at">clmax =</span> <span class="dv">20</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>  <span class="at">meanvec =</span> mymeanvec,</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>  <span class="at">data =</span> Gouveio</span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  )</span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co"># Results</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>max_pos_gain</span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co">#&gt; Maximum possible gains for each trait correspond to independently selected groups;</span></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co">#&gt; thus, gains are not directly comparable and should be interpreted separately.</span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="co">#&gt; See &#39;selected&#39; for group details</span></span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="co">#&gt; Predicted genetic gains as a % of the overall mean</span></span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a><span class="co">#&gt; $gain</span></span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a><span class="co">#&gt;  Group.Size       yd       pa</span></span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a><span class="co">#&gt;          20 39.45423 5.915127</span></span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a><span class="co">#&gt;          19 40.21696 5.968099</span></span>
+<span id="cb14-22"><a href="#cb14-22" tabindex="-1"></a><span class="co">#&gt;          18 40.89337 6.024443</span></span>
+<span id="cb14-23"><a href="#cb14-23" tabindex="-1"></a><span class="co">#&gt;          17 41.62513 6.078201</span></span>
+<span id="cb14-24"><a href="#cb14-24" tabindex="-1"></a><span class="co">#&gt;          16 42.41884 6.135137</span></span>
+<span id="cb14-25"><a href="#cb14-25" tabindex="-1"></a><span class="co">#&gt;          15 43.13445 6.195106</span></span>
+<span id="cb14-26"><a href="#cb14-26" tabindex="-1"></a><span class="co">#&gt;          14 43.90097 6.256910</span></span>
+<span id="cb14-27"><a href="#cb14-27" tabindex="-1"></a><span class="co">#&gt;          13 44.58007 6.305906</span></span>
+<span id="cb14-28"><a href="#cb14-28" tabindex="-1"></a><span class="co">#&gt;          12 45.30719 6.359933</span></span>
+<span id="cb14-29"><a href="#cb14-29" tabindex="-1"></a><span class="co">#&gt;          11 45.96563 6.419047</span></span>
+<span id="cb14-30"><a href="#cb14-30" tabindex="-1"></a><span class="co">#&gt;          10 46.63716 6.483659</span></span>
+<span id="cb14-31"><a href="#cb14-31" tabindex="-1"></a><span class="co">#&gt;           9 47.43910 6.559512</span></span>
+<span id="cb14-32"><a href="#cb14-32" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-33"><a href="#cb14-33" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-34"><a href="#cb14-34" tabindex="-1"></a><span class="co">#&gt; Selected genotypes (per group)</span></span>
+<span id="cb14-35"><a href="#cb14-35" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-36"><a href="#cb14-36" tabindex="-1"></a><span class="co">#&gt; $selected</span></span>
+<span id="cb14-37"><a href="#cb14-37" tabindex="-1"></a><span class="co">#&gt;     yd    pa Entry</span></span>
+<span id="cb14-38"><a href="#cb14-38" tabindex="-1"></a><span class="co">#&gt;  GV084 GV050    9 </span></span>
+<span id="cb14-39"><a href="#cb14-39" tabindex="-1"></a><span class="co">#&gt;  GV088 GV063    9 </span></span>
+<span id="cb14-40"><a href="#cb14-40" tabindex="-1"></a><span class="co">#&gt;  GV092 GV065    9 </span></span>
+<span id="cb14-41"><a href="#cb14-41" tabindex="-1"></a><span class="co">#&gt;  GV093 GV069    9 </span></span>
+<span id="cb14-42"><a href="#cb14-42" tabindex="-1"></a><span class="co">#&gt;  GV095 GV074    9 </span></span>
+<span id="cb14-43"><a href="#cb14-43" tabindex="-1"></a><span class="co">#&gt;  GV132 GV085    9 </span></span>
+<span id="cb14-44"><a href="#cb14-44" tabindex="-1"></a><span class="co">#&gt;  GV138 GV127    9 </span></span>
+<span id="cb14-45"><a href="#cb14-45" tabindex="-1"></a><span class="co">#&gt;  GV143 GV135    9 </span></span>
+<span id="cb14-46"><a href="#cb14-46" tabindex="-1"></a><span class="co">#&gt;  GV145 GV141    9 </span></span>
+<span id="cb14-47"><a href="#cb14-47" tabindex="-1"></a><span class="co">#&gt;  GV137 GV144    10</span></span>
+<span id="cb14-48"><a href="#cb14-48" tabindex="-1"></a><span class="co">#&gt;  GV079 GV133    11</span></span>
+<span id="cb14-49"><a href="#cb14-49" tabindex="-1"></a><span class="co">#&gt;  GV070 GV125    12</span></span>
+<span id="cb14-50"><a href="#cb14-50" tabindex="-1"></a><span class="co">#&gt;  GV080 GV142    13</span></span>
+<span id="cb14-51"><a href="#cb14-51" tabindex="-1"></a><span class="co">#&gt;  GV089 GV055    14</span></span>
+<span id="cb14-52"><a href="#cb14-52" tabindex="-1"></a><span class="co">#&gt;  GV091 GV053    15</span></span>
+<span id="cb14-53"><a href="#cb14-53" tabindex="-1"></a><span class="co">#&gt;  GV094 GV082    16</span></span>
+<span id="cb14-54"><a href="#cb14-54" tabindex="-1"></a><span class="co">#&gt;  GV090 GV068    17</span></span>
+<span id="cb14-55"><a href="#cb14-55" tabindex="-1"></a><span class="co">#&gt;  GV078 GV103    18</span></span>
+<span id="cb14-56"><a href="#cb14-56" tabindex="-1"></a><span class="co">#&gt;  GV040 GV073    19</span></span>
+<span id="cb14-57"><a href="#cb14-57" tabindex="-1"></a><span class="co">#&gt;  GV131 GV006    20</span></span></code></pre></div>
+<p>As in previous outputs, one column per trait is shown. However, in
+this case, the gain reported in each column refers to an independent
+solution. For example, the group of 20 genotypes achieving a yield gain
+of 39.5% is not composed of the same genotypes as the group achieving a
+potential alcohol gain of 5.9%. This can be verified by examining the
+output stored in the selected object.</p>
+<p>Since no constraints are applied in this scenario, the output
+represents a ranking of genotypes for each trait. Increasing the group
+size simply adds the next genotype in the ranking. Thus, each column
+corresponds to the top genotypes for a given trait. The final column,
+Entry, indicates the smallest group size at which each genotype is first
+included. It means that, for example, for yield, the group size of 9 is
+composed by genotypes from GV084 to GV145. Genotype GV137 appears for
+the first time in yield when the group size reaches 10 genotypes. When
+the group size increases to 11, all the previous 10 genotypes remain in
+the group and genotype GV079 is added, and so on.</p>
+<p>No customized <code>summary()</code> is provided, given that the
+conditions do not vary and no constraints are applied.</p>
+</div>
+<div id="rmaxa" class="section level2">
+<h2><code>rmaxa()</code></h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">rmaxa</span>(traits, <span class="at">ref =</span> <span class="cn">NULL</span>, <span class="at">clmin =</span> <span class="dv">2</span>, clmax, <span class="at">constraints =</span> <span class="cn">NULL</span>, <span class="at">meanvec =</span> <span class="cn">NULL</span>, <span class="at">criteria =</span> <span class="cn">NULL</span>, data)</span></code></pre></div>
+<p>The package includes a function <code>rmaxa()</code>, which computes
+the maximum admissible gains. The maximum admissible gain corresponds to
+the value obtained by maximizing one trait while avoiding losses in all
+others, enforced through constraints—predefined in this case as
+<em>&gt;= 0</em>. As with <code>rmaxp()</code>, the user may request
+gains for one or multiple traits simultaneously. The output displays one
+column per trait; however, the values in different columns correspond to
+independent solutions and should be interpreted separately. This
+distinguishes the output of the gain object from this function from that
+of the <code>polyclonal()</code> function with
+<code>dmg = &quot;base&quot;</code>, where the sum of the values related to all
+traits are optimized.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Named numeric vector with the trait means</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>mymeanvec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">yd =</span> <span class="fl">3.517</span>, <span class="at">pa =</span> <span class="fl">12.760</span>, <span class="at">ta =</span> <span class="fl">4.495</span>, <span class="at">ph =</span> <span class="fl">3.927</span>, <span class="at">bw =</span> <span class="fl">1.653</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co"># Vector with the traits to be optimized</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>mytraits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;yd&quot;</span>, <span class="st">&quot;pa&quot;</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co"># Named numeric vector with the selection criteria</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>mycriteria <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">yd =</span> <span class="dv">1</span>, <span class="at">pa =</span> <span class="dv">1</span>, <span class="at">ta =</span> <span class="dv">1</span>, <span class="at">ph =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">bw =</span> <span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div>
+<p>In this function, if the traits to which the constraints apply are
+not specified, all the traits are assumed to be greater or equal than
+zero. If this vector is omitted, all columns in the dataset are
+considered as constrained traits, except the one indicated in
+<code>ref</code> or the first column if <code>ref</code> is omitted. The
+<code>criteria</code> as well as the <code>meanvec</code> arguments must
+indicate the criteria for all the traits involved in both maximization
+and the constraints.</p>
+<p>This example requests groups with 12 to 20 genotypes.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># Using rmaxa()</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>max_adm_gain <span class="ot">&lt;-</span> <span class="fu">rmaxa</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="at">traits =</span> mytraits,</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="at">clmin =</span> <span class="dv">12</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="at">clmax =</span> <span class="dv">20</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>  <span class="at">meanvec =</span> mymeanvec,</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>  <span class="at">data =</span> Gouveio</span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>  )</span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a><span class="co"># Results</span></span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>max_adm_gain</span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="co">#&gt; Maximum admissible gains for each trait correspond to independently selected groups;</span></span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co">#&gt; thus, gains are not directly comparable and should be interpreted separately.</span></span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a><span class="co">#&gt; See &#39;selected&#39; for group details</span></span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="co">#&gt; Predicted genetic gains as a % of the overall mean</span></span>
+<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a><span class="co">#&gt; $gain </span></span>
+<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a><span class="co">#&gt;  Group.Size       yd       pa</span></span>
+<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a><span class="co">#&gt;          20 26.21528 5.659511</span></span>
+<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a><span class="co">#&gt;          19 26.63661 5.696647</span></span>
+<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a><span class="co">#&gt;          18 27.05655 5.755160</span></span>
+<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a><span class="co">#&gt;          17 27.44606 5.802291</span></span>
+<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a><span class="co">#&gt;          16 27.74894 5.833466</span></span>
+<span id="cb17-25"><a href="#cb17-25" tabindex="-1"></a><span class="co">#&gt;          15 28.17461 5.862092</span></span>
+<span id="cb17-26"><a href="#cb17-26" tabindex="-1"></a><span class="co">#&gt;          14 28.50718 5.905133</span></span>
+<span id="cb17-27"><a href="#cb17-27" tabindex="-1"></a><span class="co">#&gt;          13 28.85517 5.937964</span></span>
+<span id="cb17-28"><a href="#cb17-28" tabindex="-1"></a><span class="co">#&gt;          12 29.71520 6.011691</span></span>
+<span id="cb17-29"><a href="#cb17-29" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-30"><a href="#cb17-30" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-31"><a href="#cb17-31" tabindex="-1"></a><span class="co">#&gt; $ selected_yd </span></span>
+<span id="cb17-32"><a href="#cb17-32" tabindex="-1"></a><span class="co">#&gt;     20    19    18    17    16    15    14    13    12</span></span>
+<span id="cb17-33"><a href="#cb17-33" tabindex="-1"></a><span class="co">#&gt;  GV005 GV006 GV006 GV006 GV006 GV006 GV006 GV006 GV006</span></span>
+<span id="cb17-34"><a href="#cb17-34" tabindex="-1"></a><span class="co">#&gt;  GV006 GV007 GV007 GV025 GV040 GV040 GV040 GV025 GV040</span></span>
+<span id="cb17-35"><a href="#cb17-35" tabindex="-1"></a><span class="co">#&gt;  GV007 GV039 GV040 GV040 GV049 GV049 GV049 GV040 GV049</span></span>
+<span id="cb17-36"><a href="#cb17-36" tabindex="-1"></a><span class="co">#&gt;  GV025 GV040 GV049 GV049 GV067 GV067 GV067 GV049 GV067</span></span>
+<span id="cb17-37"><a href="#cb17-37" tabindex="-1"></a><span class="co">#&gt;  GV040 GV049 GV067 GV067 GV075 GV088 GV079 GV067 GV079</span></span>
+<span id="cb17-38"><a href="#cb17-38" tabindex="-1"></a><span class="co">#&gt;  GV049 GV067 GV079 GV079 GV088 GV090 GV088 GV088 GV088</span></span>
+<span id="cb17-39"><a href="#cb17-39" tabindex="-1"></a><span class="co">#&gt;  GV067 GV079 GV088 GV088 GV090 GV093 GV090 GV090 GV093</span></span>
+<span id="cb17-40"><a href="#cb17-40" tabindex="-1"></a><span class="co">#&gt;  GV079 GV080 GV090 GV090 GV093 GV095 GV093 GV093 GV095</span></span>
+<span id="cb17-41"><a href="#cb17-41" tabindex="-1"></a><span class="co">#&gt;  GV080 GV088 GV093 GV093 GV095 GV112 GV095 GV095 GV127</span></span>
+<span id="cb17-42"><a href="#cb17-42" tabindex="-1"></a><span class="co">#&gt;  GV088 GV090 GV095 GV095 GV112 GV127 GV112 GV112 GV138</span></span>
+<span id="cb17-43"><a href="#cb17-43" tabindex="-1"></a><span class="co">#&gt;  GV090 GV093 GV112 GV112 GV127 GV132 GV127 GV127 GV140</span></span>
+<span id="cb17-44"><a href="#cb17-44" tabindex="-1"></a><span class="co">#&gt;  GV093 GV095 GV127 GV127 GV138 GV138 GV132 GV140 GV148</span></span>
+<span id="cb17-45"><a href="#cb17-45" tabindex="-1"></a><span class="co">#&gt;  GV095 GV112 GV138 GV140 GV140 GV140 GV140 GV145      </span></span>
+<span id="cb17-46"><a href="#cb17-46" tabindex="-1"></a><span class="co">#&gt;  GV112 GV127 GV140 GV144 GV145 GV146 GV148            </span></span>
+<span id="cb17-47"><a href="#cb17-47" tabindex="-1"></a><span class="co">#&gt;  GV127 GV138 GV144 GV145 GV146 GV148                  </span></span>
+<span id="cb17-48"><a href="#cb17-48" tabindex="-1"></a><span class="co">#&gt;  GV138 GV140 GV145 GV146 GV148                        </span></span>
+<span id="cb17-49"><a href="#cb17-49" tabindex="-1"></a><span class="co">#&gt;  GV140 GV145 GV146 GV148                              </span></span>
+<span id="cb17-50"><a href="#cb17-50" tabindex="-1"></a><span class="co">#&gt;  GV145 GV146 GV148                                    </span></span>
+<span id="cb17-51"><a href="#cb17-51" tabindex="-1"></a><span class="co">#&gt;  GV146 GV148                                          </span></span>
+<span id="cb17-52"><a href="#cb17-52" tabindex="-1"></a><span class="co">#&gt;  GV148                                                </span></span>
+<span id="cb17-53"><a href="#cb17-53" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-54"><a href="#cb17-54" tabindex="-1"></a><span class="co">#&gt; $ selected_pa </span></span>
+<span id="cb17-55"><a href="#cb17-55" tabindex="-1"></a><span class="co">#&gt;     20    19    18    17    16    15    14    13    12</span></span>
+<span id="cb17-56"><a href="#cb17-56" tabindex="-1"></a><span class="co">#&gt;  GV006 GV006 GV006 GV006 GV006 GV006 GV006 GV006 GV050</span></span>
+<span id="cb17-57"><a href="#cb17-57" tabindex="-1"></a><span class="co">#&gt;  GV050 GV050 GV050 GV050 GV050 GV050 GV050 GV053 GV053</span></span>
+<span id="cb17-58"><a href="#cb17-58" tabindex="-1"></a><span class="co">#&gt;  GV053 GV053 GV053 GV053 GV053 GV053 GV053 GV065 GV065</span></span>
+<span id="cb17-59"><a href="#cb17-59" tabindex="-1"></a><span class="co">#&gt;  GV060 GV060 GV060 GV060 GV065 GV065 GV065 GV069 GV069</span></span>
+<span id="cb17-60"><a href="#cb17-60" tabindex="-1"></a><span class="co">#&gt;  GV063 GV063 GV065 GV065 GV069 GV069 GV069 GV081 GV081</span></span>
+<span id="cb17-61"><a href="#cb17-61" tabindex="-1"></a><span class="co">#&gt;  GV065 GV065 GV069 GV069 GV073 GV081 GV074 GV085 GV125</span></span>
+<span id="cb17-62"><a href="#cb17-62" tabindex="-1"></a><span class="co">#&gt;  GV069 GV069 GV073 GV074 GV074 GV085 GV081 GV125 GV127</span></span>
+<span id="cb17-63"><a href="#cb17-63" tabindex="-1"></a><span class="co">#&gt;  GV073 GV074 GV074 GV081 GV081 GV097 GV097 GV127 GV133</span></span>
+<span id="cb17-64"><a href="#cb17-64" tabindex="-1"></a><span class="co">#&gt;  GV074 GV081 GV081 GV085 GV097 GV125 GV127 GV133 GV135</span></span>
+<span id="cb17-65"><a href="#cb17-65" tabindex="-1"></a><span class="co">#&gt;  GV081 GV085 GV085 GV097 GV125 GV127 GV133 GV135 GV141</span></span>
+<span id="cb17-66"><a href="#cb17-66" tabindex="-1"></a><span class="co">#&gt;  GV085 GV097 GV097 GV125 GV127 GV133 GV135 GV141 GV144</span></span>
+<span id="cb17-67"><a href="#cb17-67" tabindex="-1"></a><span class="co">#&gt;  GV097 GV125 GV125 GV127 GV133 GV135 GV141 GV144 GV146</span></span>
+<span id="cb17-68"><a href="#cb17-68" tabindex="-1"></a><span class="co">#&gt;  GV125 GV127 GV127 GV133 GV135 GV141 GV144 GV146      </span></span>
+<span id="cb17-69"><a href="#cb17-69" tabindex="-1"></a><span class="co">#&gt;  GV127 GV133 GV133 GV135 GV141 GV144 GV146            </span></span>
+<span id="cb17-70"><a href="#cb17-70" tabindex="-1"></a><span class="co">#&gt;  GV133 GV135 GV135 GV141 GV144 GV146                  </span></span>
+<span id="cb17-71"><a href="#cb17-71" tabindex="-1"></a><span class="co">#&gt;  GV135 GV140 GV141 GV144 GV146                        </span></span>
+<span id="cb17-72"><a href="#cb17-72" tabindex="-1"></a><span class="co">#&gt;  GV140 GV141 GV144 GV146                              </span></span>
+<span id="cb17-73"><a href="#cb17-73" tabindex="-1"></a><span class="co">#&gt;  GV141 GV144 GV146                                    </span></span>
+<span id="cb17-74"><a href="#cb17-74" tabindex="-1"></a><span class="co">#&gt;  GV144 GV146                                          </span></span>
+<span id="cb17-75"><a href="#cb17-75" tabindex="-1"></a><span class="co">#&gt;  GV146</span></span></code></pre></div>
+<p>As in the <code>rmaxp()</code> gain output, one column per trait is
+shown; however, the gain reported in each column corresponds to an
+independent solution. For example, the group of 20 genotypes achieving a
+gain of 26.2% for <em>yd</em> is not composed of the same genotypes as
+the group achieving a gain of 5.7% for <em>pa</em>. Furthermore, the
+gains obtained with <code>rmaxa()</code> for any trait are always less
+than or equal to those obtained with <code>rmaxp()</code>, since
+<code>rmaxa()</code> incorporates constraints during optimization.</p>
+<p>Regarding the <code>selected</code> object, due to the constraints
+applied in this function, the genotypes composing one group differ from
+those in other groups. Consequently, there is one selected object per
+trait, named as <code>selected_&lt;trait&gt;</code>.</p>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>This package offers a ready-to-use implementation of the integer
+programming method for maximizing the predicted genetic gains in
+polyclonal selection developed by Surgy et al. (2025). It allowing
+breeders to efficiently and consistently perform group-based multi-trait
+selection, which supports a balanced genetic gain across multiple traits
+in breeding programs. A dataset and examples are provided to assist in
+understanding and reproducing results.</p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>Surgy, S., Cadima, J. &amp; Gonçalves, E., 2025. Integer programming
+as a powerful tool for polyclonal selection in ancient grapevine
+varieties. Theor Appl Genet 138, 122. <a href="https://doi.org/10.1007/s00122-025-04885-0">https://doi.org/10.1007/s00122-025-04885-0</a></p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

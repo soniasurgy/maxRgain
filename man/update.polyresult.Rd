@@ -19,19 +19,29 @@ Allows updating any argument of a previous \code{polyclonal()} call without rewr
 Defaults are preserved for arguments not provided.
 }
 \examples{
-mymeanvec <- c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653)
-mytraits <- c("yd", "pa", "ta", "ph", "bw")
-mycriteria <- c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1)
 #' Original call
 
-selections <- polyclonal(traits = mytraits,
+selections <- polyclonal(traits = c("yd", "pa", "ta", "ph", "bw"),
                   clmin = 7, clmax = 15,
-                  meanvec = mymeanvec,
-                  criteria = mycriteria,
+                  dmg = "base",
+                  meanvec = c(yd = 3.517, pa = 12.760, ta = 4.495, ph = 3.927, bw = 1.653),
+                  criteria = c(yd = 1, pa = 1, ta = 1, ph = -1, bw = -1),
                   data = Gouveio)
+
+selections
 # Update clmax
-selupdate1 <- update(selections, clmax = 20)
-# Update clmax and dmg
-selupdate2 <- update(selections, clmax = 20, dmg = "base")
+selupdate1 <- update(selections, clmax = 10)
+
+selupdate1
+
+# Update dmg
+selupdate2 <- update(selupdate1, dmg = data.frame(
+                     lhs = c("yd", "pa", "ta", "ph", "bw"),
+                     rel = c(">=", ">=", ">=", ">=", ">="),
+                     rhs = c(25, 0, 0, 0, 0)
+                     )
+                   )
+
+selupdate2
 
 }
