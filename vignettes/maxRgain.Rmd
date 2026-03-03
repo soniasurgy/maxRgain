@@ -167,7 +167,7 @@ The `summary()` method can be used with `polyclonal()` object to retrieve a summ
 summary(with_dmg)
 ```
 
-The `summary()` indicates how many groups were achieved for those conditions and the related dimensions. In the table, the first column gives the trait names, followed by the means, the criteria and the desired minimum gain (DMG). The Last two columns, "MaxGain" and "MaxGroup" show the maximum gain achieved for each trait and the group size where that gain  occurs, respectively. 
+The `summary()` indicates how many groups were achieved for those conditions and the related dimensions. In the table, the first column gives the trait names, followed by the means, the criteria and the desired minimum and maximum gains (DMinG and DMaxG). The Last two columns, "MaxGain" and "MaxGroup" show the maximum gain achieved for each trait and the group size where that gain  occurs, respectively. 
 
 The so-called *base situation*, as described in the original publication of the method (Surgy et al., 2025), consists in maximizing the predicted genetic gain of the target traits while ensuring that no trait decreases. To implement this, the right-hand side of all constraints is set to zero.
 

@@ -656,18 +656,18 @@ conditions and results.</p>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; Group sizes: 10, 8, 7 </span></span>
 <span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; Overview</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt;    Crit   Mean DMG   MaxGain MaxGroup</span></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; yd    1  3.517  20 24.205112        7</span></span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; pa    1 12.760   3  3.057488        7</span></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; ta    1  4.495   3  4.004230        8</span></span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; ph   -1  3.927   1  1.062815       10</span></span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; bw   -1  1.653   2  2.314695       10</span></span></code></pre></div>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt;    Crit   Mean DMinG DMaxG   MaxGain MaxGroup</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; yd    1  3.517    20    NA 24.205112        7</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; pa    1 12.760     3    NA  3.057488        7</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; ta    1  4.495     3    NA  4.004230        8</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; ph   -1  3.927     1    NA  1.062815       10</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; bw   -1  1.653     2    NA  2.314695       10</span></span></code></pre></div>
 <p>The <code>summary()</code> indicates how many groups were achieved
 for those conditions and the related dimensions. In the table, the first
 column gives the trait names, followed by the means, the criteria and
-the desired minimum gain (DMG). The Last two columns, “MaxGain” and
-“MaxGroup” show the maximum gain achieved for each trait and the group
-size where that gain occurs, respectively.</p>
+the desired minimum and maximum gains (DMinG and DMaxG). The Last two
+columns, “MaxGain” and “MaxGroup” show the maximum gain achieved for
+each trait and the group size where that gain occurs, respectively.</p>
 <p>The so-called <em>base situation</em>, as described in the original
 publication of the method (Surgy et al., 2025), consists in maximizing
 the predicted genetic gain of the target traits while ensuring that no
@@ -762,12 +762,12 @@ constraints as 0.</p>
 <span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt; Group sizes: 12, 11, 10, 9, 8, 7 </span></span>
 <span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt; Overview</span></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt;    Crit   Mean DMG    MaxGain MaxGroup</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt; yd    1  3.517   0 40.8297959        7</span></span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt; pa    1 12.760   0  0.1485725        8</span></span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; ta    1  4.495   0  3.3562158       10</span></span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; ph   -1  3.927   0  1.8863728       11</span></span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt; bw   -1  1.653   0  5.3960377        7</span></span></code></pre></div>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt;    Crit   Mean DMinG DMaxG    MaxGain MaxGroup</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt; yd    1  3.517     0    NA 40.8297959        7</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt; pa    1 12.760     0    NA  0.1485725        8</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; ta    1  4.495     0    NA  3.3562158       10</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; ph   -1  3.927     0    NA  1.8863728       11</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt; bw   -1  1.653     0    NA  5.3960377        7</span></span></code></pre></div>
 </div>
 <div id="rmaxp" class="section level2">
 <h2><code>rmaxp()</code></h2>
@@ -802,52 +802,51 @@ constraints are applied.</p>
 <span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a></span>
 <span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co"># Results</span></span>
 <span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>max_pos_gain</span>
-<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co">#&gt; Maximum possible gains for each trait correspond to independently selected groups;</span></span>
-<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co">#&gt; thus, gains are not directly comparable and should be interpreted separately.</span></span>
-<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="co">#&gt; See &#39;selected&#39; for group details</span></span>
-<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="co">#&gt; Predicted genetic gains as a % of the overall mean</span></span>
-<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a><span class="co">#&gt; $gain</span></span>
-<span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a><span class="co">#&gt;  Group.Size       yd       pa</span></span>
-<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a><span class="co">#&gt;          20 39.45423 5.915127</span></span>
-<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a><span class="co">#&gt;          19 40.21696 5.968099</span></span>
-<span id="cb14-22"><a href="#cb14-22" tabindex="-1"></a><span class="co">#&gt;          18 40.89337 6.024443</span></span>
-<span id="cb14-23"><a href="#cb14-23" tabindex="-1"></a><span class="co">#&gt;          17 41.62513 6.078201</span></span>
-<span id="cb14-24"><a href="#cb14-24" tabindex="-1"></a><span class="co">#&gt;          16 42.41884 6.135137</span></span>
-<span id="cb14-25"><a href="#cb14-25" tabindex="-1"></a><span class="co">#&gt;          15 43.13445 6.195106</span></span>
-<span id="cb14-26"><a href="#cb14-26" tabindex="-1"></a><span class="co">#&gt;          14 43.90097 6.256910</span></span>
-<span id="cb14-27"><a href="#cb14-27" tabindex="-1"></a><span class="co">#&gt;          13 44.58007 6.305906</span></span>
-<span id="cb14-28"><a href="#cb14-28" tabindex="-1"></a><span class="co">#&gt;          12 45.30719 6.359933</span></span>
-<span id="cb14-29"><a href="#cb14-29" tabindex="-1"></a><span class="co">#&gt;          11 45.96563 6.419047</span></span>
-<span id="cb14-30"><a href="#cb14-30" tabindex="-1"></a><span class="co">#&gt;          10 46.63716 6.483659</span></span>
-<span id="cb14-31"><a href="#cb14-31" tabindex="-1"></a><span class="co">#&gt;           9 47.43910 6.559512</span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co">#&gt; Maximum possible gains for each trait correspond to independently selected groups; thus, gains are not directly comparable and should be interpreted separately.</span></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co">#&gt; See &#39;selected&#39; for group details</span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="co">#&gt; Predicted genetic gains as a % of the overall mean</span></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="co">#&gt; $gain</span></span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a><span class="co">#&gt;  Group.Size       yd       pa</span></span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a><span class="co">#&gt;          20 39.45423 5.915127</span></span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a><span class="co">#&gt;          19 40.21696 5.968099</span></span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a><span class="co">#&gt;          18 40.89337 6.024443</span></span>
+<span id="cb14-22"><a href="#cb14-22" tabindex="-1"></a><span class="co">#&gt;          17 41.62513 6.078201</span></span>
+<span id="cb14-23"><a href="#cb14-23" tabindex="-1"></a><span class="co">#&gt;          16 42.41884 6.135137</span></span>
+<span id="cb14-24"><a href="#cb14-24" tabindex="-1"></a><span class="co">#&gt;          15 43.13445 6.195106</span></span>
+<span id="cb14-25"><a href="#cb14-25" tabindex="-1"></a><span class="co">#&gt;          14 43.90097 6.256910</span></span>
+<span id="cb14-26"><a href="#cb14-26" tabindex="-1"></a><span class="co">#&gt;          13 44.58007 6.305906</span></span>
+<span id="cb14-27"><a href="#cb14-27" tabindex="-1"></a><span class="co">#&gt;          12 45.30719 6.359933</span></span>
+<span id="cb14-28"><a href="#cb14-28" tabindex="-1"></a><span class="co">#&gt;          11 45.96563 6.419047</span></span>
+<span id="cb14-29"><a href="#cb14-29" tabindex="-1"></a><span class="co">#&gt;          10 46.63716 6.483659</span></span>
+<span id="cb14-30"><a href="#cb14-30" tabindex="-1"></a><span class="co">#&gt;           9 47.43910 6.559512</span></span>
+<span id="cb14-31"><a href="#cb14-31" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb14-32"><a href="#cb14-32" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-33"><a href="#cb14-33" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-34"><a href="#cb14-34" tabindex="-1"></a><span class="co">#&gt; Selected genotypes (per group)</span></span>
-<span id="cb14-35"><a href="#cb14-35" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-36"><a href="#cb14-36" tabindex="-1"></a><span class="co">#&gt; $selected</span></span>
-<span id="cb14-37"><a href="#cb14-37" tabindex="-1"></a><span class="co">#&gt;     yd    pa Entry</span></span>
-<span id="cb14-38"><a href="#cb14-38" tabindex="-1"></a><span class="co">#&gt;  GV084 GV050    9 </span></span>
-<span id="cb14-39"><a href="#cb14-39" tabindex="-1"></a><span class="co">#&gt;  GV088 GV063    9 </span></span>
-<span id="cb14-40"><a href="#cb14-40" tabindex="-1"></a><span class="co">#&gt;  GV092 GV065    9 </span></span>
-<span id="cb14-41"><a href="#cb14-41" tabindex="-1"></a><span class="co">#&gt;  GV093 GV069    9 </span></span>
-<span id="cb14-42"><a href="#cb14-42" tabindex="-1"></a><span class="co">#&gt;  GV095 GV074    9 </span></span>
-<span id="cb14-43"><a href="#cb14-43" tabindex="-1"></a><span class="co">#&gt;  GV132 GV085    9 </span></span>
-<span id="cb14-44"><a href="#cb14-44" tabindex="-1"></a><span class="co">#&gt;  GV138 GV127    9 </span></span>
-<span id="cb14-45"><a href="#cb14-45" tabindex="-1"></a><span class="co">#&gt;  GV143 GV135    9 </span></span>
-<span id="cb14-46"><a href="#cb14-46" tabindex="-1"></a><span class="co">#&gt;  GV145 GV141    9 </span></span>
-<span id="cb14-47"><a href="#cb14-47" tabindex="-1"></a><span class="co">#&gt;  GV137 GV144    10</span></span>
-<span id="cb14-48"><a href="#cb14-48" tabindex="-1"></a><span class="co">#&gt;  GV079 GV133    11</span></span>
-<span id="cb14-49"><a href="#cb14-49" tabindex="-1"></a><span class="co">#&gt;  GV070 GV125    12</span></span>
-<span id="cb14-50"><a href="#cb14-50" tabindex="-1"></a><span class="co">#&gt;  GV080 GV142    13</span></span>
-<span id="cb14-51"><a href="#cb14-51" tabindex="-1"></a><span class="co">#&gt;  GV089 GV055    14</span></span>
-<span id="cb14-52"><a href="#cb14-52" tabindex="-1"></a><span class="co">#&gt;  GV091 GV053    15</span></span>
-<span id="cb14-53"><a href="#cb14-53" tabindex="-1"></a><span class="co">#&gt;  GV094 GV082    16</span></span>
-<span id="cb14-54"><a href="#cb14-54" tabindex="-1"></a><span class="co">#&gt;  GV090 GV068    17</span></span>
-<span id="cb14-55"><a href="#cb14-55" tabindex="-1"></a><span class="co">#&gt;  GV078 GV103    18</span></span>
-<span id="cb14-56"><a href="#cb14-56" tabindex="-1"></a><span class="co">#&gt;  GV040 GV073    19</span></span>
-<span id="cb14-57"><a href="#cb14-57" tabindex="-1"></a><span class="co">#&gt;  GV131 GV006    20</span></span></code></pre></div>
+<span id="cb14-33"><a href="#cb14-33" tabindex="-1"></a><span class="co">#&gt; Selected genotypes (per group)</span></span>
+<span id="cb14-34"><a href="#cb14-34" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-35"><a href="#cb14-35" tabindex="-1"></a><span class="co">#&gt; $selected</span></span>
+<span id="cb14-36"><a href="#cb14-36" tabindex="-1"></a><span class="co">#&gt;     yd    pa Entry</span></span>
+<span id="cb14-37"><a href="#cb14-37" tabindex="-1"></a><span class="co">#&gt;  GV084 GV050    9 </span></span>
+<span id="cb14-38"><a href="#cb14-38" tabindex="-1"></a><span class="co">#&gt;  GV088 GV063    9 </span></span>
+<span id="cb14-39"><a href="#cb14-39" tabindex="-1"></a><span class="co">#&gt;  GV092 GV065    9 </span></span>
+<span id="cb14-40"><a href="#cb14-40" tabindex="-1"></a><span class="co">#&gt;  GV093 GV069    9 </span></span>
+<span id="cb14-41"><a href="#cb14-41" tabindex="-1"></a><span class="co">#&gt;  GV095 GV074    9 </span></span>
+<span id="cb14-42"><a href="#cb14-42" tabindex="-1"></a><span class="co">#&gt;  GV132 GV085    9 </span></span>
+<span id="cb14-43"><a href="#cb14-43" tabindex="-1"></a><span class="co">#&gt;  GV138 GV127    9 </span></span>
+<span id="cb14-44"><a href="#cb14-44" tabindex="-1"></a><span class="co">#&gt;  GV143 GV135    9 </span></span>
+<span id="cb14-45"><a href="#cb14-45" tabindex="-1"></a><span class="co">#&gt;  GV145 GV141    9 </span></span>
+<span id="cb14-46"><a href="#cb14-46" tabindex="-1"></a><span class="co">#&gt;  GV137 GV144    10</span></span>
+<span id="cb14-47"><a href="#cb14-47" tabindex="-1"></a><span class="co">#&gt;  GV079 GV133    11</span></span>
+<span id="cb14-48"><a href="#cb14-48" tabindex="-1"></a><span class="co">#&gt;  GV070 GV125    12</span></span>
+<span id="cb14-49"><a href="#cb14-49" tabindex="-1"></a><span class="co">#&gt;  GV080 GV142    13</span></span>
+<span id="cb14-50"><a href="#cb14-50" tabindex="-1"></a><span class="co">#&gt;  GV089 GV055    14</span></span>
+<span id="cb14-51"><a href="#cb14-51" tabindex="-1"></a><span class="co">#&gt;  GV091 GV053    15</span></span>
+<span id="cb14-52"><a href="#cb14-52" tabindex="-1"></a><span class="co">#&gt;  GV094 GV082    16</span></span>
+<span id="cb14-53"><a href="#cb14-53" tabindex="-1"></a><span class="co">#&gt;  GV090 GV068    17</span></span>
+<span id="cb14-54"><a href="#cb14-54" tabindex="-1"></a><span class="co">#&gt;  GV078 GV103    18</span></span>
+<span id="cb14-55"><a href="#cb14-55" tabindex="-1"></a><span class="co">#&gt;  GV040 GV073    19</span></span>
+<span id="cb14-56"><a href="#cb14-56" tabindex="-1"></a><span class="co">#&gt;  GV131 GV006    20</span></span></code></pre></div>
 <p>As in previous outputs, one column per trait is shown. However, in
 this case, the gain reported in each column refers to an independent
 solution. For example, the group of 20 genotypes achieving a yield gain
@@ -910,70 +909,69 @@ and the constraints.</p>
 <span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a></span>
 <span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a><span class="co"># Results</span></span>
 <span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>max_adm_gain</span>
-<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="co">#&gt; Maximum admissible gains for each trait correspond to independently selected groups;</span></span>
-<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co">#&gt; thus, gains are not directly comparable and should be interpreted separately.</span></span>
-<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a><span class="co">#&gt; See &#39;selected&#39; for group details</span></span>
-<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="co">#&gt; Predicted genetic gains as a % of the overall mean</span></span>
-<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a><span class="co">#&gt; $gain </span></span>
-<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a><span class="co">#&gt;  Group.Size       yd       pa</span></span>
-<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a><span class="co">#&gt;          20 26.21528 5.659511</span></span>
-<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a><span class="co">#&gt;          19 26.63661 5.696647</span></span>
-<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a><span class="co">#&gt;          18 27.05655 5.755160</span></span>
-<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a><span class="co">#&gt;          17 27.44606 5.802291</span></span>
-<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a><span class="co">#&gt;          16 27.74894 5.833466</span></span>
-<span id="cb17-25"><a href="#cb17-25" tabindex="-1"></a><span class="co">#&gt;          15 28.17461 5.862092</span></span>
-<span id="cb17-26"><a href="#cb17-26" tabindex="-1"></a><span class="co">#&gt;          14 28.50718 5.905133</span></span>
-<span id="cb17-27"><a href="#cb17-27" tabindex="-1"></a><span class="co">#&gt;          13 28.85517 5.937964</span></span>
-<span id="cb17-28"><a href="#cb17-28" tabindex="-1"></a><span class="co">#&gt;          12 29.71520 6.011691</span></span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="co">#&gt; Maximum admissible gains for each trait correspond to independently selected groups; thus, gains are not directly comparable and should be interpreted separately.</span></span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co">#&gt; See &#39;selected&#39; for group details</span></span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co">#&gt; Predicted genetic gains as a % of the overall mean</span></span>
+<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a><span class="co">#&gt; $gain </span></span>
+<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a><span class="co">#&gt;  Group.Size       yd       pa</span></span>
+<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a><span class="co">#&gt;          20 26.21528 5.659511</span></span>
+<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a><span class="co">#&gt;          19 26.63661 5.696647</span></span>
+<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a><span class="co">#&gt;          18 27.05655 5.755160</span></span>
+<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a><span class="co">#&gt;          17 27.44606 5.802291</span></span>
+<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a><span class="co">#&gt;          16 27.74894 5.833466</span></span>
+<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a><span class="co">#&gt;          15 28.17461 5.862092</span></span>
+<span id="cb17-25"><a href="#cb17-25" tabindex="-1"></a><span class="co">#&gt;          14 28.50718 5.905133</span></span>
+<span id="cb17-26"><a href="#cb17-26" tabindex="-1"></a><span class="co">#&gt;          13 28.85517 5.937964</span></span>
+<span id="cb17-27"><a href="#cb17-27" tabindex="-1"></a><span class="co">#&gt;          12 29.71520 6.011691</span></span>
+<span id="cb17-28"><a href="#cb17-28" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb17-29"><a href="#cb17-29" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb17-30"><a href="#cb17-30" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb17-31"><a href="#cb17-31" tabindex="-1"></a><span class="co">#&gt; $ selected_yd </span></span>
-<span id="cb17-32"><a href="#cb17-32" tabindex="-1"></a><span class="co">#&gt;     20    19    18    17    16    15    14    13    12</span></span>
-<span id="cb17-33"><a href="#cb17-33" tabindex="-1"></a><span class="co">#&gt;  GV005 GV006 GV006 GV006 GV006 GV006 GV006 GV006 GV006</span></span>
-<span id="cb17-34"><a href="#cb17-34" tabindex="-1"></a><span class="co">#&gt;  GV006 GV007 GV007 GV025 GV040 GV040 GV040 GV025 GV040</span></span>
-<span id="cb17-35"><a href="#cb17-35" tabindex="-1"></a><span class="co">#&gt;  GV007 GV039 GV040 GV040 GV049 GV049 GV049 GV040 GV049</span></span>
-<span id="cb17-36"><a href="#cb17-36" tabindex="-1"></a><span class="co">#&gt;  GV025 GV040 GV049 GV049 GV067 GV067 GV067 GV049 GV067</span></span>
-<span id="cb17-37"><a href="#cb17-37" tabindex="-1"></a><span class="co">#&gt;  GV040 GV049 GV067 GV067 GV075 GV088 GV079 GV067 GV079</span></span>
-<span id="cb17-38"><a href="#cb17-38" tabindex="-1"></a><span class="co">#&gt;  GV049 GV067 GV079 GV079 GV088 GV090 GV088 GV088 GV088</span></span>
-<span id="cb17-39"><a href="#cb17-39" tabindex="-1"></a><span class="co">#&gt;  GV067 GV079 GV088 GV088 GV090 GV093 GV090 GV090 GV093</span></span>
-<span id="cb17-40"><a href="#cb17-40" tabindex="-1"></a><span class="co">#&gt;  GV079 GV080 GV090 GV090 GV093 GV095 GV093 GV093 GV095</span></span>
-<span id="cb17-41"><a href="#cb17-41" tabindex="-1"></a><span class="co">#&gt;  GV080 GV088 GV093 GV093 GV095 GV112 GV095 GV095 GV127</span></span>
-<span id="cb17-42"><a href="#cb17-42" tabindex="-1"></a><span class="co">#&gt;  GV088 GV090 GV095 GV095 GV112 GV127 GV112 GV112 GV138</span></span>
-<span id="cb17-43"><a href="#cb17-43" tabindex="-1"></a><span class="co">#&gt;  GV090 GV093 GV112 GV112 GV127 GV132 GV127 GV127 GV140</span></span>
-<span id="cb17-44"><a href="#cb17-44" tabindex="-1"></a><span class="co">#&gt;  GV093 GV095 GV127 GV127 GV138 GV138 GV132 GV140 GV148</span></span>
-<span id="cb17-45"><a href="#cb17-45" tabindex="-1"></a><span class="co">#&gt;  GV095 GV112 GV138 GV140 GV140 GV140 GV140 GV145      </span></span>
-<span id="cb17-46"><a href="#cb17-46" tabindex="-1"></a><span class="co">#&gt;  GV112 GV127 GV140 GV144 GV145 GV146 GV148            </span></span>
-<span id="cb17-47"><a href="#cb17-47" tabindex="-1"></a><span class="co">#&gt;  GV127 GV138 GV144 GV145 GV146 GV148                  </span></span>
-<span id="cb17-48"><a href="#cb17-48" tabindex="-1"></a><span class="co">#&gt;  GV138 GV140 GV145 GV146 GV148                        </span></span>
-<span id="cb17-49"><a href="#cb17-49" tabindex="-1"></a><span class="co">#&gt;  GV140 GV145 GV146 GV148                              </span></span>
-<span id="cb17-50"><a href="#cb17-50" tabindex="-1"></a><span class="co">#&gt;  GV145 GV146 GV148                                    </span></span>
-<span id="cb17-51"><a href="#cb17-51" tabindex="-1"></a><span class="co">#&gt;  GV146 GV148                                          </span></span>
-<span id="cb17-52"><a href="#cb17-52" tabindex="-1"></a><span class="co">#&gt;  GV148                                                </span></span>
-<span id="cb17-53"><a href="#cb17-53" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb17-54"><a href="#cb17-54" tabindex="-1"></a><span class="co">#&gt; $ selected_pa </span></span>
-<span id="cb17-55"><a href="#cb17-55" tabindex="-1"></a><span class="co">#&gt;     20    19    18    17    16    15    14    13    12</span></span>
-<span id="cb17-56"><a href="#cb17-56" tabindex="-1"></a><span class="co">#&gt;  GV006 GV006 GV006 GV006 GV006 GV006 GV006 GV006 GV050</span></span>
-<span id="cb17-57"><a href="#cb17-57" tabindex="-1"></a><span class="co">#&gt;  GV050 GV050 GV050 GV050 GV050 GV050 GV050 GV053 GV053</span></span>
-<span id="cb17-58"><a href="#cb17-58" tabindex="-1"></a><span class="co">#&gt;  GV053 GV053 GV053 GV053 GV053 GV053 GV053 GV065 GV065</span></span>
-<span id="cb17-59"><a href="#cb17-59" tabindex="-1"></a><span class="co">#&gt;  GV060 GV060 GV060 GV060 GV065 GV065 GV065 GV069 GV069</span></span>
-<span id="cb17-60"><a href="#cb17-60" tabindex="-1"></a><span class="co">#&gt;  GV063 GV063 GV065 GV065 GV069 GV069 GV069 GV081 GV081</span></span>
-<span id="cb17-61"><a href="#cb17-61" tabindex="-1"></a><span class="co">#&gt;  GV065 GV065 GV069 GV069 GV073 GV081 GV074 GV085 GV125</span></span>
-<span id="cb17-62"><a href="#cb17-62" tabindex="-1"></a><span class="co">#&gt;  GV069 GV069 GV073 GV074 GV074 GV085 GV081 GV125 GV127</span></span>
-<span id="cb17-63"><a href="#cb17-63" tabindex="-1"></a><span class="co">#&gt;  GV073 GV074 GV074 GV081 GV081 GV097 GV097 GV127 GV133</span></span>
-<span id="cb17-64"><a href="#cb17-64" tabindex="-1"></a><span class="co">#&gt;  GV074 GV081 GV081 GV085 GV097 GV125 GV127 GV133 GV135</span></span>
-<span id="cb17-65"><a href="#cb17-65" tabindex="-1"></a><span class="co">#&gt;  GV081 GV085 GV085 GV097 GV125 GV127 GV133 GV135 GV141</span></span>
-<span id="cb17-66"><a href="#cb17-66" tabindex="-1"></a><span class="co">#&gt;  GV085 GV097 GV097 GV125 GV127 GV133 GV135 GV141 GV144</span></span>
-<span id="cb17-67"><a href="#cb17-67" tabindex="-1"></a><span class="co">#&gt;  GV097 GV125 GV125 GV127 GV133 GV135 GV141 GV144 GV146</span></span>
-<span id="cb17-68"><a href="#cb17-68" tabindex="-1"></a><span class="co">#&gt;  GV125 GV127 GV127 GV133 GV135 GV141 GV144 GV146      </span></span>
-<span id="cb17-69"><a href="#cb17-69" tabindex="-1"></a><span class="co">#&gt;  GV127 GV133 GV133 GV135 GV141 GV144 GV146            </span></span>
-<span id="cb17-70"><a href="#cb17-70" tabindex="-1"></a><span class="co">#&gt;  GV133 GV135 GV135 GV141 GV144 GV146                  </span></span>
-<span id="cb17-71"><a href="#cb17-71" tabindex="-1"></a><span class="co">#&gt;  GV135 GV140 GV141 GV144 GV146                        </span></span>
-<span id="cb17-72"><a href="#cb17-72" tabindex="-1"></a><span class="co">#&gt;  GV140 GV141 GV144 GV146                              </span></span>
-<span id="cb17-73"><a href="#cb17-73" tabindex="-1"></a><span class="co">#&gt;  GV141 GV144 GV146                                    </span></span>
-<span id="cb17-74"><a href="#cb17-74" tabindex="-1"></a><span class="co">#&gt;  GV144 GV146                                          </span></span>
-<span id="cb17-75"><a href="#cb17-75" tabindex="-1"></a><span class="co">#&gt;  GV146</span></span></code></pre></div>
+<span id="cb17-30"><a href="#cb17-30" tabindex="-1"></a><span class="co">#&gt; $ selected_yd </span></span>
+<span id="cb17-31"><a href="#cb17-31" tabindex="-1"></a><span class="co">#&gt;     20    19    18    17    16    15    14    13    12</span></span>
+<span id="cb17-32"><a href="#cb17-32" tabindex="-1"></a><span class="co">#&gt;  GV005 GV006 GV006 GV006 GV006 GV006 GV006 GV006 GV006</span></span>
+<span id="cb17-33"><a href="#cb17-33" tabindex="-1"></a><span class="co">#&gt;  GV006 GV007 GV007 GV025 GV040 GV040 GV040 GV025 GV040</span></span>
+<span id="cb17-34"><a href="#cb17-34" tabindex="-1"></a><span class="co">#&gt;  GV007 GV039 GV040 GV040 GV049 GV049 GV049 GV040 GV049</span></span>
+<span id="cb17-35"><a href="#cb17-35" tabindex="-1"></a><span class="co">#&gt;  GV025 GV040 GV049 GV049 GV067 GV067 GV067 GV049 GV067</span></span>
+<span id="cb17-36"><a href="#cb17-36" tabindex="-1"></a><span class="co">#&gt;  GV040 GV049 GV067 GV067 GV075 GV088 GV079 GV067 GV079</span></span>
+<span id="cb17-37"><a href="#cb17-37" tabindex="-1"></a><span class="co">#&gt;  GV049 GV067 GV079 GV079 GV088 GV090 GV088 GV088 GV088</span></span>
+<span id="cb17-38"><a href="#cb17-38" tabindex="-1"></a><span class="co">#&gt;  GV067 GV079 GV088 GV088 GV090 GV093 GV090 GV090 GV093</span></span>
+<span id="cb17-39"><a href="#cb17-39" tabindex="-1"></a><span class="co">#&gt;  GV079 GV080 GV090 GV090 GV093 GV095 GV093 GV093 GV095</span></span>
+<span id="cb17-40"><a href="#cb17-40" tabindex="-1"></a><span class="co">#&gt;  GV080 GV088 GV093 GV093 GV095 GV112 GV095 GV095 GV127</span></span>
+<span id="cb17-41"><a href="#cb17-41" tabindex="-1"></a><span class="co">#&gt;  GV088 GV090 GV095 GV095 GV112 GV127 GV112 GV112 GV138</span></span>
+<span id="cb17-42"><a href="#cb17-42" tabindex="-1"></a><span class="co">#&gt;  GV090 GV093 GV112 GV112 GV127 GV132 GV127 GV127 GV140</span></span>
+<span id="cb17-43"><a href="#cb17-43" tabindex="-1"></a><span class="co">#&gt;  GV093 GV095 GV127 GV127 GV138 GV138 GV132 GV140 GV148</span></span>
+<span id="cb17-44"><a href="#cb17-44" tabindex="-1"></a><span class="co">#&gt;  GV095 GV112 GV138 GV140 GV140 GV140 GV140 GV145      </span></span>
+<span id="cb17-45"><a href="#cb17-45" tabindex="-1"></a><span class="co">#&gt;  GV112 GV127 GV140 GV144 GV145 GV146 GV148            </span></span>
+<span id="cb17-46"><a href="#cb17-46" tabindex="-1"></a><span class="co">#&gt;  GV127 GV138 GV144 GV145 GV146 GV148                  </span></span>
+<span id="cb17-47"><a href="#cb17-47" tabindex="-1"></a><span class="co">#&gt;  GV138 GV140 GV145 GV146 GV148                        </span></span>
+<span id="cb17-48"><a href="#cb17-48" tabindex="-1"></a><span class="co">#&gt;  GV140 GV145 GV146 GV148                              </span></span>
+<span id="cb17-49"><a href="#cb17-49" tabindex="-1"></a><span class="co">#&gt;  GV145 GV146 GV148                                    </span></span>
+<span id="cb17-50"><a href="#cb17-50" tabindex="-1"></a><span class="co">#&gt;  GV146 GV148                                          </span></span>
+<span id="cb17-51"><a href="#cb17-51" tabindex="-1"></a><span class="co">#&gt;  GV148                                                </span></span>
+<span id="cb17-52"><a href="#cb17-52" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-53"><a href="#cb17-53" tabindex="-1"></a><span class="co">#&gt; $ selected_pa </span></span>
+<span id="cb17-54"><a href="#cb17-54" tabindex="-1"></a><span class="co">#&gt;     20    19    18    17    16    15    14    13    12</span></span>
+<span id="cb17-55"><a href="#cb17-55" tabindex="-1"></a><span class="co">#&gt;  GV006 GV006 GV006 GV006 GV006 GV006 GV006 GV006 GV050</span></span>
+<span id="cb17-56"><a href="#cb17-56" tabindex="-1"></a><span class="co">#&gt;  GV050 GV050 GV050 GV050 GV050 GV050 GV050 GV053 GV053</span></span>
+<span id="cb17-57"><a href="#cb17-57" tabindex="-1"></a><span class="co">#&gt;  GV053 GV053 GV053 GV053 GV053 GV053 GV053 GV065 GV065</span></span>
+<span id="cb17-58"><a href="#cb17-58" tabindex="-1"></a><span class="co">#&gt;  GV060 GV060 GV060 GV060 GV065 GV065 GV065 GV069 GV069</span></span>
+<span id="cb17-59"><a href="#cb17-59" tabindex="-1"></a><span class="co">#&gt;  GV063 GV063 GV065 GV065 GV069 GV069 GV069 GV081 GV081</span></span>
+<span id="cb17-60"><a href="#cb17-60" tabindex="-1"></a><span class="co">#&gt;  GV065 GV065 GV069 GV069 GV073 GV081 GV074 GV085 GV125</span></span>
+<span id="cb17-61"><a href="#cb17-61" tabindex="-1"></a><span class="co">#&gt;  GV069 GV069 GV073 GV074 GV074 GV085 GV081 GV125 GV127</span></span>
+<span id="cb17-62"><a href="#cb17-62" tabindex="-1"></a><span class="co">#&gt;  GV073 GV074 GV074 GV081 GV081 GV097 GV097 GV127 GV133</span></span>
+<span id="cb17-63"><a href="#cb17-63" tabindex="-1"></a><span class="co">#&gt;  GV074 GV081 GV081 GV085 GV097 GV125 GV127 GV133 GV135</span></span>
+<span id="cb17-64"><a href="#cb17-64" tabindex="-1"></a><span class="co">#&gt;  GV081 GV085 GV085 GV097 GV125 GV127 GV133 GV135 GV141</span></span>
+<span id="cb17-65"><a href="#cb17-65" tabindex="-1"></a><span class="co">#&gt;  GV085 GV097 GV097 GV125 GV127 GV133 GV135 GV141 GV144</span></span>
+<span id="cb17-66"><a href="#cb17-66" tabindex="-1"></a><span class="co">#&gt;  GV097 GV125 GV125 GV127 GV133 GV135 GV141 GV144 GV146</span></span>
+<span id="cb17-67"><a href="#cb17-67" tabindex="-1"></a><span class="co">#&gt;  GV125 GV127 GV127 GV133 GV135 GV141 GV144 GV146      </span></span>
+<span id="cb17-68"><a href="#cb17-68" tabindex="-1"></a><span class="co">#&gt;  GV127 GV133 GV133 GV135 GV141 GV144 GV146            </span></span>
+<span id="cb17-69"><a href="#cb17-69" tabindex="-1"></a><span class="co">#&gt;  GV133 GV135 GV135 GV141 GV144 GV146                  </span></span>
+<span id="cb17-70"><a href="#cb17-70" tabindex="-1"></a><span class="co">#&gt;  GV135 GV140 GV141 GV144 GV146                        </span></span>
+<span id="cb17-71"><a href="#cb17-71" tabindex="-1"></a><span class="co">#&gt;  GV140 GV141 GV144 GV146                              </span></span>
+<span id="cb17-72"><a href="#cb17-72" tabindex="-1"></a><span class="co">#&gt;  GV141 GV144 GV146                                    </span></span>
+<span id="cb17-73"><a href="#cb17-73" tabindex="-1"></a><span class="co">#&gt;  GV144 GV146                                          </span></span>
+<span id="cb17-74"><a href="#cb17-74" tabindex="-1"></a><span class="co">#&gt;  GV146</span></span></code></pre></div>
 <p>As in the <code>rmaxp()</code> gain output, one column per trait is
 shown; however, the gain reported in each column corresponds to an
 independent solution. For example, the group of 20 genotypes achieving a
