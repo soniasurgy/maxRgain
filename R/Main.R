@@ -80,29 +80,29 @@ polyclonal <- function(traits, ref = NULL, clmin = 2, clmax,  dmg = NULL, meanve
   if (is.null(criteria)) criteria <- stats::setNames(rep(1, length(cols)), cols)
   if (is.null(meanvec)) meanvec <- stats::setNames(rep(1, length(cols)), cols)
 
-  
-  
+
+
   # Create summary matrix
   auxsum <- data.frame(col1=cols)
 
-  
+
   if (!is.null(dmg) && is.data.frame(dmg)) {
-    
+
     auxsum$Crit <- criteria[match(auxsum$col1, names(criteria))]
     auxsum$Mean <- meanvec[match(auxsum$col1, names(meanvec))]
-    
+
     auxsum$DMinG <- rep(NA, nrow(auxsum))
     auxsum$DMaxG <- rep(NA, nrow(auxsum))
-    
-    # Para cada linha de dmg
+
+    # For each row of dmg
     for (i in seq_len(nrow(dmg))) {
       trt <- const[i]        # nome da característica
       rhs_val <- rhs[i]        # valor do RHS
       rel <- relation[i]       # sinal da restrição
-      
-      # Achar a posição correta em auxsum
+
+      # Find the correct position in auxsum
       aux_idx <- which(auxsum$col1 == trt)
-      
+
       # Atribuir conforme sinal
       if (rel == ">=") {
         auxsum$DMinG[aux_idx] <- rhs_val
@@ -110,7 +110,7 @@ polyclonal <- function(traits, ref = NULL, clmin = 2, clmax,  dmg = NULL, meanve
         auxsum$DMaxG[aux_idx] <- rhs_val
       }
     }
-    
+
   } else {
     idx <- match(auxsum$col1, traits)
     auxsum$Crit <- criteria[idx]
@@ -118,9 +118,9 @@ polyclonal <- function(traits, ref = NULL, clmin = 2, clmax,  dmg = NULL, meanve
     auxsum$DMinG <- rep(NA, length(idx))
     auxsum$DMaxG <- rep(NA, length(idx))
   }
-  
-  
-  
+
+
+
   # Normalize trait and constraint values
   auxeblups <- norm_eblup(data[, cols, drop = FALSE], cols, meanvec, criteria)
   auxeblups <- data.frame(data[, ref, drop = FALSE], auxeblups)
@@ -178,7 +178,7 @@ polyclonal <- function(traits, ref = NULL, clmin = 2, clmax,  dmg = NULL, meanve
     # Handle results
     if (prob$status==0){
       clsel = sum(prob$solution)
-      auxresultados <- data.frame(auxeblups[,c(ref,traits)], prob$solution)
+      auxresultados <- data.frame(auxeblups[,c(ref,cols)], prob$solution)
       resultados <- subset(auxresultados, prob$solution==1)
 
       if (indsol==0){
